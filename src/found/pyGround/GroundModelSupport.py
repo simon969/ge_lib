@@ -6,7 +6,7 @@ from found.pyGround.Support import any_have_values, ValueLinear, get_value
 DEFAULT_POISSON = 0.28
 INCREMENT_DEFAULT = -0.5
 
-def addStressesStrengthStiffness(gm:GroundModel, log_file):
+def addStressesStrengthStiffness(gm:GroundModel, log_file=None):
     """
     Takes a groundmodel (gm) and returns a copy with TotalStress, PWP, EffectiveStress and Cu profiles added to the gm.strata_set array
 
@@ -142,12 +142,13 @@ def PrintStress(self, name, stress):
         print("%s Average %s" % name, stress.Average)
 
 def addLogger(gm:GroundModel, log_file):
-        hdlr = logging.FileHandler(log_file)
-        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-        hdlr.setFormatter(formatter)
-        gm.logger = logging.getLogger('GroundModel')
-        gm.logger.addHandler(hdlr)
-        gm.logger.setLevel(logging.INFO)    
+        if gm and log_file:
+            hdlr = logging.FileHandler(log_file)
+            formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+            hdlr.setFormatter(formatter)
+            gm.logger = logging.getLogger('GroundModel')
+            gm.logger.addHandler(hdlr)
+            gm.logger.setLevel(logging.INFO)    
 
 
 

@@ -8,7 +8,6 @@ from found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREME
 from found.pyPile.PileSettlement import PileSettlement, STANDARD_STEPS
 from found.pyPile.PileGeoms import CircularPile, GetPileArray
 from found.pyPile.EC7PartialFactors import get_ec7_pile_factors, unity_factors
-from ge_py.settings import APP_LOGGER_PATH
 
 
 
@@ -46,7 +45,7 @@ def process_request(data, format_return) :
 
     if gm is not None:
         gm.collectStrataSet(['_default'])
-        gm_pile = addStressesStrengthStiffness(gm, APP_LOGGER_PATH + "\ge_pile.log")
+        gm_pile = addStressesStrengthStiffness(gm)
         min_level = gm_pile.minLevelBaseStrataSet()
         max_level = gm_pile.maxLevelTopStrataSet()
         gm_increment = gm_pile.__dict__.get("increment",PILE_RESISTANCE_INCREMENT_DEFAULT)

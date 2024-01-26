@@ -7,9 +7,6 @@ from found.pyGround.GroundModelSupport import addStressesStrengthStiffness
 from found.pyFooting.FootingGeoms import footing_array, INCREMENT_DEFAULT, default_options
 from found.pyFooting.EC7PartialFactors import m1_factors, m2_factors, states
 from found.pyFooting.FootingCalcs import effective_footings, footing_resistance
-from ge_py.settings import MEDIA_ROOT
-
-APP_LOGGER_PATH = MEDIA_ROOT + "\logger"
 
 def process_request(data, format_return) :
     """
@@ -49,13 +46,13 @@ def process_request(data, format_return) :
         gm_dic = gm.to_dict()
 
         gm.collectStrataSet(['uls_c1']) 
-        gm_m1 = addStressesStrengthStiffness(gm, APP_LOGGER_PATH + "\ge_pile.log")
+        gm_m1 = addStressesStrengthStiffness(gm)
         res_uls_c1 = []
         res_sls = []
 
         gm.collectStrataSet(['uls_c2'])
        
-        gm_m2 = addStressesStrengthStiffness(gm, APP_LOGGER_PATH + "\ge_pile.log")
+        gm_m2 = addStressesStrengthStiffness(gm)
         res_uls_c2 = []
  
         if footings is not None:

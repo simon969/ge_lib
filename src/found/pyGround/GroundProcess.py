@@ -5,7 +5,7 @@ from found.pyGround.GroundStresses import GroundStresses
 from found.pyGround.GroundStiffnesses import GroundStiffness
 from found.pyGround.GroundModelSupport import addStressesStrengthStiffness, INCREMENT_DEFAULT
 
-from ge_py.settings import APP_LOGGER_PATH
+
 
 
 def process_request(data, format_return) :
@@ -35,7 +35,7 @@ def process_request(data, format_return) :
         
     if gm is not None:
         gm.collectStrataSet(['_default'])
-        gm_pile = addStressesStrengthStiffness(gm, APP_LOGGER_PATH + "\ge_pile.log")
+        gm_pile = addStressesStrengthStiffness(gm)
         min_level = gm_pile.minLevelBaseStrataSet()
         max_level = gm_pile.maxLevelTopStrataSet()
         gm_increment = gm_pile.__dict__.get("increment",INCREMENT_DEFAULT)

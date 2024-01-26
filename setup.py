@@ -2,12 +2,14 @@ from setuptools import setup
 
 setup(
     # Needed to silence warnings (and to be a worthwhile package)
-    name='Ground Engineering Function Library',
+    name='AECOM UK Ground Engineering Function Library',
     url='https://github.com/simon969/ge_lib',
     author='Simon Thomson',
     author_email='simon.thomson@aecom.com',
     # Needed to actually package something
     packages=['found'],
+    package_dir={'': 'src'},
+    # py_modules = ["module_1", "module_2"],
     # Needed for dependencies
     install_requires=['numpy'],
     # *strongly* suggested for sharing
