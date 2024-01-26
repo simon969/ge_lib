@@ -7,7 +7,7 @@ setup(
     author='Simon Thomson',
     author_email='simon.thomson@aecom.com',
     # Needed to actually package something
-    packages=['found'],
+    # packages=['found'],
     package_dir={'': 'src'},
     # py_modules = ["module_1", "module_2"],
     # Needed for dependencies
