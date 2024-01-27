@@ -1,9 +1,9 @@
 import json
 
-from found.pyGround.GroundModel import GroundModel
-from found.pyGround.GroundStresses import GroundStresses
-from found.pyGround.GroundStiffnesses import GroundStiffness
-from found.pyGround.GroundModelSupport import addStressesStrengthStiffness, INCREMENT_DEFAULT
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.GroundStresses import GroundStresses
+from ge_lib.found.pyGround.GroundStiffnesses import GroundStiffness
+from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness, INCREMENT_DEFAULT
 
 
 

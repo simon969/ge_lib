@@ -2,12 +2,11 @@ import numpy as np
 import math
 import json
 
-from found.pyGround.GroundModel import GroundModel
-from found.pyGround.Support import has_values, as_float_list, list_has_not_none_attrib, as_one_list
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.Support import has_values, as_float_list, list_has_not_none_attrib, as_one_list
 
-from .PileGeoms import Pile
-from .PileResistances import PileResistance
-from .PileCalcs import StandardCalcs, min_width
+from ge_lib.found.pyPile.PileGeoms import Pile
+from ge_lib.found.pyPile.PileCalcs import StandardCalcs, min_width
 
 
 standard_calc = StandardCalcs()

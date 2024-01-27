@@ -1,12 +1,12 @@
 import json
 
-from found.pyGround.GroundModel import GroundModel
-from found.pyGround.GroundStresses import GroundStresses
-from found.pyGround.GroundStiffnesses import GroundStiffness
-from found.pyGround.GroundModelSupport import addStressesStrengthStiffness
-from found.pyFooting.FootingGeoms import footing_array, INCREMENT_DEFAULT, default_options
-from found.pyFooting.EC7PartialFactors import m1_factors, m2_factors, states
-from found.pyFooting.FootingCalcs import effective_footings, footing_resistance
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.GroundStresses import GroundStresses
+from ge_lib.found.pyGround.GroundStiffnesses import GroundStiffness
+from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness
+from ge_lib.found.pyFooting.FootingGeoms import footing_array, INCREMENT_DEFAULT, default_options
+from ge_lib.found.pyFooting.EC7PartialFactors import m1_factors, m2_factors, states
+from ge_lib.found.pyFooting.FootingCalcs import effective_footings, footing_resistance
 
 def process_request(data, format_return) :
     """

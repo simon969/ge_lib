@@ -1,7 +1,7 @@
 import math
 import json
 import copy
-from found.pyGround.Support import ValueLinear,check_default_value
+from ge_lib.found.pyGround.Support import ValueLinear,check_default_value
 
 default_material_factor_map = {
         'phi_deg':'phi',

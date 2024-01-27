@@ -1,8 +1,8 @@
 import math
-import json
-from ..pyGround.Support import calc, calc_collection
-from .calc_bearing_BS8004 import DrainedBearing_BS8004, UndrainedBearing_BS8004
-from .calc_bearing_EC7 import DrainedBearing_EC7, UndrainedBearing_EC7
+
+from ge_lib.found.pyGround.Support import calc_collection
+from ge_lib.found.pyFooting.calc_bearing_BS8004 import DrainedBearing_BS8004, UndrainedBearing_BS8004
+from ge_lib.found.pyFooting.calc_bearing_EC7 import DrainedBearing_EC7, UndrainedBearing_EC7
 
 
 

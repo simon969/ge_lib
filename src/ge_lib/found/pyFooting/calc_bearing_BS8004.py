@@ -1,9 +1,9 @@
 
 import math
 
-from ..pyGround.Support import calc
-from ..pyGround.GroundModel import GroundModel
-from .FootingGeoms import Footing
+from ge_lib.found.pyGround.Support import calc
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyFooting.FootingGeoms import Footing
 
 def calc_nq_18(data):
     data.nq = math.exp(math.pi * math.tan(data.phi_rad)) * math.pow(math.tan(math.pi / 4 + data.phi_rad / 2), 2)

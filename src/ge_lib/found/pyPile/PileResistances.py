@@ -1,9 +1,9 @@
 import numpy as np
 import math
-from found.pyGround.GroundModel import GroundModel
-from .PileGeoms import Pile
-from .EC7PartialFactors import unity_factors,resistance_factors_array, add_model_factor, get_factors
-from .PileCalcs import StandardCalcs
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyPile.PileGeoms import Pile
+from ge_lib.found.pyPile.EC7PartialFactors import unity_factors,resistance_factors_array, add_model_factor, get_factors
+from ge_lib.found.pyPile.PileCalcs import StandardCalcs
 import sys
 
 standard_calc = StandardCalcs()

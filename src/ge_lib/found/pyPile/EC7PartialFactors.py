@@ -1,5 +1,5 @@
 
-from found.pyGround.Support import str2bool
+from ge_lib.found.pyGround.Support import str2bool
 
 unity_factors = {"shaft_comp":1.0, "base":1.0, "total":1.0, "shaft_tens":1.0, "model":1.0}
 

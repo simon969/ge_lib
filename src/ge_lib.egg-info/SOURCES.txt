@@ -31,11 +31,10 @@ src/ge_lib/found/pyPile/PileResistances.py
 src/ge_lib/found/pyPile/PileSettlement.py
 src/ge_lib/found/pyPile/PileSupport.py
 src/ge_lib/found/pyPile/__init__.py
-src/ge_lib/found/test/__init__.py
-src/ge_lib/found/test/test_examples.py
-src/ge_lib/found/test/test_footing.py
-src/ge_lib/found/test/test_ground.py
-src/ge_lib/found/test/test_pile.py
-src/ge_lib/found/test/test_support.py
 src/ge_lib/package2/Module2.py
 src/ge_lib/package2/__init__.py
+test/test_examples.py
+test/test_footing.py
+test/test_ground.py
+test/test_pile.py
+test/test_support.py

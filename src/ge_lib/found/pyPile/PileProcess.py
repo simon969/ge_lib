@@ -1,13 +1,13 @@
 import json
 
-from found.pyGround.GroundModel import GroundModel
-from found.pyGround.GroundStresses import GroundStresses
-from found.pyGround.GroundStiffnesses import GroundStiffness
-from found.pyGround.GroundModelSupport import addStressesStrengthStiffness
-from found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
-from found.pyPile.PileSettlement import PileSettlement, STANDARD_STEPS
-from found.pyPile.PileGeoms import CircularPile, GetPileArray
-from found.pyPile.EC7PartialFactors import get_ec7_pile_factors, unity_factors
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.GroundStresses import GroundStresses
+from ge_lib.found.pyGround.GroundStiffnesses import GroundStiffness
+from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness
+from ge_lib.found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
+from ge_lib.found.pyPile.PileSettlement import PileSettlement, STANDARD_STEPS
+from ge_lib.found.pyPile.PileGeoms import CircularPile, GetPileArray
+from ge_lib.found.pyPile.EC7PartialFactors import get_ec7_pile_factors, unity_factors
 
 
 
