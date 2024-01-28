@@ -1,6 +1,6 @@
 
 
-from ge_lib.plaxis.plxresults.Plaxis2dResults2019 import Plaxis2dResults2019
+from .Plaxis2dResults2019 import Plaxis2dResults2019
 
 class Plaxis2dResultsConnectV2 (Plaxis2dResults2019):
     def __init__(self,

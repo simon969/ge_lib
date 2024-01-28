@@ -101,11 +101,12 @@ import logging
 import time
 from io import StringIO
 
-from plaxis.plxscripting.easy import new_server
+from pypyodbc import pypyodbc
 
-from plaxis.pypyodbc import pypyodbc
-from plaxis.plxscripting.logger import Logger
-from plaxis.plxscripting.error_mode import ErrorMode
+from plxscripting.easy import new_server
+from plxscripting.logger import Logger
+from plxscripting.error_mode import ErrorMode
+
 # Plaxis Server connection parameters
 REQUEST_TIMEOUT = 3600 
 TIMEOUT = 10.0

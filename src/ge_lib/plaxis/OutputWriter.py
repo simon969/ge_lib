@@ -24,7 +24,7 @@
 ###########################################################################
 
 import os.path
-from plaxis.pypyodbc import pypyodbc
+from pypyodbc import pypyodbc
 from io import StringIO
 def _is_file_like(obj):
     

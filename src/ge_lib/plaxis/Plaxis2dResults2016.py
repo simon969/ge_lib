@@ -1,4 +1,4 @@
-from ge_lib.plaxis.plxresults.Plaxis2dResults import Plaxis2dResults
+from .Plaxis2dResults import Plaxis2dResults
 
 class Plaxis2dResults2016 (Plaxis2dResults):
     def __init__(self,

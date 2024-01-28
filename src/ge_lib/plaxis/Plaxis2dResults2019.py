@@ -1,6 +1,6 @@
-from ge_lib.plaxis.plxresults.PlaxisScripting import Status
-from ge_lib.plaxis.plxresults.Plaxis2dResults import Plaxis2dResults
-from ge_lib.plaxis.plxresults.OutputWriter import GetWriter
+from .PlaxisScripting import Status
+from .Plaxis2dResults import Plaxis2dResults
+from .OutputWriter import GetWriter
 
 class Plaxis2dResults2019 (Plaxis2dResults):
     def __init__(self,

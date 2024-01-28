@@ -1,4 +1,4 @@
-from ge_lib.plaxis.plxresults.PlaxisScripting import PlaxisScripting  
+from .PlaxisScripting import PlaxisScripting  
 class Plaxis3dResults (PlaxisScripting):
     def __init__(self,
                 server=None, host=None, port=None, password=None

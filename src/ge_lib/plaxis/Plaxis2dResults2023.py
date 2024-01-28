@@ -1,6 +1,6 @@
-from ge_lib.plaxis.plxresults.PlaxisScripting import Status
-from ge_lib.plaxis.plxresults.Plaxis2dResults2019 import Plaxis2dResults2019
-from ge_lib.plaxis.plxresults.OutputWriter import GetWriter
+from .PlaxisScripting import Status
+from .Plaxis2dResults2019 import Plaxis2dResults2019
+from .OutputWriter import GetWriter
 
 
 class Plaxis2dResults2023(Plaxis2dResults2019):

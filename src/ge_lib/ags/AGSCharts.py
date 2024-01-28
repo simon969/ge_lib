@@ -1,9 +1,9 @@
 import io
-from ags.pyAGS import AGS4_fs as AGS4
+from .AGS4_fs import AGS4_fs as AGS4
 import matplotlib.colors as mcolors
 from rich import print as rprint
 
-from ags.pyAGS.AGSData import get_df, get_group_by
+from .AGSData import get_df, get_group_by
 
 color_names = list(mcolors.cnames.keys())
 

@@ -1,4 +1,4 @@
-from ge_lib.plaxis.plxresults.PlaxisScripting import PlaxisScripting     
+from .PlaxisScripting import PlaxisScripting     
 class Plaxis3dInput (PlaxisScripting):
     def __init__(self,
                  input_server

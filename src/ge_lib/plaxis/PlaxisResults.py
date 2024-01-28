@@ -1,18 +1,18 @@
-from .plxresults.PlaxisScripting import PlaxisScripting
+from .PlaxisScripting import PlaxisScripting
 
 ## Plaxis 3d Results
-from .plxresults.Plaxis3dResults import Plaxis3dResults
-from .plxresults.Plaxis3dResultsConnect import Plaxis3dResultsConnect
-from .plxresults.Plaxis3dResults2018 import Plaxis3dResults2018
-from .plxresults.Plaxis3dResults2023 import Plaxis3dResults2023
+from .Plaxis3dResults import Plaxis3dResults
+from .Plaxis3dResultsConnect import Plaxis3dResultsConnect
+from .Plaxis3dResults2018 import Plaxis3dResults2018
+from .Plaxis3dResults2023 import Plaxis3dResults2023
 
 ## Plaxis 2d Results
-from .plxresults.Plaxis2dResults import Plaxis2dResults
-from .plxresults.Plaxis2dResults2016 import Plaxis2dResults2016
-from .plxresults.Plaxis2dResults2019 import Plaxis2dResults2019
-from .plxresults.Plaxis2dResultsConnectV2 import Plaxis2dResultsConnectV2
-from .plxresults.Plaxis2dResultsConnectV22 import Plaxis2dResultsConnectV22
-from .plxresults.Plaxis2dResults2023 import Plaxis2dResults2023
+from .Plaxis2dResults import Plaxis2dResults
+from .Plaxis2dResults2016 import Plaxis2dResults2016
+from .Plaxis2dResults2019 import Plaxis2dResults2019
+from .Plaxis2dResultsConnectV2 import Plaxis2dResultsConnectV2
+from .Plaxis2dResultsConnectV22 import Plaxis2dResultsConnectV22
+from .Plaxis2dResults2023 import Plaxis2dResults2023
 
 versions = ['Plaxis2d','Plaxis2d2016','Plaxis2d2019','Plaxis2dConnect','Plaxis2dConnectV2','Plaxis2dConnectV20','Plaxis2dConnectV21','Plaxis2dConnectV22','Plaxis2d2023'
             'Plaxis3d','Plaxis3d2018','Plaxis3dConnect','Plaxis3d2023'

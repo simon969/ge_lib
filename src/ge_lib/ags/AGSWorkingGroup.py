@@ -4,8 +4,8 @@ import pandas as pd
 import math 
 import json
 from rich import print as rprint
-from django.conf import settings
-from ags.pyAGS import AGS4_fs as AGS4
+
+from AGS4_fs import AGS4_fs as AGS4
 from pandas import ExcelWriter
 
 ags_dics = {

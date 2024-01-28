@@ -1,9 +1,9 @@
 import json
-from ags.pyAGS.AGSWorkingGroup import ags_to_dataframe
-from ags.pyAGS.RulesLTC import RulesLTC
-from ags.pyAGS.RulesNEOM import RulesNEOM 
-from ags.pyAGS.RulesGeneral import RulesGeneral 
-from ags.pyAGS.AGSQuery import ags_query_collection
+from .AGSWorkingGroup import ags_to_dataframe
+from .RulesLTC import RulesLTC
+from .RulesNEOM import RulesNEOM 
+from .RulesGeneral import RulesGeneral 
+from .AGSQuery import ags_query_collection
 
 title = "AECOM Ground Engineering"
 header = "AGS Value Rules"

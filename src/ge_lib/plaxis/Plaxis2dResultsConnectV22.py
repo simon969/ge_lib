@@ -1,6 +1,6 @@
-from ge_lib.plaxis.plxresults.PlaxisScripting import Status
-from ge_lib.plaxis.plxresults.Plaxis2dResultsConnectV2 import Plaxis2dResultsConnectV2
-from ge_lib.plaxis.plxresults.OutputWriter import GetWriter
+from .PlaxisScripting import Status
+from .Plaxis2dResultsConnectV2 import Plaxis2dResultsConnectV2
+from .OutputWriter import GetWriter
 
 
 class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
