@@ -4,11 +4,11 @@ import json
 import math
 import unittest
 
-from found.pyGround.GroundModel import GroundModel
-from found.test.test_ground import getGroundModel
-from found.pyFooting.FootingGeoms import footing_array
-from found.pyFooting.FootingProcess import process_request
-from found.test.test_support import json_to_file, list_to_json, str_to_file
+from src.ge_lib.found.pyGround.GroundModel import GroundModel
+from .test_ground import getGroundModel
+from src.ge_lib.found.pyFooting.FootingGeoms import footing_array
+from src.ge_lib.found.FootingProcess import process_request
+from .test_support import json_to_file, list_to_json, str_to_file
 
 if (platform.system()=='Linux'):
     path ='/mnt/chromeos/GoogleDrive/MyDrive/Projects/tests/pyfooting_tests/'    

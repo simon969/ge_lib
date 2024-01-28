@@ -2,11 +2,10 @@ import numpy as np
 import math
 import json
 
-from ge_lib.found.pyGround.GroundModel import GroundModel
-from ge_lib.found.pyGround.Support import has_values, as_float_list, list_has_not_none_attrib, as_one_list
 
-from ge_lib.found.pyPile.PileGeoms import Pile
-from ge_lib.found.pyPile.PileCalcs import StandardCalcs, min_width
+from .Support import has_values, as_float_list, list_has_not_none_attrib, as_one_list
+from .PileGeoms import Pile
+from .PileCalcs import StandardCalcs, min_width
 
 
 standard_calc = StandardCalcs()
@@ -99,7 +98,7 @@ def list_attrib(items:list, attrib):
 
 class PileSettlement:
 
-  def __init__(self, description: str , pile:Pile, gm:GroundModel, pile_resistance:list, steps:[]=STANDARD_STEPS):
+  def __init__(self, description: str , pile:Pile, gm, pile_resistance:list, steps:[]=STANDARD_STEPS):
     self.description = description
     self.ground_model = gm
     self.pile = pile

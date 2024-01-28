@@ -4,15 +4,15 @@ import json
 import math
 import unittest
 
-from found.pyGround.GroundModel import GroundModel
-from found.pyGround.GroundStresses import GroundStresses
-from found.pyGround.GroundModelSupport import addStressesStrengthStiffness
-from found.test.test_ground import getGroundModel
-from found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
-from found.pyPile.PileGeoms import CircularPile, GetPileArray
-from found.pyPile.EC7PartialFactors import r4_factors_cfa, add_model_factor
-from found.pyPile.PileProcess import process_request
-from found.test.test_support import json_to_file, csv_to_file
+from src.ge_lib.found.pyGround.GroundModel import GroundModel
+from src.ge_lib.found.pyGround.GroundStresses import GroundStresses
+from src.ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness
+from .test_ground import getGroundModel
+from src.ge_lib.found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
+from src.ge_lib.found.pyPile.PileGeoms import CircularPile, GetPileArray
+from src.ge_lib.found.pyPile.EC7PartialFactors import r4_factors_cfa, add_model_factor
+from src.ge_lib.found.PileProcess import process_request
+from .test_support import json_to_file, csv_to_file
 
 
 if (platform.system()=='Linux'):

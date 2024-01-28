@@ -19,9 +19,8 @@
 
 import math
 
-from ge_lib.found.pyGround.Support import calc
-from ge_lib.found.pyGround.GroundModel import GroundModel
-from ge_lib.found.pyFooting.FootingGeoms import Footing
+from  .Support import calc
+from  .FootingGeoms import Footing
 
 def calc_nq_D4(data):
     data.nq = math.exp(math.pi * math.tan(data.phi_rad)) * math.pow(math.tan(math.pi / 4 + data.phi_rad / 2), 2)
@@ -198,7 +197,7 @@ class DrainedBearing_EC7(calc):
 
         self.calc_qult = calc_qult_D4
     
-    def calc(self, gm:GroundModel, fg:Footing):
+    def calc(self, gm, fg:Footing):
         
         if fg:
             self.data.geom = fg.get("geom",{})
@@ -270,7 +269,7 @@ class UndrainedBearing_EC7(calc):
         self.calc_qnc = calc_qnc_D3
         self.calc_qult = calc_qult_D3
 
-    def calc(self, gm:GroundModel, fg:Footing):
+    def calc(self, gm, fg:Footing):
         
         if fg:
             self.data.geom = fg.get("geom",{})

@@ -1,13 +1,13 @@
 import unittest
 import platform
 import json
-from found.pyGround.GroundModel import GroundModel
-from found.pyGround.GroundStresses import GroundStresses
-from found.pyPile.PileGeoms import CircularPile
-from found.pyPile.PileResistances import PileResistance
-from found.pyPile.EC7PartialFactors import get_factors
-from found.test.test_ground import getGroundModel
-from found.test.test_support import json_to_file, csv_to_file
+from src.ge_lib.found.pyGround.GroundModel import GroundModel
+from src.ge_lib.found.pyGround.GroundStresses import GroundStresses
+from src.ge_lib.found.pyPile.PileGeoms import CircularPile
+from src.ge_lib.found.pyPile.PileResistances import PileResistance
+from src.ge_lib.found.pyPile.EC7PartialFactors import get_factors
+from .test_ground import getGroundModel
+from .test_support import json_to_file, csv_to_file
 
 if (platform.system()=='Linux'):
     temp_path ='/mnt/chromeos/GoogleDrive/MyDrive/Projects/tests/examples/'    

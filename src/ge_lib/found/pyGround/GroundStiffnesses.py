@@ -1,5 +1,5 @@
 import numpy as np
-from ge_lib.found.pyGround.GroundModel import GroundModel
+from .GroundModel import GroundModel
 class GroundStiffness:
     def __init__(self, description, gm:GroundModel, level_top:float, level_base:float, increment: float):
         self.description = description

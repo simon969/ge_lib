@@ -1,5 +1,5 @@
 import math
-from ge_lib.found.pyGround.GroundModel import GroundModel
+
 import json
 
 default_calc_methods = ['qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po']

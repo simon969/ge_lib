@@ -1,9 +1,8 @@
 import numpy as np
 import math
-from ge_lib.found.pyGround.GroundModel import GroundModel
-from ge_lib.found.pyPile.PileGeoms import Pile
-from ge_lib.found.pyPile.EC7PartialFactors import unity_factors,resistance_factors_array, add_model_factor, get_factors
-from ge_lib.found.pyPile.PileCalcs import StandardCalcs
+from .PileGeoms import Pile
+from .EC7PartialFactors import unity_factors,resistance_factors_array, add_model_factor, get_factors
+from .PileCalcs import StandardCalcs
 import sys
 
 standard_calc = StandardCalcs()
@@ -15,7 +14,7 @@ def str2bool(v):
 
 class PileResistance:
 
-    def __init__(self, description: str , pile:Pile, gm:GroundModel, level_top:float, level_base:float , increment:float):
+    def __init__(self, description: str , pile:Pile, gm, level_top:float, level_base:float , increment:float):
         self.description = description
         self.ground_model = gm
         self.pile = pile
@@ -98,13 +97,13 @@ class PileResistance:
     #     for x in range(levels.size):
     #         res[x] = gm.get_attr_value(levels[x],"EffectiveStress",0)  * ks * tan_delta 
     #     return res    
-    def get_drained_qb_sptn_factor(self, pile:Pile, gm:GroundModel, levels:float):
+    def get_drained_qb_sptn_factor(self, pile:Pile, gm, levels:float):
         res = [0.00] * levels.size
         spt_factor = pile.spt_factor
         for x in range(levels.size):
             res[x] =  gm.get_attr_value(levels[x],"SPT",0)  * spt_factor
         return res
-    def get_drained_qb_nq(self, pile:Pile, gm:GroundModel, levels:float):
+    def get_drained_qb_nq(self, pile:Pile, gm, levels:float):
         res = [0.00] * levels.size
         nq = pile.nq
         for x in range(levels.size):

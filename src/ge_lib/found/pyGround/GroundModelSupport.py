@@ -1,7 +1,7 @@
 import logging
 import copy
-from ge_lib.found.pyGround.GroundModel import GroundModel, StrataSet
-from ge_lib.found.pyGround.Support import any_have_values, ValueLinear, get_value
+from .GroundModel import GroundModel, StrataSet
+from .Support import any_have_values, ValueLinear, get_value
 
 DEFAULT_POISSON = 0.28
 INCREMENT_DEFAULT = -0.5
