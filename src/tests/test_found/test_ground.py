@@ -4,12 +4,12 @@ import json
 import math
 import unittest
 
-from src.ge_lib.found.pyGround.GroundModel import GroundModel
-from src.ge_lib.found.pyGround.GroundStresses import GroundStresses
-from src.ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness, addEffectiveStress, addEModulus
-from src.ge_lib.found.GroundProcess import process_request
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.GroundStresses import GroundStresses
+from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness, addEffectiveStress, addEModulus
+from ge_lib.found.GroundProcess import process_request
 
-from test.test_support import json_to_file, csv_to_file
+from .test_support import json_to_file, csv_to_file
 
 if (platform.system()=='Linux'):
     path ='/mnt/chromeos/GoogleDrive/MyDrive/Projects/tests/pyground_tests/'    

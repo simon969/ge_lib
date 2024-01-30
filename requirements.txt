@@ -7,3 +7,4 @@ ags4_python>=0.4.1
 tomli==2.0.1
 tzdata==2021.5
 zipp==3.6.0
+ipykernel>=6.29.0

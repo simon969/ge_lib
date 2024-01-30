@@ -1,9 +1,12 @@
 import math
 
 import json
+from .PileCalcs import StandardCalcs
+
+standard_calcs = StandardCalcs()
 
 default_calc_methods = ['qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po']
-allowed_pile_types = ['bored','cfa','driven']
+allowed_calc_methods = standard_calcs.to_id_list()
 
 default_pile_properties = {
                             "type":"bored",
@@ -19,7 +22,7 @@ default_pile_properties = {
                             "sls_check": True
                             }
 
-
+allowed_pile_types = ['bored','cfa','driven']
 
 class Pile:
 
@@ -148,12 +151,18 @@ def check_pile(data:dict):
                 data["perimeter"] = 2.0 * (length + breadth)
                 data["base"] = length * breadth
 
-        for key, value in default_pile_properties.items:
+        for key, value in default_pile_properties.items():
             if not key in data:
                 data[key] = value
         
         if not type(data["calc_methods"]) is list:
-                arr = data["calc_methods"].split(",")
+                calc_methods = data["calc_methods"]
+                if "','" in calc_methods:
+                    calc_methods = calc_methods[1:-1]
+                    delimeter = "','"
+                else:
+                    delimeter = ","
+                arr = calc_methods.split(delimeter)
                 data["calc_methods"] = inlist(arr,allowed_calc_methods)
         
         if not data["pile_type"] in allowed_pile_types:

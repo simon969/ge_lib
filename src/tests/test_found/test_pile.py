@@ -3,15 +3,17 @@ import platform
 import json
 import math
 import unittest
+from datetime import datetime
 
-from src.ge_lib.found.pyGround.GroundModel import GroundModel
-from src.ge_lib.found.pyGround.GroundStresses import GroundStresses
-from src.ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.GroundStresses import GroundStresses
+from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness
+from ge_lib.found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
+from ge_lib.found.pyPile.PileGeoms import CircularPile, GetPileArray
+from ge_lib.found.pyPile.EC7PartialFactors import r4_factors_cfa, add_model_factor
+from ge_lib.found.PileProcess import process_request
+
 from .test_ground import getGroundModel
-from src.ge_lib.found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
-from src.ge_lib.found.pyPile.PileGeoms import CircularPile, GetPileArray
-from src.ge_lib.found.pyPile.EC7PartialFactors import r4_factors_cfa, add_model_factor
-from src.ge_lib.found.PileProcess import process_request
 from .test_support import json_to_file, csv_to_file
 
 
@@ -24,15 +26,15 @@ def main ():
     # RunExample101()
     # TestInitData()
     # test_process_request()
-    print ("test_pile : main complete(0)".format(datetime.now))
+    print ("test_pile : main complete(0)".format(datetime.now()))
 
 def _PileModel101():
     piles = []
     
-    cp450 = CircularPile ( "CFA_450", dia=0.45,Alpha= 0.6,Ks=0.8,TanDelta=0.67, Nq=200)
+    cp450 = CircularPile ( "CFA_450", dia=0.45,alpha= 0.6,ks=0.8,tan_delta=0.67, nq=200)
     piles.append(cp450)
     
-    cp750 = CircularPile ( "CFA_750", dia=0.75,Alpha= 0.6,Ks=0.8,TanDelta=0.67, Nq=200)
+    cp750 = CircularPile ( "CFA_750", dia=0.75,alpha= 0.6,ks=0.8,tan_delta=0.67, nq=200)
     piles.append(cp750)
 
     return piles
@@ -63,10 +65,16 @@ def _PileModel103():
 
     return piles
 
-pile_models_dict = {'101':_PileModel101,
-                      '102':_PileModel102,
-                      '103':_PileModel103
-                        }
+def _PileModel104():
+    from .pile_model104 import pile_request_dict
+    return pile_request_dict
+
+
+pile_models_dict = {'101':_PileModel101(),
+                      '102':_PileModel102(),
+                      '103':_PileModel103(),
+                      '104': _PileModel104()
+                    }
 
 class TestPileMethods(unittest.TestCase):
 
@@ -186,6 +194,11 @@ class TestPileMethods(unittest.TestCase):
         ret = process_request (json_str,"json")
         json_to_file (path + "/ret_data.json",ret)
 
+    def test_process_request104(self):
+        request_dic = pile_models_dict["104"]
+        json_str = json.dumps(request_dic)
+        ret = process_request (json_str,"json")
+        json_to_file (path + "/ret_data_104.json",ret)
 
 if __name__ == '__main__':
     main()

@@ -125,7 +125,11 @@ class calc_collection:
                   "version": calc.version}     
         to_return["calcs"] = calcs
         return to_return
-        
+    def to_id_list (self):
+        res = []
+        for calc in self.calcs:    
+            res.append (calc.id)
+        return res
     
     def to_json (self):
         to_return = {"id": self.id, "description": self.description}

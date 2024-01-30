@@ -4,10 +4,10 @@ import json
 import math
 import unittest
 
-from src.ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyFooting.FootingGeoms import footing_array
+from ge_lib.found.FootingProcess import process_request
 from .test_ground import getGroundModel
-from src.ge_lib.found.pyFooting.FootingGeoms import footing_array
-from src.ge_lib.found.FootingProcess import process_request
 from .test_support import json_to_file, list_to_json, str_to_file
 
 if (platform.system()=='Linux'):

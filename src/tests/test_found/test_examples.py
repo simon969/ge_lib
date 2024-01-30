@@ -1,11 +1,13 @@
+import os
 import unittest
 import platform
 import json
-from src.ge_lib.found.pyGround.GroundModel import GroundModel
-from src.ge_lib.found.pyGround.GroundStresses import GroundStresses
-from src.ge_lib.found.pyPile.PileGeoms import CircularPile
-from src.ge_lib.found.pyPile.PileResistances import PileResistance
-from src.ge_lib.found.pyPile.EC7PartialFactors import get_factors
+
+from ge_lib.found.pyGround.GroundModel import GroundModel
+from ge_lib.found.pyGround.GroundStresses import GroundStresses
+from ge_lib.found.pyPile.PileGeoms import CircularPile
+from ge_lib.found.pyPile.PileResistances import PileResistance
+from ge_lib.found.pyPile.EC7PartialFactors import get_factors
 from .test_ground import getGroundModel
 from .test_support import json_to_file, csv_to_file
 

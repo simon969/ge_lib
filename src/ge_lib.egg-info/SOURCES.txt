@@ -2,6 +2,7 @@ LICENSE
 README.md
 pyproject.toml
 setup.py
+src/ge_lib/__init__.py
 src/ge_lib.egg-info/PKG-INFO
 src/ge_lib.egg-info/SOURCES.txt
 src/ge_lib.egg-info/dependency_links.txt
@@ -209,8 +210,18 @@ src/ge_lib/plaxis/plxscripting/requests/packages/urllib3/packages/ordered_dict.p
 src/ge_lib/plaxis/plxscripting/requests/packages/urllib3/packages/six.py
 src/ge_lib/plaxis/plxscripting/requests/packages/urllib3/packages/ssl_match_hostname/__init__.py
 src/ge_lib/plaxis/plxscripting/requests/packages/urllib3/packages/ssl_match_hostname/_implementation.py
-test/test_examples.py
-test/test_footing.py
-test/test_ground.py
-test/test_pile.py
-test/test_support.py
+src/tests/__init__.py
+src/tests/test_ags/HS2 North.py
+src/tests/test_ags/HS2 Urban.py
+src/tests/test_ags/Hillingdon Hospital GI Lab.py
+src/tests/test_ags/Hillingdon Hospital GI.py
+src/tests/test_ags/LTC P3 LTM Lab R19.py
+src/tests/test_ags/LTC P3 LTM R15.py
+src/tests/test_ags/LTC P3 LTM R19.py
+src/tests/test_found/__init__.py
+src/tests/test_found/pile_model104.py
+src/tests/test_found/test_examples.py
+src/tests/test_found/test_footing.py
+src/tests/test_found/test_ground.py
+src/tests/test_found/test_pile.py
+src/tests/test_found/test_support.py
