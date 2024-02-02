@@ -1,6 +1,6 @@
 import json
 
-from .pyGround.GroundModel import GroundModel
+from .pyGround.GroundModel import GroundModel, ground_model_array
 from .pyGround.GroundStresses import GroundStresses
 from .pyGround.GroundStiffnesses import GroundStiffness
 from .pyGround.GroundModelSupport import addStressesStrengthStiffness
@@ -24,7 +24,7 @@ def process_request(data, format_return) :
         else :
             dic = json.loads(data)
 
-        gm_data = dic["ground_model"]
+        gm_data = dic["ground_models"]
         footing_data = dic["footings"]
     
     except Exception as e:
@@ -33,13 +33,13 @@ def process_request(data, format_return) :
         return msg
     
     
-    gm = GroundModel (gm_data, is_checked=False)
-    
+    ground_models  = ground_model_array (gm_data, is_checked=False)
+     
     footings = footing_array (data=footing_data, is_checked=False)
 
-    footings_resist = []
+    data_ret = []
   
-    if gm is not None:
+    for gm in ground_models:
         
         gm.copyStrataSet("_default","uls_c1", m1_factors)
         gm.copyStrataSet("_default","uls_c2", m2_factors)
@@ -77,13 +77,14 @@ def process_request(data, format_return) :
                         res = footing_resistance(ef, gm_m1, methods)
                         res_sls.append(res)
         
-        data_ret = {
-                        "ground_model": gm_dic,
-                        "uls_c1": res_uls_c1,
-                        "uls_c2": res_uls_c2,
-                        "sls": res_sls
-                        
+        gm_ret = {
+                    "ground_model": gm_dic,
+                    "uls_c1": res_uls_c1,
+                    "uls_c2": res_uls_c2,
+                    "sls": res_sls
                     }
+        
+        data_ret.append(gm_ret)
 
     if format_return == "json":
         data_json = json.dumps(data_ret)

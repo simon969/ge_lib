@@ -14,7 +14,7 @@ from .test_support import json_to_file, csv_to_file
 if (platform.system()=='Linux'):
     temp_path ='/mnt/chromeos/GoogleDrive/MyDrive/Projects/tests/examples/'    
 else:
-    temp_path = 'G:\\My Drive\\Projects\\examples\\'
+    temp_path = 'G:\\My Drive\\Projects\\tests\\examples\\'
 
 # https://docs.python.org/3/library/unittest.html
 

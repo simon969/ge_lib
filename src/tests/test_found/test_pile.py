@@ -20,7 +20,7 @@ from .test_support import json_to_file, csv_to_file
 if (platform.system()=='Linux'):
     path ='/mnt/chromeos/GoogleDrive/MyDrive/Projects/tests/pypile_tests/'    
 else:
-    path = 'G:\\My Drive\\Projects\\pile_tests\\'
+    path = 'G:\\My Drive\\Projects\\tests\\pypile_tests\\'
     
 def main ():
     # RunExample101()
@@ -28,7 +28,7 @@ def main ():
     # test_process_request()
     print ("test_pile : main complete(0)".format(datetime.now()))
 
-def _PileModel101():
+def _model101():
     piles = []
     
     cp450 = CircularPile ( "CFA_450", dia=0.45,alpha= 0.6,ks=0.8,tan_delta=0.67, nq=200)
@@ -39,7 +39,7 @@ def _PileModel101():
 
     return piles
 
-def _PileModel102():
+def _model102():
     piles = [
             {
             "name" : "CFA_450",
@@ -60,20 +60,20 @@ def _PileModel102():
 
     return piles
 
-def _PileModel103():
+def _model103():
     piles = []
 
     return piles
 
-def _PileModel104():
-    from .pile_model104 import pile_request_dict
-    return pile_request_dict
+def _model104():
+    from .pile_model104 import request_dict
+    return request_dict
 
 
-pile_models_dict = {'101':_PileModel101(),
-                      '102':_PileModel102(),
-                      '103':_PileModel103(),
-                      '104': _PileModel104()
+_models_dict = {'101':_model101(),
+                      '102':_model102(),
+                      '103':_model103(),
+                      '104': _model104()
                     }
 
 class TestPileMethods(unittest.TestCase):
@@ -138,25 +138,25 @@ class TestPileMethods(unittest.TestCase):
         factors = add_model_factor(r4_factors_cfa, False)
 
         cfa450_r4 = pr.getDrainedResistancesJSON (factors)
-        json_to_file ( path + "/cfa450_r4_drained.json", cfa450_r4)
+        json_to_file ( path + "cfa450_r4_drained.json", cfa450_r4)
 
         header_resistance,rows_resistance = pr.getDrainedResistancesCSV (factors,include_header_in_rows=True)
-        csv_to_file (path + '/cfa450_r4_drained.csv', rows_resistance)
+        csv_to_file (path + 'cfa450_r4_drained.csv', rows_resistance)
 
         header_resistance,rows_resistance = pr.getUndrainedResistancesCSV (factors,include_header_in_rows=True)
-        csv_to_file (path + '/cfa450_r4_undrained.csv', rows_resistance)
+        csv_to_file (path + 'cfa450_r4_undrained.csv', rows_resistance)
         
         header_resistance,rows_resistance = pr.getResistancesCSV (factors,include_header_in_rows=True)
-        csv_to_file (path + '/cfa450_r4.csv', rows_resistance)
+        csv_to_file (path + 'cfa450_r4.csv', rows_resistance)
 
 
     def test_RunExample101(self):
         
         gm = getGroundModel('103')
         
-        json_to_file ( path + "/gm.json", gm.to_json())
+        json_to_file ( path + "gm.json", gm.to_json())
 
-        f = open(path + "/gm.json")
+        f = open(path + "gm.json")
         data = json.load(f)
         f.close()
         
@@ -168,10 +168,10 @@ class TestPileMethods(unittest.TestCase):
         
         gs = GroundStresses ("Groundmodel sampled from +102m to +42m in -0.5m steps", gm21, 102, 80, -0.5)
         json_stress = gs.getStressesJSON ();
-        json_to_file (path + '/res_stress.json', json_stress)    
+        json_to_file (path + 'res_stress.json', json_stress)    
     
         header_stress, rows_stress = gs.getStressesCSV(include_header_in_rows=True);
-        csv_to_file (path + '/res_stress.csv', rows_stress)   
+        csv_to_file (path + 'res_stress.csv', rows_stress)   
 
     def test_process_request(self):
         request_dic = {"groundmodel":{
@@ -192,13 +192,13 @@ class TestPileMethods(unittest.TestCase):
         json_str = json.dumps(request_dic)
 
         ret = process_request (json_str,"json")
-        json_to_file (path + "/ret_data.json",ret)
+        json_to_file (path + "ret_data.json",ret)
 
     def test_process_request104(self):
-        request_dic = pile_models_dict["104"]
+        request_dic = _models_dict["104"]
         json_str = json.dumps(request_dic)
         ret = process_request (json_str,"json")
-        json_to_file (path + "/ret_data_104.json",ret)
+        json_to_file (path + "ret_data_104.json",ret)
 
 if __name__ == '__main__':
     main()

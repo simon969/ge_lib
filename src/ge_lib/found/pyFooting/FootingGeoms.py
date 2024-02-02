@@ -10,7 +10,8 @@ default_options = {"conc_density":25.0,
                   }
 default_geom = {'length':0.0,
                     'breadth':0.0,
-                    'depth':0.0}
+                    'depth':0.0,
+                    'id':''}
     
 default_loadcase = {'fx':0.0,
                         'fy':0.0,
@@ -18,7 +19,8 @@ default_loadcase = {'fx':0.0,
                         'mx':0.0,
                         'my':0.0,
                         'mz':0.0,
-                        'state':''
+                        'state':'',
+                        'id':''
                         }
 class Footing:
 
@@ -54,15 +56,19 @@ def footing_array (data:list, is_checked=False):
         returns list of python Footing objects
     """
     footings = []
-    for p in data:
-        footing = Footing (data=p, is_checked=is_checked)
-        footings.append(footing)
+    for footing_data in data:
+        footing = Footing (data=footing_data, is_checked=is_checked)
+        if footing:
+            footings.append(footing)
     
     return footings
 
-def check_default_keys(data:dict, default_dict):
+def check_default_keys(data:dict, default_dict, id=""):
     for key, value in default_dict.items():
-        data[key] = data.get(key, value)
+        if key == "id":
+            data[key] = data.get(key, id)
+        else:
+            data[key] = data.get(key, value)
     return data
 
 def check_footing(data:dict):
@@ -70,8 +76,8 @@ def check_footing(data:dict):
     try:   
         geoms = data.get("geoms",[])
         chk_geoms = []
-        for geom in geoms:
-            chk_geom = check_default_keys(geom,default_geom)
+        for idx, geom in enumerate(geoms):
+            chk_geom = check_default_keys(geom,default_geom,"{:03d}".format(idx))
             chk_geoms.append(chk_geom)
         data['geoms'] = chk_geoms
     except Exception as e:
@@ -84,8 +90,8 @@ def check_footing(data:dict):
         loadings = data.get("loadings",[])
         chk_loadcases= []
          
-        for loadcase in loadings:
-            chk_loadcase = check_default_keys (loadcase,default_loadcase) 
+        for idx, loadcase in enumerate(loadings):
+            chk_loadcase = check_default_keys (loadcase,default_loadcase,"{:03d}".format(idx)) 
             chk_loadcases.append(chk_loadcase)
         data['loadings'] = chk_loadcases
     except Exception as e:

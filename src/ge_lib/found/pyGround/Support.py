@@ -71,6 +71,15 @@ def list_has_values(obj:list, attribs:str, min_values:float):
                     r[i] = True
   
   return res
+
+def check_default_keys(data:dict, default_dict, id=""):
+    for key, value in default_dict.items():
+        if key == "id":
+            data[key] = data.get(key, id)
+        else:
+            data[key] = data.get(key, value)
+    return data
+
 def check_default_value(data:dict, prop_name:str, default_value:float):
     prop_value = data.get(prop_name,None)
     if prop_value is None:

@@ -14,7 +14,7 @@ from .test_support import json_to_file, csv_to_file
 if (platform.system()=='Linux'):
     path ='/mnt/chromeos/GoogleDrive/MyDrive/Projects/tests/pyground_tests/'    
 else:
-    path = 'G:\\My Drive\\Projects\\ground_tests\\'
+    path = 'G:\\My Drive\\Projects\\tests\\pyground_tests\\'
 
 def main ():
     # RunExample101()
@@ -27,7 +27,11 @@ def main ():
 class TestGroundMethods(unittest.TestCase):
 
     def test_InitData(self):
-    
+        """
+        test description:
+        1) Initialise ground models with known good data and known bad data
+        2) Check that they are created for the good data and a None object is returned for the bad data 
+        """
 
         # create a dictionary object
         dic_bad = {"name":"Ground Model from dict object",

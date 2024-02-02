@@ -2,7 +2,7 @@ import math
 import json
 import copy
 
-from .Support import ValueLinear,check_default_value
+from .Support import ValueLinear,check_default_value,check_default_keys
 
 default_material_factor_map = {
         'phi_deg':'phi',
@@ -12,6 +12,18 @@ default_material_factor_map = {
         'density_dry':'density',
         'density_sat':'density'
     }               
+
+default_ground_model = {
+    "surcharge": 0.0,
+    "water_density":10.0,
+    "increment":-0.5
+}
+
+default_strata = {
+
+
+}
+
 
 class GroundModel:
     def __init__(self, data = None, Description = "No Name Ground Model", is_checked=True):  
@@ -163,15 +175,27 @@ class GroundModel:
             print("Unable to read data as JSON string! {0}".format(str(e)))
             return False
 
-
-
-def check_ground_model(data:dict):
+def ground_model_array(data, is_checked=False):
     
-    check_default_value (data, "surcharge", 0.0)
-    check_default_value (data, "water_density", 10.0)
-    check_default_value (data, "increment", -0.5)
-    return data
+    ground_models = []
+    
+    for idx, gm_data in enumerate(data):
+        if is_checked:
+            checked_data = gm_data
+        else:
+            checked_data = check_ground_model(gm_data,"{:03d}".format(idx))
+        gm = GroundModel (data=checked_data, is_checked=True)
+        if gm:
+            ground_models.append(gm)
+    
+    return ground_models
 
+
+def check_ground_model(data:dict, id = ""):
+
+    checked = check_default_keys (data, default_ground_model)
+
+    return checked
 class Strata:
     def __init__(self, 
                  data, check_data=False
