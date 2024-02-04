@@ -3,7 +3,8 @@ import pandas as pd
 import math 
 import json
 from rich import print as rprint
-from AGS4_fs import AGS4_fs as AGS4
+import python_ags4 as AGS4
+
 
 tabled_groups = {'groups': ['core', 'dcpt', 'dcpg','eres','gchm','ispt', 'lden', 'llpl', 'lnmc', 'lvan', 'mond', 'rden', 'trit', 'wstd'],
                 'formats': ['csv','json','xml','xlsx']

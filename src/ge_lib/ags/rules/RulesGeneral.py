@@ -1,72 +1,74 @@
 
+import pandas as pd
 from datetime import timedelta,datetime
 from .AGSQuery import ags_query_collection, ags_query
-from .rules.LOCA import *
-from .rules.PROJ import *
-from .rules.HORN import *
-from .rules.HDPH import *
-from .rules.PTIM import *
-from .rules.HDIA import *
-from .rules.CDIA import *
-from .rules.FLSH import *
-from .rules.CORE import *
-from .rules.DREM import *
-from .rules.DOBS import *
-from .rules.CHIS import *
-from .rules.WADD import *
-from .rules.WSTG import *
-from .rules.WSTD import *
-from .rules.GEOL import *
-from .rules.DETL import *
-from .rules.FRAC import *
-from .rules.DETL import *
-from .rules.FRAC import *
-from .rules.DISC import *
-from .rules.WETH import *
-from .rules.ISPT import *
-from .rules.IPRG import *
-from .rules.IPRT import *
-from .rules.ICBR import *
-from .rules.PLTG import *
-from .rules.PLTD import *
-from .rules.SAMP import *
-from .rules.CBRG import *
-from .rules.CBRT import *
-from .rules.CMPG import *
-from .rules.CMPT import *
-from .rules.GCHM import *
-from .rules.GRAG import *
-from .rules.GRAT import *
-from .rules.LDEN import *
-from .rules.LLPL import *
-from .rules.LNMC import *
-from .rules.LPDN import *
-from .rules.RDEN import *
-from .rules.RPLT import *
-from .rules.RTEN import *
-from .rules.RUCS import *
-from .rules.RWCO import *
-from .rules.SHBG import *
-from .rules.SHBT import *
-from .rules.TREG import *
-from .rules.TRET import *
-from .rules.TRIG import *
-from .rules.TRIT import *
-from .rules.PIPE import *
-from .rules.MONG import *
-from .rules.MOND import *
+import python_ags4 as AGS4
 
-class RulesNEOM(ags_query_collection):
+from .LOCA import *
+from .PROJ import *
+from .HORN import *
+from .HDPH import *
+from .PTIM import *
+from .HDIA import *
+from .CDIA import *
+from .FLSH import *
+from .CORE import *
+from .DREM import *
+from .DOBS import *
+from .CHIS import *
+from .WADD import *
+from .WSTG import *
+from .WSTD import *
+from .GEOL import *
+from .DETL import *
+from .FRAC import *
+from .DISC import *
+from .WETH import *
+from .ISPT import *
+from .IPRG import *
+from .IPRT import *
+from .ICBR import *
+from .PLTG import *
+from .PLTD import *
+from .SAMP import *
+from .CBRG import *
+from .CBRT import *
+from .CMPG import *
+from .CMPT import *
+from .GCHM import *
+from .GRAG import *
+from .GRAT import *
+from .LDEN import *
+from .LLPL import *
+from .LNMC import *
+from .LPDN import *
+from .RDEN import *
+from .RPLT import *
+from .RTEN import *
+from .RUCS import *
+from .RWCO import *
+from .SHBG import *
+from .SHBT import *
+from .TREG import *
+from .TRET import *
+from .TRIG import *
+from .TRIT import *
+from .PIPE import *
+from .MONG import *
+from .MOND import *
+
+class RulesGeneral(ags_query_collection):
 
     def __init__(self):
-        super().__init__(id='01', description="NEOM AGS Rules Checker", version="NEOM 00.01.00")
-    
+        super().__init__(id='01', 
+                         description="General AGS Rules Checker", version = "General 0.01.00")
+
     def _init_queries(self):
         
         DATE_MAX = datetime.now()
         DATE_MIN = DATE_MAX- timedelta(days=365)
         
-        DURATION_MIN = timedelta(minutes=1)
+        DURATION_MIN = timedelta(seconds=10)
         DURATION_MAX = timedelta(hours=6)
 
         self.add_query (PROJ001())
@@ -150,7 +152,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (DREM002(LOCA_TYPE_MUST=['RC','CP+RC']))
         self.add_query (DREM003())
         self.add_query (DREM004())
-
+        
         self.add_query (DOBS001())
         self.add_query (DOBS002())
         self.add_query (DOBS003())
@@ -162,7 +164,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (WADD001())
         self.add_query (WADD002())
         self.add_query (WADD003(WADD_VOLM_MIN=0.5, WADD_VOLM_MAX=100))
-        
+
         self.add_query (WSTG001())
         self.add_query (WSTG002())
         self.add_query (WSTG003(WSTG_DTIM_MIN=DATE_MIN, WSTG_DTIM_MAX=DATE_MAX))
@@ -175,7 +177,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (WSTD003(WSTD_NMIN_MIN=DURATION_MIN, WSTD_NMIN_MAX=DURATION_MAX))
         self.add_query (WSTD004())
         self.add_query (WSTD005())
-                        
+
         self.add_query (GEOL001())
         self.add_query (GEOL002())
         self.add_query (GEOL003())
@@ -187,7 +189,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (GEOL009())
         self.add_query (GEOL010())
         self.add_query (GEOL011(GEOL_LEG_MIN=0, GEOL_LEG_MAX=256))
-        
+
         self.add_query (DETL001())
         self.add_query (DETL002())
         self.add_query (DETL003())
@@ -211,7 +213,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (WETH003(WETH_SCH_ALLOWED=['BS 5930:2015','BS 5930:1999 AMEND 1','BS 5930:1999','BS EN 14689-1:2003','CIRIA C574 CHALK']))
         self.add_query (WETH004(WETH_SYS_ALLOWED=['MASS CLASS','MATERIAL CLASS','MAT CLASS','MASS GRADE']))
         self.add_query (WETH005())
-        
+
         self.add_query (ISPT001())
         self.add_query (ISPT002(LOCA_TYPE_MUST=['CP','RC+CP']))
         self.add_query (ISPT003())
@@ -232,12 +234,12 @@ class RulesNEOM(ags_query_collection):
         self.add_query (ISPT018())
         self.add_query (ISPT019())
         self.add_query (ISPT020(ISPT_METH_ALLOWED=['BS EN ISO 22476-3:2005','BS 1377:Part 9:1990']))
-        
+
         self.add_query (IPRG001())
         self.add_query (IPRG002())
         self.add_query (IPRG003())
         self.add_query (IPRG004())
-        self.add_query (IPRG005(IPRG_TYPE_ALLOWED=['Constant Head','Falling Head']))
+        self.add_query (IPRG005(IPRG_TYPE_ALLOWED=['']))
         self.add_query (IPRG006())
         self.add_query (IPRG007())
         self.add_query (IPRG008(IPRG_TDIA_MIN=50,IPRG_TDIA_MAX=300))
@@ -250,13 +252,14 @@ class RulesNEOM(ags_query_collection):
         self.add_query (IPRG015())
         self.add_query (IPRG016())
         self.add_query (IPRG017(IPRG_METH_ALLOWED=['BS5930']))
+
         self.add_query (IPRT001())
         self.add_query (IPRT002())
         self.add_query (IPRT003())
         self.add_query (IPRT004())
         self.add_query (IPRT005(IPRT_TIME_MIN=DURATION_MIN, IPRT_TIME_MAX=DURATION_MAX))
         self.add_query (IPRT006())
-        
+
         self.add_query (ICBR001())
         self.add_query (ICBR002())
         self.add_query (ICBR003())
@@ -270,14 +273,14 @@ class RulesNEOM(ags_query_collection):
         self.add_query (PLTG004())
         self.add_query (PLTG005())
         self.add_query (PLTG006(PLTG_METH_ALLOWED=['DIN18134 Strain Modulus']))
-        
+
         self.add_query (PLTD001())
         self.add_query (PLTD002())
         self.add_query (PLTD003())
         self.add_query (PLTD004())
         self.add_query (PLTD005())
         self.add_query (PLTD006(PLTD_TIME_MIN=DURATION_MIN, PLTD_TIME_MAX=DURATION_MAX))
-        
+
         self.add_query (SAMP001())
         self.add_query (SAMP002())
         self.add_query (SAMP003())
@@ -351,6 +354,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (GCHM009())
         self.add_query (GCHM010())
         self.add_query (GCHM011())
+
         self.add_query (GRAG001())
         self.add_query (GRAG002())
         self.add_query (GRAG003())
@@ -442,7 +446,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (RPLT007())
         self.add_query (RPLT008())
         self.add_query (RPLT009(RPLT_METH_ALLOWED=['ISRM: 2007 : Suggested method for determining point load strength. Int J Rock Mech Min Sci & Geomech Abstr, Vol 22, No 2, pp 51-60 ']))
-        self.add_query (RTEN010(RTEN_SDIA_MIN=50,RTEN_SDIA_MAX=100))
+        self.add_query (RPLT010())
         self.add_query (RPLT011())
         self.add_query (RPLT012(RPLT_PLTF_ALLOWED=['A+L','A+D','A','D','L'])) 
         
@@ -497,7 +501,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (SHBG006())
         self.add_query (SHBG007(SHBG_TYPE_ALLOWED=['SMALL SBOX','LARGE SBOX']))
         self.add_query (SHBG008())
-        self.add_query (SHBG009(SHBG_METH_ALLOWED=['BS1377 Part 7']))
+        self.add_query (SHBG009(SHBG_METH_ALLOWED=['BS1377: Part 7']))
         
         self.add_query (SHBT001())
         self.add_query (SHBT002())
@@ -525,7 +529,6 @@ class RulesNEOM(ags_query_collection):
         self.add_query (TREG011())
         self.add_query (TREG012())
         self.add_query (TREG013())
-        
         
         self.add_query (TRET001())
         self.add_query (TRET002())
@@ -588,7 +591,7 @@ class RulesNEOM(ags_query_collection):
         self.add_query (PIPE002())
         self.add_query (PIPE003())
         self.add_query (PIPE004(PIPE_DIAM_MIN=50, PIPE_DIAM_MAX=100))
-        self.add_query (PIPE005(PIPE_TYPE_ALLOWED=['SOLID','SLOTTED']))
+        self.add_query (PIPE005(PIPE_TYPE_ALLOWED=['PLAIN','SLOTTED']))
         self.add_query (PIPE006())
         self.add_query (PIPE007())
 
@@ -617,7 +620,6 @@ class RulesNEOM(ags_query_collection):
         self.add_query (MOND003())
         self.add_query (MOND004(MOND_TYPE_ALLOWED=['SP','SPIE','BAR','BLEV','DBSE','DNAPL','GCM','GCMP','GFLOP','GFLOS','GM','GMP','GOX','GOXP','GPRS','GPRSP','HYS','HYSP','LNAPL','PRES','TEMP','TGM','TGMP','VOC','WDEP','WLEV']))
         self.add_query (MOND005(MOND_DTIM_MIN=DATE_MIN,MOND_DTIM_MAX=DATE_MAX))
-       
         self.add_query (MOND006())
         self.add_query (MOND007())
         self.add_query (MOND008())
@@ -628,87 +630,5 @@ class RulesNEOM(ags_query_collection):
         self.add_query (MOND013())
         self.add_query (MOND014())
         self.add_query (MOND015())
-
-        # Project specific checks
-        self.add_query (NEOM_LOCA001(LOCA_CKDT_FORMAT='yyyy-MM-dd'))
-        self.add_query (NEOM_HORN001(HORN_BASE_TYPE_ALLOWED='2DP'))
-        self.add_query (NEOM_GRAG001())
-
-
-class NEOM_LOCA001(ags_query):
-    def __init__(self, LOCA_CKDT_FORMAT):
-        self.LOCA_CKDT_FORMAT = LOCA_CKDT_FORMAT
-        super().__init__(id='NEOM_LOCA001', 
-                        description="Is the LOCA_CKDT date type in the ISO format {}".format(self.LOCA_CKDT_FORMAT),
-                        requirement = "mandatory",
-                        action = "Check that the LOCA_CKDT is completed in the correct format for all records in the LOCA group")
         
-    def run_query(self,  tables, headings):
-        LOCA = self.get_group(tables, "LOCA", True)
         
-        if (LOCA is not None):  
-            self.check_unit_string(LOCA,"LOCA","LOCA_CKDT",self.LOCA_CKDT_FORMAT)
-  
-class NEOM_HORN001(ags_query):
-    def __init__(self, HORN_BASE_TYPE_ALLOWED):
-        self.HORN_BASE_TYPE_ALLOWED = HORN_BASE_TYPE_ALLOWED
-        super().__init__(id='NEOM_HORN001', 
-                        description="Is the HORN_BASE value to {0}".format(self.HORN_BASE_TYPE_ALLOWED),
-                        requirement = "mandatory",
-                        action = "Check that the HORN_BASE value for all records is reported to {0}".format(self.HORN_BASE_TYPE_ALLOWED))
-        
-    def run_query(self,  tables, headings):
-        HORN = self.get_group(tables, "HORN", True)
-        
-        if (HORN is not None):  
-            self.check_type_string(HORN,"HORN","HORN_BASE",self.HORN_BASE_TYPE_ALLOWED)      
-class NEOM_PTIM001(ags_query):
-    def __init__(self):
-        super().__init__(id='NEOM_PTM001', 
-                        description="Does the water depth PTIM_WAT contain any duplicate values?",
-                        requirement = "mandatory",
-                        action = "Check that there are no duplicate water depths in the PTIM_WAT {0}".format(self.HORN_BASE_TYPE_ALLOWED))
-        
-    def run_query(self,  tables, headings):
-        LOCA = self.get_group(tables, "LOCA", True)
-        PTIM = self.get_group(tables, "PTIM", True)
-        
-        if (LOCA is not None and PTIM is not None):  
-            lLOCA =  LOCA.query("HEADING == 'DATA'")  
-            for index, values in lLOCA.iterrows():
-                qry = "LOCA_ID == '{0}'".format(values['LOCA_ID'])
-                self.check_unique (PTIM,"PTIM",qry,"PTIM_WAT") 
-
-class NEOM_GRAG001(ags_query):
-    def __init__(self):
-        super().__init__(id='NEOM_GRAG001', 
-                        description="Is GRAG_SILT the total percenatage fines (i.e. SILT + CLAY) and the percentage of clay is given as 0 for all PSD tests?",
-                        requirement = "data required",
-                        action = "Please populate GRAG_FINE with total fine content (SILT + CLAY), populate GRAG_SILT with percentage SILT and GRAG_CLAY with percentage CLAY")
-        
-    def run_query(self,  tables, headings):
-        GRAG = self.get_group(tables, "GRAG", True)
-        
-        if (GRAG is not None):  
-            lgrag =  GRAG.query("HEADING == 'DATA'")
-            table_name = "GRAG"  
-            for index, values in lgrag.iterrows():
-                grag_silt = pd.to_numeric (values['GRAG_SILT'])
-                grag_clay = pd.to_numeric (values['GRAG_CLAY'])
-                grag_fine = pd.to_numeric (values['GRAG_FINE'])
-                if (grag_silt > 0 and grag_clay == 0):
-                    line = values['line_number'][0]
-                    desc = 'The GRAG_SILT ({0}) is the total fines (ie SILT+CLAY) and GRAG_CLAY=0 with GRAG_FINE ({1})'.format(grag_silt, grag_fine)
-                    res = {'line':line, 'group':table_name, 'desc':desc}
-                    self.results_fail.append (res)
-                else:
-                    if (grag_fine == grag_clay + grag_silt):
-                        line = values['line_number']
-                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is equal to the GRAG_FINE ({1})'.format(grag_silt, grag_clay, grag_fine)
-                        res = {'line':line, 'group':table_name, 'desc':desc}
-                        self.results_pass.append (res)
-                    else:
-                        line = values['line_number']
-                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is not equal to the GRAG_FINES ({1})'.format(grag_silt, grag_clay, grag_fine)
-                        res = {'line':line, 'group':table_name, 'desc':desc}
-                        self.results_fail.append (res)    

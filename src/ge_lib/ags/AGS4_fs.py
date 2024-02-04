@@ -18,16 +18,12 @@
 # https://github.com/asitha-sena/python-ags4
 # https://gitlab.com/ags-data-format-wg/ags-python-library
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 # Read functions #
-
-AGS_DICS = {
-        "4.0.3": "Standard_dictionary_v4_0_3.ags",
-        "4.0.4": "Standard_dictionary_v4_0_4.ags",
-        "4.1" : "Standard_dictionary_v4_1.ags",
-        "4.1.0" : "Standard_dictionary_v4_1.ags",
-        "4.1.1" : "Standard_dictionary_v4_1_1.ags"
-}
 
 def AGS4_to_dict(filepath_or_buffer, encoding='utf-8', get_line_numbers=False, rename_duplicate_headers=True):
     """Load all the data in a AGS4 file to a dictionary of dictionaries.
@@ -958,6 +954,8 @@ def pick_standard_dictionary(tables=None, dict_version=None)->str:
     path_to_standard_dictionary = pkg_resources.resource_filename('python_ags4', dict_name)
     return path_to_standard_dictionary
 
+
+
 def get_dict_name(tables=None, dict_version=None)->str:
     
     '''Pick standard dictionary to check file.
@@ -975,7 +973,13 @@ def get_dict_name(tables=None, dict_version=None)->str:
     str
       File name of standard dictionary
     '''
-
+    AGS_DICS = {
+            "4.0.3": "Standard_dictionary_v4_0_3.ags",
+            "4.0.4": "Standard_dictionary_v4_0_4.ags",
+            "4.1" : "Standard_dictionary_v4_1.ags",
+            "4.1.0" : "Standard_dictionary_v4_1.ags",
+            "4.1.1" : "Standard_dictionary_v4_1_1.ags"
+    }
     
     from rich import print as rprint
 

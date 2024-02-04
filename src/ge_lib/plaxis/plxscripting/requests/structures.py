@@ -34,8 +34,9 @@ class IteratorProxy(object):
         return "".join(islice(self.i, None, n))
 
 
-class CaseInsensitiveDict(collections.MutableMapping):
-    """
+class CaseInsensitiveDict(collections.abc.MutableMapping):
+# class CaseInsensitiveDict(collections.MutableMapping):   
+     """
     A case-insensitive ``dict``-like object.
 
     Implements all methods and operations of

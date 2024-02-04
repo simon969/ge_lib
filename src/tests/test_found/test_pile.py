@@ -10,7 +10,7 @@ from ge_lib.found.pyGround.GroundStresses import GroundStresses
 from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness
 from ge_lib.found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
 from ge_lib.found.pyPile.PileGeoms import CircularPile, GetPileArray
-from ge_lib.found.pyPile.EC7PartialFactors import r4_factors_cfa, add_model_factor
+from ge_lib.found.pyPile.EC7PartialFactors import r4_factors_cfa, add_model_factor, get_factors
 from ge_lib.found.PileProcess import process_request
 
 from .test_ground import getGroundModel
@@ -19,11 +19,6 @@ from .test_support import json_to_file, csv_to_file
 
 data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),"data","pile")
     
-def main ():
-    # RunExample101()
-    # TestInitData()
-    # test_process_request()
-    print ("test_pile : main complete(0)".format(datetime.now()))
 
 def _model101():
     piles = []
@@ -135,16 +130,16 @@ class TestPileMethods(unittest.TestCase):
         factors = add_model_factor(r4_factors_cfa, False)
 
         cfa450_r4 = pr.getDrainedResistancesJSON (factors)
-        json_to_file ( path + "cfa450_r4_drained.json", cfa450_r4)
+        json_to_file (os.path.join(data_folder,'cfa450_r4_drained.json'), cfa450_r4)
 
         header_resistance,rows_resistance = pr.getDrainedResistancesCSV (factors,include_header_in_rows=True)
-        csv_to_file (path + 'cfa450_r4_drained.csv', rows_resistance)
+        csv_to_file (os.path.join(data_folder,'cfa450_r4_drained.csv'), rows_resistance)
 
         header_resistance,rows_resistance = pr.getUndrainedResistancesCSV (factors,include_header_in_rows=True)
-        csv_to_file (path + 'cfa450_r4_undrained.csv', rows_resistance)
+        csv_to_file (os.path.join(data_folder,'cfa450_r4_undrained.csv'), rows_resistance)
         
         header_resistance,rows_resistance = pr.getResistancesCSV (factors,include_header_in_rows=True)
-        csv_to_file (path + 'cfa450_r4.csv', rows_resistance)
+        csv_to_file (os.path.join(data_folder, 'cfa450_r4.csv'), rows_resistance)
 
 
     def test_RunExample101(self):
@@ -196,6 +191,23 @@ class TestPileMethods(unittest.TestCase):
         json_str = json.dumps(request_dic)
         ret = process_request (json_str,"json")
         json_to_file (os.path.join(data_folder, "ret_data_104.json"),ret)
-
-if __name__ == '__main__':
-    main()
+    
+    def test_resistanceExample101(self):
+        
+        gm = getGroundModel ('101')
+        gm.collectStrataSet (['_default'])
+        gs = GroundStresses ("Groundmodel sampled from +102m to +42m in -0.5m steps", gm, 102, 42, -0.5)
+        res_stress = gs.getStresses ();
+        json_to_file (os.path.join(data_folder,'res_stress.csv'), res_stress)    
+        
+        cp = CircularPile ( "CFA_450", dia=0.45,alpha= 0.6,ks=0.8,tan_delta=0.67, nq=200)
+        
+        pr = PileResistance ("Groundmodel sampled from +102m to +42m in -0.5m steps", cp, gm, 102, 42, -0.5)
+      
+        res_sls = pr.getResistances (get_factors("unity_factors"))
+        res_uls_c1 = pr.getResistances (get_factors("uls_c1_cfa_factors"))
+        res_uls_c2 = pr.getResistances (get_factors("uls_c2_cfa_factors"))
+        
+        json_to_file ( os.path.join(data_folder,'res_sls.json'), res_sls)
+        json_to_file ( os.path.join(data_folder,'res_uls_c1.json'), res_uls_c1)
+        json_to_file ( os.path.join(data_folder,'res_uls_c2.json'), res_uls_c2)

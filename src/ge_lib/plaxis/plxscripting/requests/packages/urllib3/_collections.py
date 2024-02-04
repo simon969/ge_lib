@@ -4,7 +4,13 @@
 # This module is part of urllib3 and is released under
 # the MIT License: http://www.opensource.org/licenses/mit-license.php
 
-from collections import MutableMapping
+
+# from collections import MutableMapping
+# depreciated since python 3.3 remove python 3.9
+# https://stackoverflow.com/questions/59636631/importerror-cannot-import-name-mutablemapping-from-collections
+# changed simon.thomson 2023/02/04
+
+from collections.abc import MutableMapping
 try:
     from threading import RLock
 except ImportError: # Platform-specific: No threads available
