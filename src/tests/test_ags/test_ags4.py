@@ -4,20 +4,20 @@ import json
 import datetime
 import unittest
 
-from ge_lib.ags.AGS4_fs import check_file, AGS4_to_excel
+from ge_lib.ags.AGSWorkingGroup import check_file, export_xlsx
 
 data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),"data")
-
-def main ():
-    # RunExample101()
-    # TestInitData()
-    # test_process_request()
-    print ("test_pile : main complete(0)".format(datetime.now()))
 
     
 class TestAGS4Methods(unittest.TestCase):
                
     def test_ags_check(self):
        
-        print (data_folder)
+        ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
+        dict_file  = os.path.join(data_folder,"D1043-21-23122021.ags")
+        checks_bytes = check_file (ags_file,dict_file)
         
+
+    def test_export_xlsx(self):
+        ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
+        xlsx_file_bytes  = export_xlsx(ags_file)

@@ -11,17 +11,7 @@ from ge_lib.found.GroundProcess import process_request
 
 from .test_support import json_to_file, csv_to_file
 
-if (platform.system()=='Linux'):
-    path ='/mnt/chromeos/GoogleDrive/MyDrive/Projects/tests/pyground_tests/'    
-else:
-    path = 'G:\\My Drive\\Projects\\tests\\pyground_tests\\'
-
-def main ():
-    # RunExample101()
-    # TestInitData()
-    # test_process_request()
-    print ("main complete ({0})")
-
+data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),"data","ground")
 
 
 class TestGroundMethods(unittest.TestCase):
@@ -69,17 +59,32 @@ class TestGroundMethods(unittest.TestCase):
         self.assertNotEqual (gm_s, None)
 
 
-     
+    def test_SaveRetrieveExample101(self):
+        
+        gm = getGroundModel ('101')
+                
+        json_text1 = gm.to_json()
+        json_to_file (os.path.join(data_folder,"gm.json", json_text1)
+
+        f = open(os.path.join(data_folder,"gm.json"))
+        data = json.load(f)
+        f.close()
+        try :
+            gm2 = GroundModel(data)
+            json_text2 = gm2.to_json()
+            self.assertEqual(json_text1, json_text2)
+        except Exception as e:
+            print (str(e))
 
 
 
     def test_RunExample101(self):
         
-        gm = getGroundModel('103')
+        gm = getGroundModel ('103')
         
-        json_to_file ( path + "/gm.json", gm.to_json())
+        json_to_file ( os.path.join(data_folder,"gm.json"), gm.to_json())
 
-        f = open(path + "/gm.json")
+        f = open(os.path.join(data_folder, "gm.json"))
         data = json.load(f)
         f.close()
 
@@ -91,10 +96,11 @@ class TestGroundMethods(unittest.TestCase):
         
         gs = GroundStresses ("Groundmodel sampled from +102m to +42m in -0.5m steps", gm21, 102, 80, -0.5)
         json_stress = gs.getStressesJSON ();
-        json_to_file (path + 'res_stress.json', json_stress)    
+        json_to_file (os.path.join(data_folder,'res_stress.json'), json_stress)    
     
         header_stress, rows_stress = gs.getStressesCSV(include_header_in_rows=True);
-        csv_to_file (path + 'res_stress.csv', rows_stress)   
+        csv_to_file (os.path.join(data_folder, 'res_stress.csv'), rows_stress)   
+        
     def test_process_request(self):
         request_dic = {"groundmodel":{
                     "description":"Ground Model from dict object",
@@ -114,7 +120,7 @@ class TestGroundMethods(unittest.TestCase):
         json_str = json.dumps(request_dic)
 
         ret = process_request (json_str,"json")
-        json_to_file (path + "ret_data.json",ret)
+        json_to_file (os.path.join(data_folder,"ret_data.json"),ret)
 
 def _GroundModel101():
     # typical ground conditions central london
@@ -153,8 +159,3 @@ def getGroundModel(id, format="obj"):
         return gm.to_dict()
     return gm
     
-
-
-
-if __name__ == '__main__':
-    unittest.main()

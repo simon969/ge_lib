@@ -5,7 +5,8 @@ import math
 import json
 from rich import print as rprint
 
-from AGS4_fs import AGS4_fs as AGS4
+from python_ags4.AGS4 import check_file, AGS4_to_dataframe
+from AGS4_fs import AGS4_to_excel,get_dict_name
 from pandas import ExcelWriter
 
 ags_dics = {
@@ -25,7 +26,7 @@ release_date = '2023-10-07'
     
 def check_file (input_file, dict_file):
     # return print_to_string(AGS4.check_file(input_file, '{0}\\{1}'.format (dicts_path, dict_file)))
-    return list_to_bytes(ags_errors_to_list(AGS4.check_file(input_file, dict_file)))
+    return list_to_bytes(ags_errors_to_list(check_file(input_file, dict_file)))
 
 def dict_file_name (input_file, version):
     
@@ -35,20 +36,20 @@ def dict_file_name (input_file, version):
     else:
         ags_version='4.1.1'
 
-    tables, headers = AGS4.AGS4_to_dataframe (input_file,get_line_numbers=False)
-    dict_file = AGS4.get_dict_name(tables, ags_version)
+    tables, headers = AGS4_to_dataframe (input_file,get_line_numbers=False)
+    dict_file = get_dict_name(tables, ags_version)
 
     return dict_file
 
 def export_xlsx(input_file):
     output = io.BytesIO()
     writer = ExcelWriter(output, engine='openpyxl')
-    AGS4.AGS4_to_excel(input_file, writer, encoding='utf-8')
+    AGS4_to_excel(input_file, writer, encoding='utf-8')
     writer.close()
     return output.getvalue()
 def ags_to_dataframe(input_file):
 
-    return AGS4.AGS4_to_dataframe(filepath_or_buffer=input_file,get_line_numbers=True, rename_duplicate_headers=True)
+    return AGS4_to_dataframe(filepath_or_buffer=input_file,get_line_numbers=True, rename_duplicate_headers=True)
 
 def list_to_bytes (arr:list):
     return bytes('\n'.join(arr), 'utf-8')

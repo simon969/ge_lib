@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import timedelta
-from ags.pyAGS.AGSQuery import ags_query
+from ..AGSQuery import ags_query
 
 
 class ICBR001(ags_query):

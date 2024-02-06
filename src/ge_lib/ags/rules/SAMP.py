@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import timedelta
-from ags.pyAGS.AGSQuery import ags_query, is_datetime, map_datetime
+from ..AGSQuery import ags_query, is_datetime, map_datetime
 
 
 class SAMP001(ags_query):

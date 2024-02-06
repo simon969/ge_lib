@@ -15,15 +15,13 @@ class TestAGSSummary(unittest.TestCase):
 
         fnames = []
 
-        folder  = data_folder
-
-        fnames.append (folder + "D1043-21-23122021.ags")
-        fnames.append (folder + "21-26216_DETS_16122021_V4.AGS")
-        fnames.append (folder + "21-24889_DETS_29112021_V4.AGS")
-        fnames.append (folder + "21-25178_DETS_01122021_V4.AGS")
-        fnames.append (folder + "21-25179_DETS_01122021_V4.AGS")
+        fnames.append (os.path.join(data_folder,"D1043-21-23122021.ags"))
+        fnames.append (os.path.join(data_folder,"21-26216_DETS_16122021_V4.AGS"))
+        fnames.append (os.path.join(data_folder, "21-24889_DETS_29112021_V4.AGS"))
+        fnames.append (os.path.join(data_folder, "21-25178_DETS_01122021_V4.AGS"))
+        fnames.append (os.path.join(data_folder,"21-25179_DETS_01122021_V4.AGS"))
 
         ap = processAGS (fnames)
         ap.process()
-        ap.report_lines (folder + "group_lines.csv")
-        ap.report_summary(folder + "point_group_summary.csv")
+        ap.report_lines (os.path.join(data_folder, "group_lines.csv"))
+        ap.report_summary(os.path.join(data_folder, "point_group_summary.csv"))
