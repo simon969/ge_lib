@@ -21,3 +21,5 @@ class TestAGS4Methods(unittest.TestCase):
     def test_export_xlsx(self):
         ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
         xlsx_file_bytes  = export_xlsx(ags_file)
+
+    
