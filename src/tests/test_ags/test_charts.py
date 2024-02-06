@@ -14,17 +14,20 @@ class TestAGSChartsMethods(unittest.TestCase):
 
         ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
 
-        tables = get_chart (ags_file,[''])
+        tables = get_chart (ags_file)
         
     def test_get_chart_grouped(self):
 
         ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
 
-        tables = get_chart_grouped (ags_file,[''])
+        tables = get_chart_grouped (ags_file)
 
     def test_get_data_chart(self):
         
         ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
 
-        tables = get_data_chart (ags_file,[''])
+        tables = get_data_chart (ags_file)
     
+    def test_process (self):
+
+        ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")

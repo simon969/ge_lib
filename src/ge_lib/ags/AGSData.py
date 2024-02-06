@@ -3,7 +3,6 @@ import pandas as pd
 import math 
 import json
 from rich import print as rprint
-import python_ags4 as AGS4
 
 
 tabled_groups = {'groups': ['core', 'dcpt', 'dcpg','eres','gchm','ispt', 'lden', 'llpl', 'lnmc', 'lvan', 'mond', 'rden', 'trit', 'wstd'],
@@ -47,8 +46,10 @@ def json_to_bytes(dict:dict):
     return bytes (json.dumps(dict), 'utf-8')
 
 def dict_to_xml (dict:list):
+    
     # https://pypi.org/project/dict2xml/
     from dict2xml import dict2xml
+
     xml = dict2xml(data=dict, 
                    wrap ='row', 
                    indent ='   ')
@@ -256,7 +257,27 @@ def get_df( tables,
             geol_fields = ['GEOL_GEOL','GEOL_GEO2','GEOL_GEO3','GEOL_LEG'], 
             nan_value = 0.0,
             errors=[]) :
-
+    '''
+     Parameters
+    ----------
+    tables: dataframe tables 
+    table: primary ags group to return
+    value_fields: values fields from primary ags group
+    depth_fields: fields in primary group table that should be used to find associated records in grology table 
+                  (if more than one field provided the deepest will be used)
+    calc_depth: function to be used to calculate depth
+    calc_level:function to be used to calculate level
+    loca_fields: fields to be brought from loca group
+    geol_fields: fields to be brought from geol group
+    nan_value: value that should be used for values that are not numbers
+    errors[]: any errors encountered will be added to this array
+    
+    Returns
+    -------
+    get_def returns a combined dataframe of the primary table and related record values from the geology and loca groups
+    
+    
+    '''
     import numpy as np
     try:
 
@@ -324,106 +345,143 @@ def get_df( tables,
         s = str(e)
         errors.append(s)
 
-def get_data (input_file,
-              tables,
-              table, 
+def get_data (input_file=[],
+              tables=None,
+              table=None, 
               value_fields=[],
               other_fields=[],
               depth_fields=['SAMP_TOP','SPEC_DPH'],
               loca_fields=['LOCA_LOCX','LOCA_LOCY','LOCA_LOCZ'],
               geol_fields=['GEOL_GEOL','GEOL_GEO2','GEOL_GEO3','GEOL_LEG'],
               errors =[]):
+    '''
+    Parameters
+    ----------
+    tables: dataframe tables if they have already been read from the input_file. 
+            If the input file is an array this must also to be an array or None and each file will be read
+    table: primary ags group to return
+    value_fields: value fields to be returned from the primary table
     
+    Returns
+    -------
+    returns a combined list of the primary table and related record values from the geology and loca groups
+    '''
+
     import pandas as pd
     import os
-    
-    if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
-    
-    results = []
+    from python_ags4.AGS4 import AGS4_to_dataframe
 
-    df = get_df (tables,
-              table, 
-              value_fields=[], 
-              depth_fields=depth_fields,
-              loca_fields=loca_fields,
-              geol_fields=geol_fields,
-              errors=errors)
-    
-    if df is None:
-        errors.append ("get_df returned None for group {0}".format(table))
-        return results
-    
-    if _is_file_like(input_file):
-        file_name = os.path.basename(input_file.name)
+    if isinstance(input_file, collections.abc.Sequence):
+        files = input_file
     else:
-        file_name = input_file
+        files = [input_file]
 
-    for index, values in df.query ("HEADING == 'DATA'").iterrows():
-            res = {'file':file_name,
-                        'location':values['LOCA_ID'],
-                        'table':table,
-                        'level':values['level'],
-                        'depth':values['depth']
-                        }
-            value_res = get_value_list(values, value_fields, None)
-            for field, val in zip (value_fields,value_res): 
-                res[field] = val
-            other_res = get_str_list(values, other_fields, None)
-            for field, val in zip (other_fields,other_res): 
-                res[field] = val
-            depth_res = get_value_list(values, depth_fields, None)
-            for field, val in zip (depth_fields,depth_res):
-                res[field] = val
-            geol_res = get_str_list (values, geol_fields)
-            for field, val in zip(geol_fields,geol_res):
-                res[field] = val            
-            loca_res = get_str_list (values, loca_fields)
-            for field, val in zip (loca_fields,loca_res):
-                res[field] = val
-            
-            results.append(res)
+    for file in files:
 
-    return results   
-def get_all_data (input_file,
-              tables,
-              table, 
+        if tables is None:
+            tables, headers = AGS4_to_dataframe (file, get_line_numbers=False)
+        
+        results = []
+
+        df = get_df (tables,
+                table, 
+                value_fields=[], 
+                depth_fields=depth_fields,
+                loca_fields=loca_fields,
+                geol_fields=geol_fields,
+                errors=errors)
+        
+        if df is None:
+            errors.append ("get_df returned None for group {0}".format(table))
+            return results
+        
+        if _is_file_like(input_file):
+            file_name = os.path.basename(input_file.name)
+        else:
+            file_name = input_file
+
+        for index, values in df.query ("HEADING == 'DATA'").iterrows():
+                res = {'file':file_name,
+                            'location':values['LOCA_ID'],
+                            'table':table,
+                            'level':values['level'],
+                            'depth':values['depth']
+                            }
+                value_res = get_value_list(values, value_fields, None)
+                for field, val in zip (value_fields,value_res): 
+                    res[field] = val
+                other_res = get_str_list(values, other_fields, None)
+                for field, val in zip (other_fields,other_res): 
+                    res[field] = val
+                depth_res = get_value_list(values, depth_fields, None)
+                for field, val in zip (depth_fields,depth_res):
+                    res[field] = val
+                geol_res = get_str_list (values, geol_fields)
+                for field, val in zip(geol_fields,geol_res):
+                    res[field] = val            
+                loca_res = get_str_list (values, loca_fields)
+                for field, val in zip (loca_fields,loca_res):
+                    res[field] = val
+                
+                results.append(res)
+
+    return results
+
+def get_all_data (input_file=[],
+              tables = None,
+              table = None, 
               value_fields=[],
               other_fields=[],
               depth_fields=['SAMP_TOP','SPEC_DPH'],
               loca_fields=['LOCA_LOCX','LOCA_LOCY','LOCA_LOCZ'],
               geol_fields=['GEOL_GEOL','GEOL_GEO2','GEOL_GEO3','GEOL_LEG'],
               errors =[]):
-    
+    ''' 
+    input_files:
+    string or open buffer list of ags files to read table
+
+    tables:
+    dataframe tables
+    table:
+
+    '''
     import pandas as pd
     import os
-    
-    if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+    from python_ags4.AGS4 import AGS4_to_dataframe
     
     results = []
 
-    df = get_df (tables,
-              table, 
-              value_fields=[], 
-              depth_fields=depth_fields,
-              loca_fields=loca_fields,
-              geol_fields=geol_fields,
-              errors=errors)
-    
-    if _is_file_like(input_file):
-        file_name = os.path.basename(input_file.name)
+    if hasattr(input_file, "__len__"):
+        files = input_file
     else:
-        file_name = input_file
+        files = [input_file]
 
-    for index, values in df.query ("HEADING == 'DATA'").iterrows():
-            res = {"file":file_name,
-                        "table":table
-                        }
-            for field, val in zip (df.columns,values): 
-                res[field] = val
-            
-            results.append(res)
+    for file in files:
+
+        if tables is None:
+            tables, headers = AGS4_to_dataframe (file, get_line_numbers=False)
+
+        df = get_df (tables,
+                table, 
+                value_fields=[], 
+                depth_fields=depth_fields,
+                loca_fields=loca_fields,
+                geol_fields=geol_fields,
+                errors=errors)
+        
+        if _is_file_like(input_file):
+            file_name = os.path.basename(input_file.name)
+        else:
+            file_name = input_file
+
+        for index, values in df.query ("HEADING == 'DATA'").iterrows():
+                res = {"file":file_name,
+                            "table":table
+                            }
+                for field, val in zip (df.columns,values): 
+                    res[field] = val
+                
+                results.append(res)
 
     return results
 

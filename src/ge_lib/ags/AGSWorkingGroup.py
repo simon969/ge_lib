@@ -6,7 +6,7 @@ import json
 from rich import print as rprint
 
 from python_ags4.AGS4 import check_file, AGS4_to_dataframe
-from AGS4_fs import AGS4_to_excel,get_dict_name
+from AGS4_fs import AGS4_to_excel, get_dict_name
 from pandas import ExcelWriter
 
 ags_dics = {
