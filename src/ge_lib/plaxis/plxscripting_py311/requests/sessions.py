@@ -9,7 +9,13 @@ requests (cookies, auth, proxies).
 
 """
 import os
-from collections import Mapping
+
+# For < Pyhon 3.11
+# https://stackoverflow.com/questions/69381312/importerror-cannot-import-name-from-collections-using-python-3-10
+# from collections import Mapping
+# For Python 3.11
+from collections.abc import Mapping
+
 from datetime import datetime
 
 from .compat import cookielib, OrderedDict, urljoin, urlparse, builtin_str

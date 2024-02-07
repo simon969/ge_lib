@@ -28,11 +28,11 @@ import os
 import shutil
 from argparse import ArgumentTypeError
 import notebook.notebookapp
-from plxscripting.interactive import create_parser
-from plxscripting.plaxis_jupyter_kernel import (ENV_VAR_PLAXIS_SERVER_PASSWORD, ENV_VAR_IS_OUTPUT,
+from plxscripting_py311.interactive import create_parser
+from plxscripting_py311.plaxis_jupyter_kernel import (ENV_VAR_PLAXIS_SERVER_PASSWORD, ENV_VAR_IS_OUTPUT,
                                                 ENV_VAR_PLAXIS_SERVER_ADDRESS, ENV_VAR_PLAXIS_SERVER_PORT)
-from plxscripting.easy import new_server
-from plxscripting.const import PLAXIS_2D, PLAXIS_3D
+from plxscripting_py311.easy import new_server
+from plxscripting_py311.const import PLAXIS_2D, PLAXIS_3D
 
 INPUT = "INPUT"
 OUTPUT = "OUTPUT"

@@ -20,7 +20,7 @@ language governing rights and limitations under the PPL.
 import os
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.comm import CommManager
-from plxscripting.easy import *
+from plxscripting_py311.easy import *
 
 ENV_VAR_IS_OUTPUT = 'IS_OUTPUT'
 ENV_VAR_PLAXIS_SERVER_ADDRESS = 'PLAXIS_SERVER_ADDRESS'

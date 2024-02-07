@@ -64,7 +64,7 @@ class TestGroundMethods(unittest.TestCase):
         gm = getGroundModel ('101')
                 
         json_text1 = gm.to_json()
-        json_to_file (os.path.join(data_folder,"gm.json", json_text1)
+        json_to_file (os.path.join(data_folder,"gm.json"), json_text1)
 
         f = open(os.path.join(data_folder,"gm.json"))
         data = json.load(f)

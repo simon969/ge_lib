@@ -371,11 +371,11 @@ def get_data (input_file=[],
     import os
     from python_ags4.AGS4 import AGS4_to_dataframe
 
-    if isinstance(input_file, collections.abc.Sequence):
+    if _is_array_like(input_file):
         files = input_file
     else:
         files = [input_file]
-
+    
     for file in files:
 
         if tables is None:
@@ -437,12 +437,18 @@ def get_all_data (input_file=[],
               geol_fields=['GEOL_GEOL','GEOL_GEO2','GEOL_GEO3','GEOL_LEG'],
               errors =[]):
     ''' 
+    parameters
+    ----------
     input_files:
     string or open buffer list of ags files to read table
 
     tables:
     dataframe tables
     table:
+    returns
+    -------
+
+    list of json strings
 
     '''
     import pandas as pd
@@ -451,11 +457,11 @@ def get_all_data (input_file=[],
     
     results = []
 
-    if hasattr(input_file, "__len__"):
-        files = input_file
+    if _is_array_like(input_file):
+        files = input_file 
     else:
         files = [input_file]
-
+    
     for file in files:
 
         if tables is None:
@@ -468,27 +474,39 @@ def get_all_data (input_file=[],
                 loca_fields=loca_fields,
                 geol_fields=geol_fields,
                 errors=errors)
-        
-        if _is_file_like(input_file):
-            file_name = os.path.basename(input_file.name)
-        else:
-            file_name = input_file
+        if df:
+            if _is_file_like(file):
+                file_name = os.path.basename(file.name)
+            else:
+                file_name = input_file
 
-        for index, values in df.query ("HEADING == 'DATA'").iterrows():
-                res = {"file":file_name,
-                            "table":table
-                            }
-                for field, val in zip (df.columns,values): 
-                    res[field] = val
-                
-                results.append(res)
+            for index, values in df.query ("HEADING == 'DATA'").iterrows():
+                    res = {"file":file_name,
+                                "table":table
+                                }
+                    for field, val in zip (df.columns,values): 
+                        res[field] = val
+                    
+                    results.append(res)
 
     return results
+def _is_array_like (obj):
+    """Check if object is file like
+    
+    returns
+    -------
+    bool
+        Return True if obj is file like, otherwise return False
+    """
+    if obj.__class__ == list:
+        return True
+    
 
+    return False
 def _is_file_like(obj):
     """Check if object is file like
 
-    Returns
+    returns
     -------
     bool
         Return True if obj is file like, otherwise return False

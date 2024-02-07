@@ -118,7 +118,7 @@ def start_console(address, port, is_output, password):
     qtconsole = get_jupyter_qt_console_module()
     starting_message = build_instructions(address, port, server_object_name, global_object_name)
     if qtconsole is not None:
-        from plxscripting.run_jupyter import set_environment_variables_with_plaxis_vars
+        from plxscripting_py311.run_jupyter import set_environment_variables_with_plaxis_vars
         from qtconsole import qtconsoleapp
         set_environment_variables_with_plaxis_vars(address, port, is_output, password)
         # Print instructions before starting Jupyter QtConsole as it doesn't accept any starting message.

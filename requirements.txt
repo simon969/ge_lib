@@ -8,3 +8,5 @@ tomli==2.0.1
 zipp==3.6.0
 ipykernel>=6.29.0
 dict2xml==1.7.4
+unixodbc-dev>=0.0.0
+pycryptodome>=3.20.0

@@ -705,13 +705,13 @@ Ground Engineering common function library
   Using the BGS python_AGS4  
 
 ### Found
-  A libraray of deep and shallow foundation calculations for piles and strip footings
+  A library of deep and shallow foundation calculations for piles and strip footings
   Ground resistances calculated in accordance with the <Eurocode BS EN 1997> and <BS EN 8004> 
 
 
 >>>
 **Note**
- This function library contains separates self contained modules for a variety of engineering applications. There are separated requirements.txt files for each module. It is recomended that you create a virtual python enviornment and only install those dependences for the module you which to use. 
+ This function library contains separates self-contained modules for a variety of engineering applications. Each module will have separate dependencies but for simplicity a single requirements.txt is included. It is recommended that you create a virtual python environment to install those dependencies to. 
 >>>
 
 ## Documentation
@@ -722,7 +722,7 @@ Ground Engineering common function library
 We have created an example Juypter Notebook which connects to the Plaxis 2D Output program and extracts structural results dfor selected phases
 
 
-[See here](./examples/Plaxis2D_StructuralResults.ipynb)
+[See here](./examples/plaxis/Plaxis2D_StructuralResults.ipynb)
 
 ### Installation
 

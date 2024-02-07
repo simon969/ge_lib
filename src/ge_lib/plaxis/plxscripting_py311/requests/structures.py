@@ -36,7 +36,7 @@ class IteratorProxy(object):
 
 class CaseInsensitiveDict(collections.abc.MutableMapping):
 # class CaseInsensitiveDict(collections.MutableMapping):   
-     """
+    """
     A case-insensitive ``dict``-like object.
 
     Implements all methods and operations of

@@ -24,7 +24,7 @@
 ###########################################################################
 
 import os.path
-from pypyodbc import pypyodbc
+import pypyodbc as pyodbc
 from io import StringIO
 def _is_file_like(obj):
     
@@ -100,7 +100,7 @@ class dbWriter(writer):
             file = ''
             
             if (os.path.isfile(db_file)):
-                self.conn = pypyodbc.connect(self.conn_string)
+                self.conn = pyodbc.connect(self.conn_string)
                 self.log ('connecting to existing db:' + db_file)
             else:
                 if db_file[-6:]=='.accdb':
@@ -109,7 +109,7 @@ class dbWriter(writer):
                     file = db_file[:-4]
                 if not file:
                     file = db_file
-                self.conn = pypyodbc.win_create_mdb(file) 
+                self.conn = pyodbc.win_create_mdb(file) 
                 self.log ('connecting to new db:' + db_file)
                 db_file = file + '.mdb'
             

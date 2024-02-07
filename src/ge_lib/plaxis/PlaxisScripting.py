@@ -101,11 +101,11 @@ import logging
 import time
 from io import StringIO
 
-from pypyodbc import pypyodbc
+import pypyodbc as pyodbc
 
-from plxscripting.easy import new_server
-from plxscripting.logger import Logger
-from plxscripting.error_mode import ErrorMode
+from .plxscripting_py311.easy import new_server
+from .plxscripting_py311.logger import Logger
+from .plxscripting_py311.error_mode import ErrorMode
 
 # Plaxis Server connection parameters
 REQUEST_TIMEOUT = 3600 
@@ -903,7 +903,7 @@ class PlaxisScripting (object):
         file = ''
         
         if (os.path.isfile(db_file)):
-            self.conn = pypyodbc.connect(self.conn_string)
+            self.conn = pyodbc.connect(self.conn_string)
             print('connecting to existing db:' + db_file)
         else:
             if db_file[-6:]=='.accdb':
@@ -912,7 +912,7 @@ class PlaxisScripting (object):
                 file = db_file[:-4]
             if not file:
                 file = db_file
-            self.conn = pypyodbc.win_create_mdb(file) 
+            self.conn = pyodbc.win_create_mdb(file) 
             print('connecting to new db:' + db_file)
             db_file = file + '.mdb'
         

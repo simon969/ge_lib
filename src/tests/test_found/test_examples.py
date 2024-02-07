@@ -1,7 +1,6 @@
 import os
 import unittest
-import platform
-import json
+
 
 data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),"data","examples")
 
