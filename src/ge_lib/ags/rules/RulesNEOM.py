@@ -697,7 +697,7 @@ class NEOM_GRAG001(ags_query):
                 grag_clay = pd.to_numeric (values['GRAG_CLAY'])
                 grag_fine = pd.to_numeric (values['GRAG_FINE'])
                 if (grag_silt > 0 and grag_clay == 0):
-                    line = values['line_number'][0]
+                    line = values['line_number']
                     desc = 'The GRAG_SILT ({0}) is the total fines (ie SILT+CLAY) and GRAG_CLAY=0 with GRAG_FINE ({1})'.format(grag_silt, grag_fine)
                     res = {'line':line, 'group':table_name, 'desc':desc}
                     self.results_fail.append (res)
@@ -709,6 +709,6 @@ class NEOM_GRAG001(ags_query):
                         self.results_pass.append (res)
                     else:
                         line = values['line_number']
-                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is not equal to the GRAG_FINES ({1})'.format(grag_silt, grag_clay, grag_fine)
+                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is not equal to the GRAG_FINE ({1})'.format(grag_silt, grag_clay, grag_fine)
                         res = {'line':line, 'group':table_name, 'desc':desc}
                         self.results_fail.append (res)    

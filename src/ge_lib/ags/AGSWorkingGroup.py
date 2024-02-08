@@ -5,8 +5,8 @@ import math
 import json
 from rich import print as rprint
 
-from python_ags4.AGS4 import check_file, AGS4_to_dataframe
-from AGS4_fs import AGS4_to_excel, get_dict_name
+from python_ags4.AGS4 import check_file as check_file2, AGS4_to_dataframe
+from .AGS4_fs import AGS4_to_excel, get_dict_name
 from pandas import ExcelWriter
 
 ags_dics = {
@@ -26,7 +26,7 @@ release_date = '2023-10-07'
     
 def check_file (input_file, dict_file):
     # return print_to_string(AGS4.check_file(input_file, '{0}\\{1}'.format (dicts_path, dict_file)))
-    return list_to_bytes(ags_errors_to_list(check_file(input_file, dict_file)))
+    return list_to_bytes(ags_errors_to_list(check_file2(input_file, dict_file)))
 
 def dict_file_name (input_file, version):
     

@@ -11,7 +11,6 @@ that are also useful for external consumption.
 
 import cgi
 import codecs
-import collections
 from collections.abc import Mapping
 import io
 import os

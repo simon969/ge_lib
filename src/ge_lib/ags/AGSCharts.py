@@ -1,5 +1,6 @@
 import io
-from .AGS4_fs import AGS4_fs as AGS4
+# from .AGS4_fs import AGS4_to_dataframe
+from python_ags4.AGS4 import AGS4_to_dataframe
 import matplotlib.colors as mcolors
 from rich import print as rprint
 
@@ -361,7 +362,7 @@ def chart_core(input_file, tables, formats, layouts, errors):
     suffixes = []
     
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='CORE',
@@ -393,12 +394,12 @@ def chart_core(input_file, tables, formats, layouts, errors):
 
 def chart_dcpt(input_file, tables, formats, layouts, errors):
     
-    from ags.pyAGS.AGSData import calc_depth_dcpg
+    from .AGSData import calc_depth_dcpg
 
     rprint('[green] Getting chart from DCPT...[/green]')
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables = tables, 
                      table = 'DCPT',
@@ -424,7 +425,7 @@ def chart_dcpg (input_file, tables, formats, layouts, errors):
     rprint('[green] Getting chart from DCPG...[/green]')
     
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables = tables, 
                      table = 'DCPG',
@@ -505,7 +506,7 @@ def chart_gchm(input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='GCHM',
@@ -555,7 +556,7 @@ def chart_ispt(input_file, tables, formats, layouts, errors):
     suffixes = []
     
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='ISPT', 
@@ -595,7 +596,7 @@ def chart_llpl(input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='LLPL',
@@ -642,7 +643,7 @@ def chart_lden(input_file, tables, formats, layouts, errors):
     suffixes = []
     
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='LDEN',
@@ -698,7 +699,7 @@ def chart_lnmc(input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='LNMC',
@@ -736,7 +737,7 @@ def chart_lvan (input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='LVAN',
@@ -800,7 +801,7 @@ def chart_mond(input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='MOND',
@@ -862,7 +863,7 @@ def chart_rden(input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='RDEN',
@@ -918,7 +919,7 @@ def chart_trit(input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df = get_df (tables=tables,
                  table='TRIT',
@@ -958,7 +959,7 @@ def replace_inlist(current_list, match_list, replace_list):
 def chart_wstd (input_file, tables, formats, layouts, errors):
     
     import pandas as pd
-    from ags.pyAGS.AGSData import calc_depth_wstd
+    from .AGSData import calc_depth_wstd
 
     rprint('[green] Getting chart from WSTD...[/green]')
     
@@ -966,7 +967,7 @@ def chart_wstd (input_file, tables, formats, layouts, errors):
     suffixes = []
 
     if tables is None:
-        tables, headers = AGS4.AGS4_to_dataframe (input_file, get_line_numbers=False)
+        tables, headers = AGS4_to_dataframe (input_file, get_line_numbers=False)
     
     df0 = get_df (tables=tables,
                  table='WSTD',

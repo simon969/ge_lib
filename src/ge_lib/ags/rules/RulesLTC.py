@@ -631,17 +631,17 @@ class RulesLTC(ags_query_collection):
         self.add_query (MOND015())
 
         # Project specific checks
-        self.add_query (NEOM_LOCA001(LOCA_CKDT_FORMAT='yyyy-MM-dd'))
-        self.add_query (NEOM_HORN001(HORN_BASE_TYPE_ALLOWED='2DP'))
-        self.add_query (NEOM_GRAG001())
+        self.add_query (LTC_LOCA001(LOCA_CKDT_FORMAT='yyyy-MM-dd'))
+        self.add_query (LTC_HORN001(HORN_BASE_TYPE_ALLOWED='2DP'))
+        self.add_query (LTC_GRAG001())
 
 
-class NEOM_LOCA001(ags_query):
+class LTC_LOCA001(ags_query):
     def __init__(self, LOCA_CKDT_FORMAT):
         self.LOCA_CKDT_FORMAT = LOCA_CKDT_FORMAT
-        super().__init__(id='NEOM_LOCA001', 
+        super().__init__(id='LTC_LOCA001', 
                         description="Is the LOCA_CKDT date type in the ISO format {}".format(self.LOCA_CKDT_FORMAT),
-                        requirement = "Neom PTS",
+                        requirement = "LTC PTS",
                         action = "Check that the LOCA_CKDT is completed in the correct format for all records in the LOCA group")
         
     def run_query(self,  tables, headings):
@@ -650,12 +650,12 @@ class NEOM_LOCA001(ags_query):
         if (LOCA is not None):  
             self.check_unit_string(LOCA,"LOCA","LOCA_CKDT",self.LOCA_CKDT_FORMAT)
   
-class NEOM_HORN001(ags_query):
+class LTC_HORN001(ags_query):
     def __init__(self, HORN_BASE_TYPE_ALLOWED):
         self.HORN_BASE_TYPE_ALLOWED = HORN_BASE_TYPE_ALLOWED
-        super().__init__(id='NEOM_HORN001', 
+        super().__init__(id='LTC_HORN001', 
                         description="Is the HORN_BASE value to {0}".format(self.HORN_BASE_TYPE_ALLOWED),
-                        requirement = "Neom PTS",
+                        requirement = "LTC PTS",
                         action = "Check that the HORN_BASE value for all records is reported to {0}".format(self.HORN_BASE_TYPE_ALLOWED))
         
     def run_query(self,  tables, headings):
@@ -663,11 +663,11 @@ class NEOM_HORN001(ags_query):
         
         if (HORN is not None):  
             self.check_type_string(HORN,"HORN","HORN_BASE",self.HORN_BASE_TYPE)      
-class NEOM_PTIM001(ags_query):
+class LTC_PTIM001(ags_query):
     def __init__(self):
-        super().__init__(id='NEOM_PTM001', 
+        super().__init__(id='LTC_PTM001', 
                         description="Does the water depth PTIM_WAT contain any duplicate values?",
-                        requirement = "Neom PTS",
+                        requirement = "LTC PTS",
                         action = "Check that there are no duplicate water depths in the PTIM_WAT {0}".format(self.HORN_BASE_TYPE_ALLOWED))
         
     def run_query(self,  tables, headings):
@@ -680,12 +680,12 @@ class NEOM_PTIM001(ags_query):
                 qry = "LOCA_ID == '{0}'".format(values['LOCA_ID'])
                 self.check_unique (PTIM,"PTIM",qry,"PTIM_WAT") 
 
-class NEOM_GRAG001(ags_query):
+class LTC_GRAG001(ags_query):
     def __init__(self):
-        super().__init__(id='NEOM_GRAG001', 
+        super().__init__(id='LTC_GRAG001', 
                         description="Is GRAG_SILT the total percenatage fines (i.e. SILT + CLAY) and the percentage of clay is given as 0 for all PSD tests?",
-                        requirement = "Neom PTS",
-                        action = "Please populate GRAG_FINES with total fine content (SILT + CLAY), populate GRAG_SILT with percentage SILT and GRAG_CLAY with percentage CLAY")
+                        requirement = "LTC PTS",
+                        action = "Please populate GRAG_FINE with total fine content (SILT + CLAY), populate GRAG_SILT with percentage SILT and GRAG_CLAY with percentage CLAY")
         
     def run_query(self,  tables, headings):
         GRAG = self.get_group(tables, "GRAG", True)
@@ -696,20 +696,20 @@ class NEOM_GRAG001(ags_query):
             for index, values in lgrag.iterrows():
                 grag_silt = pd.to_numeric (values['GRAG_SILT'])
                 grag_clay = pd.to_numeric (values['GRAG_CLAY'])
-                grag_fines = pd.to_numeric (values['GRAG_FINES'])
+                grag_fine = pd.to_numeric (values['GRAG_FINE'])
                 if (grag_silt > 0 and grag_clay == 0):
-                    line = values['line_number'][0]
-                    desc = 'The GRAG_SILT ({0}) is the total fines (ie SILT+CLAY) and GRAG_CLAY=0 with GRAG_FINES ({1})'.format(grag_silt, grag_fines)
+                    line = values['line_number']
+                    desc = 'The GRAG_SILT ({0}) is the total fines (ie SILT+CLAY) and GRAG_CLAY=0 with GRAG_FINE ({1})'.format(grag_silt, grag_fine)
                     res = {'line':line, 'group':table_name, 'desc':desc}
                     self.results_fail.append (res)
                 else:
-                    if (grag_fines == grag_clay + grag_silt):
-                        line =values['line_number'][0]
-                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is equal to the GRAG_FINES ({1})'.format(grag_silt, grag_clay, grag_fines)
+                    if (grag_fine == grag_clay + grag_silt):
+                        line =values['line_number']
+                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is equal to the GRAG_FINE ({1})'.format(grag_silt, grag_clay, grag_fine)
                         res = {'line':line, 'group':table_name, 'desc':desc}
                         self.results_pass.append (res)
                     else:
-                        line =values['line_number'][0]
-                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is not equal to the GRAG_FINES ({1})'.format(grag_silt, grag_clay, grag_fines)
+                        line =values['line_number']
+                        desc = 'The GRAG_SILT ({0}) and GRAG_CLAY ({1}) is not equal to the GRAG_FINE ({1})'.format(grag_silt, grag_clay, grag_fine)
                         res = {'line':line, 'group':table_name, 'desc':desc}
                         self.results_fail.append (res)    

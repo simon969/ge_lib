@@ -1,6 +1,7 @@
 
 
 from .Plaxis2dResults2019 import Plaxis2dResults2019
+from .OutputWriter import GetWriter
 
 class Plaxis2dResultsConnectV2 (Plaxis2dResults2019):
     def __init__(self,
@@ -259,6 +260,7 @@ class Plaxis2dResultsConnectV2 (Plaxis2dResults2019):
                                sphaseOrder=None,
                                sphaseStart=None,
                                sphaseEnd=None,
+                               mode = 'new'
                                ):
         
         NotFound = ['not found','nan','Nan']
@@ -275,41 +277,7 @@ class Plaxis2dResultsConnectV2 (Plaxis2dResults2019):
         
         if (self.IsDbFile(fileOut) and not tableOut):
             tableOut = 'getSoilResultsByPoints'
-        
-        locName = []
-        locY = []
-        locX = []
-        
-        MaterialID = []
-        ElementID =[]
-        
-        Uyy = []
-        Uxx = []
-        Utot = []
-            
-        PUyy = []
-        PUxx = []
-        PUtot = []
-        
-        EffSxx = []
-        EffSyy = []
-        EffSzz = []
-        
-        EffP1 = []
-        EffP2 = []
-        EffP3 = []        
-        
-        PExcess = []
-        PActive = []
-        PSteady = []
-        PWater = []
-        
-        Suct = []
-        EffSuct = []
-        
-        pPhaseName = []
-        pPhaseIdent = []
-               
+                
         if filePoints:
             fpoint = open(filePoints, "r")
 
@@ -318,16 +286,25 @@ class Plaxis2dResultsConnectV2 (Plaxis2dResults2019):
                 if in_line == "":
                     break
                 print(in_line)
-                [name, nx, ny] = in_line.split(',')
-                self.NodeList.append(self.PointXY(name, nx, ny))
+                try:
+                    [name, nx, ny] = in_line.split(',')
+                    self.NodeList.append(self.PointXY(name, nx, ny))
+                except Exception as e:
+                    print (str(e))
+                    return
+
 
             fpoint.close()
-
-       
+        columns = 'Phase,PhaseIdent,locName,locX(m),locY(m),MaterialID,ElementID,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),SigxxEff(kPa),SigyyEff(kPa),SigzzEff(kPa),SigP1Eff(kPa),SigyP2Eff(kPa),SigP3Eff(kPa),PExcess(kPa),PActive(kPa),PSteady(kPa),Pwater(kPa),Suct(kPa)'  
+        formats = '{},{},{},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+               
+        print('FileOut=', w.fileOut)
 
         for phase in self.phaseOrder:
             print('Getting soil results ' + phase.Identification.value)
-                                   
+                                 
             for pt in self.NodeList:
 
                 try:
@@ -351,111 +328,12 @@ class Plaxis2dResultsConnectV2 (Plaxis2dResults2019):
                     pw = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.PWater, (pt.x, pt.y))
                     su = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Suction, (pt.x, pt.y))
                     
-                    if phase.Name.value == 'Phase_2':
-                        print (phase.Identification.value, pt.name, pt.x, pt.y, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su) 
-                    
-                    # for the case when the results are not values trigger an exception 
-                    # before the values are added to the result lists
-
-                    test_x_float = float(ux)
-                    
-                    # print (ux, test_x_float)
-                    
-                    if ux not in NotFound:
-                    
-                        pPhaseName.append(phase.Name.value)
-                        pPhaseIdent.append(phase.Identification.value)
-                    
-                        locName.append(pt.name)
-                        locY.append(pt.y)
-                        locX.append(pt.x)
-                        
-                        MaterialID.append(int(float(mat) + .1))
-                        ElementID.append(int(float(el) + .1))
-                        
-                        Uyy.append(uy)
-                        Uxx.append(ux)
-                        Utot.append(ut)
-                        
-                        PUyy.append(puy)
-                        PUxx.append(pux)
-                        PUtot.append(put)
-                        
-                        EffSxx.append (esx)
-                        EffSyy.append (esy)
-                        EffSzz.append (esz)
-                           
-                        EffP1.append (ep1)
-                        EffP2.append (ep2)
-                        EffP3.append (ep3)
-                            
-                        PExcess.append (pe)
-                        PActive.append (pa)
-                        PSteady.append (ps)
-                        PWater.append (pw)
-                        Suct.append (su)
-               
+                    w.rowsOut = [formats.format(phase.Name.value, phase.Identification.value, pt.name, pt.x, pt.y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa,ps,pw,su)]                    
+                    w.writeOutput()
      
                 except:
                     print ('...exception soil results ' + phase.Identification.value , pt.x, pt.y)
-                    print (pt.name, pt.x, pt.y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su)
-        columns = 'Phase,PhaseIdent,locName,locX(m),locY(m),MaterialID,ElementID,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),SigxxEff(kPa),SigyyEff(kPa),SigzzEff(kPa),SigP1Eff(kPa),SigyP2Eff(kPa),SigP3Eff(kPa),PExcess(kPa),PActive(kPa),PSteady(kPa),Pwater(kPa),Suct(kPa)'  
-        formats = '{},{},{},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
-        
-        if (fileOut == None and tableOut == None):
-            columns += '\n'
-            formats += '\n'
-            print('Outputting to string....')
-            rows = ''.join([formats.format(pname, pident, locname, float(x), float(y), mat, el, float(ux), float(uy), float(ut), float(pux), float(puy), float(put), float(esx), float(esy), float(esz), float(ep1), float(ep2), float(ep3), float(pe), float(pa), float(ps), float(pw), float(su))
-                                     for pname, pident, locname, x, y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su in zip(pPhaseName, pPhaseIdent, locName, locX, locY, MaterialID, ElementID, Uxx, Uyy, Utot, PUxx, PUyy, PUtot, EffSxx, EffSyy, EffSzz, EffP1, EffP2, EffP3, PExcess, PActive, PSteady, PWater, Suct)])
-            return columns + rows
-        
-        if (fileOut != None and tableOut == None):
-            try :
-                print('Outputting to file ', fileOut, '....')
-                columns += '\n'
-                formats += '\n'
-                with open(fileOut, "w") as file:
-                    file.writelines([columns])
-                    file.writelines([formats.format(pname, pident, locname, float(x), float(y), mat, el, float(ux), float(uy), float(ut), float(pux), float(puy), float(put), float(esx), float(esy), float(esz), float(ep1), float(ep2), float(ep3), float(pe), float(pa), float(ps), float(pw), float(su))
-                                     for pname, pident, locname, x, y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su in zip(pPhaseName, pPhaseIdent, locName, locX, locY, MaterialID, ElementID, Uxx, Uyy, Utot, PUxx, PUyy, PUtot, EffSxx, EffSyy, EffSzz, EffP1, EffP2, EffP3, PExcess, PActive, PSteady, PWater, Suct)])
-            except:
-                print ('...exception soil results ' + phase.Identification.value , pt.x, pt.y)
-               #~ print (pname, pident, locname, x, y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su)
-                #~ print (pPhaseName, pPhaseIdent, locName, locX, locY, MaterialID, ElementID, Uxx, Uyy, Utot, PUxx, PUyy, PUtot, EffSxx, EffSyy, EffSzz, EffP1, EffP2, EffP3, PExcess, PActive, PSteady, PWater, Suct)
-        
-        if (fileOut != None and tableOut != None):
-            print('Outputting to database ', fileOut, '....')
-            self.getConnected (fileOut)
-            self.createTable(tableOut, columns, formats)
-            for pname, pident, locname, x, y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su in zip(pPhaseName, pPhaseIdent, locName, locX, locY, MaterialID, ElementID, Uxx, Uyy, Utot, PUxx, PUyy, PUtot, EffSxx, EffSyy, EffSzz, EffP1, EffP2, EffP3, PExcess, PActive, PSteady, PWater, Suct):
-                row = []
-                row.append(pname)
-                row.append(pident)
-                row.append(locname)
-                row.append(x)
-                row.append(y)
-                row.append(mat)
-                row.append(el)
-                row.append(ux)
-                row.append(uy)
-                row.append(ut)
-                row.append(pux)
-                row.append(puy)
-                row.append(put)
-                row.append(esx)
-                row.append(esy)
-                row.append(esz)
-                row.append(ep1)
-                row.append(ep2)
-                row.append(ep3)
-                row.append(pe)
-                row.append(pa)
-                row.append(ps)
-                row.append(pw)
-                row.append(su)
-                
-                self.insertValues(row)
+                    print (phase.Name.value, phase.Identification.value, pt.name, pt.x, pt.y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa,ps,pw,su)
                 
         print('getSoilResultsByPoint Done')
 

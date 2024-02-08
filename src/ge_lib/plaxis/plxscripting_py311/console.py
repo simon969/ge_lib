@@ -19,7 +19,8 @@ language governing rights and limitations under the PPL.
 
 import sys
 import code
-from distutils.version import StrictVersion
+from packaging.version import parse as StrictVersion
+# from distutils.version import StrictVersion
 from .const import ARG_APP_SERVER_ADDRESS, ARG_APP_SERVER_PORT, ARG_PASSWORD
 from .server import new_server
 

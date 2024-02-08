@@ -11,7 +11,27 @@ setup(
     package_dir={'': 'src'},
     # py_modules = ["module_1", "module_2"],
     # Needed for dependencies
-    install_requires=['numpy'],
+    install_requires=[
+                    'importlib-metadata==4.8.2',
+                    'packaging==23.2',
+                    'pypyodbc==1.3.6',
+                    'pandas>=1.5.3',
+                    'numpy>=1.26.4',
+                    'numpy-utils>=0.1.6',
+                    'python-AGS4>=0.5.0',
+                    'tomli==2.0.1',
+                    'zipp==3.6.0',
+                    'ipykernel>=6.29.0',
+                    'dict2xml==1.7.4',
+                    'unixodbc-dev',
+                    'pycryptodome>=3.20.0',
+                    'chardet>5.2.0',
+                    'matplotlib>=3.8.2',
+                    'qtconsole>=5.5.1',
+                    'urllib3>=2.2.0'
+                    ],
+    # unixodbc is needed for pypyodbc on linux system  (https://github.com/mkleehammer/pyodbc/issues/36)
+    
     # *strongly* suggested for sharing
     version='0.0.1',
     # The license can be anything you like

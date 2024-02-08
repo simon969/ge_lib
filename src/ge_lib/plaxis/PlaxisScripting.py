@@ -94,12 +94,12 @@
 #      
 #
 ##############################################################################
-import imp
+# import imp
 import os.path
 import math
 import logging
-import time
-from io import StringIO
+# import time
+# from io import StringIO
 
 import pypyodbc as pyodbc
 
@@ -175,12 +175,13 @@ class PlaxisScripting (object):
            
             else:
                 print ('Connected:', host, port, self.s_o.name, self.s_o.major_version, self.s_o.minor_version, 'Is2d=', self.s_o.is_2d, 'Is3d=', self.s_o.is_3d)        
+            
             self.NodeList = []
         else:
             self.s_o = ps.s_o
             self.g_o = ps.g_o
             self.logger = ps.logger
-                
+            self.NodeList = ps.NodeList       
        
     def match(self, **kwargs):
         return all(getattr(self, key) == val for (key, val) in kwargs.items())     
