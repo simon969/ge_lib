@@ -23,7 +23,7 @@ PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the PPL for specific
 language governing rights and limitations under the PPL.
 """
 
-from . import requests
+import requests
 import json
 import time
 import uuid

@@ -34,7 +34,7 @@ class TestPlaxis2dConnectV22Methods(unittest.TestCase):
         from ge_lib.plaxis.PlaxisResults import Plaxis2dResultsConnectV22
   
         try:
-            plx = Plaxis2dResultsConnectV22(host="UKCRD1PC345871",
+            plx = Plaxis2dResultsConnectV22(host="UKCRD1PC34587",
                             port=10000,
                             password='D@r>Srh1/vft9#ky')
             if plx:

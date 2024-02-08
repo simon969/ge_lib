@@ -23,12 +23,12 @@ setup(
                     'zipp==3.6.0',
                     'ipykernel>=6.29.0',
                     'dict2xml==1.7.4',
-                    'unixodbc-dev',
                     'pycryptodome>=3.20.0',
                     'chardet>5.2.0',
                     'matplotlib>=3.8.2',
                     'qtconsole>=5.5.1',
-                    'urllib3>=2.2.0'
+                    'urllib3>=2.2.0',
+                    'requests>=2.31'
                     ],
     # unixodbc is needed for pypyodbc on linux system  (https://github.com/mkleehammer/pyodbc/issues/36)
     

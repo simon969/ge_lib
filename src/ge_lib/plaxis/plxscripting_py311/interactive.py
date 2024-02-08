@@ -27,7 +27,7 @@ language governing rights and limitations under the PPL.
 
 import os.path
 import sys
-import imp
+#import imp
 import argparse
 
 paths = []
@@ -38,8 +38,9 @@ if defpath:
 if len(sys.argv) > 1:
     paths.append(sys.argv[1])
 
-found_module = imp.find_module('plxscripting', paths)
-plxscripting = imp.load_module('plxscripting', *found_module)
+# found_module = imp.find_module('plxscripting', paths)
+# plxscripting = imp.load_module('plxscripting', *found_module)
+    
 from plxscripting_py311.const import ARG_APP_SERVER_ADDRESS, ARG_APP_SERVER_PORT, ARG_PASSWORD
 from plxscripting_py311.console import start_console
 
