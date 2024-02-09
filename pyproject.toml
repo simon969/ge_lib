@@ -1,25 +1,3 @@
-[project]
-name = "ge_lib"
-version = "0.0.1"
-authors = [
-  { name="Simon Thommson", email="simon.thomson@aecom.com"},
-  { name="Emmanouil Zervas", email="emmanouil.zervas@aecom.com"},
-  { name="Cristina Alvarezcedron", email="cristina.alvarezcedron@aecom.com"},
-  { name="Adam Hood", email="adam.hood@aecom.com"}
-]
-maintainers = [ {name="Adam Hood", email="adam.hood@aecom.com"}, 
-        { name="Simon Thommson", email="simon.thomson@aecom.com"}
-]
-description = "AECOM UK Ground Engineering Function Library"
-readme = "README.md"
-requires-python = ">=3.8"
-license = {file = "LICENSE"}
-keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Development Status :: 4 - Beta",
-    "Operating System :: OS Independent",
-]
-[project.urls]
-Homepage = "https://github.com/simon969/ge_lib"
-Issues = "https://github.com/simon969/ge_lib/issues"
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
