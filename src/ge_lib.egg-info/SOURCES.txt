@@ -100,12 +100,7 @@ src/ge_lib/found/pyPile/PileSettlement.py
 src/ge_lib/found/pyPile/Support.py
 src/ge_lib/found/pyPile/__init__.py
 src/ge_lib/general/__init__.py
-src/ge_lib/motions/GroundMotions.py
-src/ge_lib/motions/Motions.py
-src/ge_lib/motions/PEERNGARecords.py
 src/ge_lib/motions/__init__.py
-src/ge_lib/motions/freq_from_autocorr.py
-src/ge_lib/motions/freq_from_ftt.py
 src/ge_lib/package2/Module2.py
 src/ge_lib/package2/__init__.py
 src/ge_lib/plaxis/OutputWriter.py
@@ -151,8 +146,6 @@ src/tests/test_ags/test_processAGS.py
 src/tests/test_ags/test_rules.py
 src/tests/test_ags/test_tables.py
 src/tests/test_found/__init__.py
-src/tests/test_found/footing_model104.py
-src/tests/test_found/pile_model104.py
 src/tests/test_found/test_examples.py
 src/tests/test_found/test_footing.py
 src/tests/test_found/test_ground.py

@@ -25,3 +25,6 @@ class TestAGSSummary(unittest.TestCase):
         ap.process()
         ap.report_lines (os.path.join(data_folder, "group_lines.csv"))
         ap.report_summary(os.path.join(data_folder, "point_group_summary.csv"))
+
+if __name__ == '__main__':
+    unittest.main()

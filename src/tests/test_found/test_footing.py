@@ -1,5 +1,4 @@
 import os
-import platform
 import json
 import datetime
 import unittest
@@ -145,8 +144,9 @@ def _model104():
     '''
     model description:  this model is imported from the .footing_model104 files
     '''
-    from .footing_model104 import request_dict
-    return request_dict
+    with open(os.path.join(data_folder,"footing_model104.json")) as my_file:
+        s = my_file.read()
+    return s
 
 
 _models_dict = {'101':_model101(),

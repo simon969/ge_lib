@@ -106,7 +106,7 @@ class RectangularPilePS(Pile):
                                  },
                                   is_checked = True
                                  )
-def GetPileArray (data:list):
+def pile_array (data:list, is_checked=False):
     """
     arguments:
         data: 
@@ -116,7 +116,10 @@ def GetPileArray (data:list):
     """
     piles = []
     for p in data:
-        checked_data = check_pile(p)
+        if is_checked:
+            checked_data = p
+        else:
+            checked_data = check_pile(p)
         pile = Pile (data=checked_data, is_checked=True)
         piles.append(pile)
     return piles

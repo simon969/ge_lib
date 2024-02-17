@@ -6,7 +6,7 @@ from .Support import any_have_values, ValueLinear, get_value
 DEFAULT_POISSON = 0.28
 INCREMENT_DEFAULT = -0.5
 
-def addStressesStrengthStiffness(gm:GroundModel, log_file=None):
+def add_stresses_strength_stiffness(gm:GroundModel, log_file=None):
     """
     Takes a groundmodel (gm) and returns a copy with TotalStress, PWP, EffectiveStress and Cu profiles added to the gm.strata_set array
 
@@ -26,14 +26,14 @@ def addStressesStrengthStiffness(gm:GroundModel, log_file=None):
     """
     
     new_gm = copy.deepcopy(gm)
-    addTotalStress(new_gm.strata_set, new_gm.surcharge)
-    addEffectiveStress(new_gm.strata_set)
-    addUndrainedStrength(new_gm.strata_set)
-    addEModulus(new_gm.strata_set)
-    addLogger (new_gm, log_file)
+    add_total_stress(new_gm.strata_set, new_gm.surcharge)
+    add_effective_stress(new_gm.strata_set)
+    add_undrained_strength(new_gm.strata_set)
+    add_emodulus(new_gm.strata_set)
+    add_logger (new_gm, log_file)
     return new_gm
 
-def getValueGrad (top, grad):
+def get_value_grad (top, grad):
     if (top==None and grad==None):
         return None
     if (top==None and grad!=None):
@@ -43,23 +43,23 @@ def getValueGrad (top, grad):
     if (top!=None and grad!=None):
         return ValueLinear(top, grad)
 
-def addUndrainedStrength (strataset:list):
+def add_undrained_strength (strataset:list):
     for s in strataset:
         if any_have_values(s, ["cu_top","cu_grad"]):
-            s.Cu = getValueGrad(s.cu_top, s.cu_grad)
+            s.Cu = get_value_grad(s.cu_top, s.cu_grad)
         
         if any_have_values(s,["ucs_top","usc_grad"]):
-            s.UCS = getValueGrad(s.ucs_top, s.ucs_grad)
+            s.UCS = get_value_grad(s.ucs_top, s.ucs_grad)
         
         if any_have_values (s,["su_top","su_grad"]):
-            s.Su = getValueGrad(s.su_top, s.su_grad)
+            s.Su = get_value_grad(s.su_top, s.su_grad)
 
-def addTotalStress (strataset:list, surcharge = 0.0):
+def add_total_stress (strataset:list, surcharge = 0.0):
     ts = surcharge  
     for s in strataset:
-        ts = addTotalStressGrad(s,ts)     
+        ts = add_total_stress_grad(s,ts)     
 
-def addTotalStressGrad(s:StrataSet, top_stress:float=0.0):
+def add_total_stress_grad(s:StrataSet, top_stress:float=0.0):
     
     s.TotalStress = ValueLinear(0,0) 
     s.PWP = ValueLinear(0,0)
@@ -86,7 +86,7 @@ def addTotalStressGrad(s:StrataSet, top_stress:float=0.0):
 
     return s.TotalStress.base
 
-def addEffectiveStress (strata:list):
+def add_effective_stress (strata:list):
         for s in strata:
             s.EffectiveStress = ValueLinear(0,0)
             # Calculate effective stress from TotalStress and PWP 
@@ -95,7 +95,7 @@ def addEffectiveStress (strata:list):
             s.EffectiveStress.gradient = s.TotalStress.gradient - s.PWP.gradient
             s.EffectiveStress.base = s.TotalStress.base - s.PWP.base
 
-def addEModulus(strata:list):
+def add_emodulus(strata:list):
     for s in strata:
         
         # Undrained modulus
@@ -129,19 +129,19 @@ def addEModulus(strata:list):
       
     
 
-def PrintGroundModel(gm:GroundModel):
+def print_ground_model(gm:GroundModel):
         print("Ground Model Name         %s" % gm.Description)
         print ("Strata  Level Level  Thick Density Density FactorEmodPo Initial  Initial Inital Initial Initial                                     Change           Water")
         print ("Description   Top   Bottom       Dry     Sub                  Water    Top Sz  Int Sz Bot Sz  Avg Sz  Water Top Sz  Int Sz Bot Sz  Avg Sz Avg Sz Emodulus  State")
         for s in gm.strata:
            print ("%5s  %.2f  %.2f  %.2f %.2f  %.2f    %.1f         %.2f     %.2f    %.2f   %.2f    %.2f    %.2f    %.2f   %.2f    %.2f  %.2f    %.2f   %.2f    %.2f   %.1f      %s   "%(s.Name[0:5],s.LevelTop,s.LevelBot,s.Thickness,s.DensityDry,s.DensitySub,s.FactorEModPo,s.InitialWaterLevel, s.InitialTotalStressTop, s.InitialTotalStressInt,  s.InitialTotalStressBot, s.InitialTotalStressAvg, s.InitialPWPAvg,s.WaterLevel, s.TotalStress.Top, s.TotalStressInt,  s.TotalStress.Bottom, s.TotalStress.Average, s.PWPAvg,s.ChangeEffectiveStressAvg,s.EModulus, s.WaterState))
-def PrintStress(self, name, stress):
+def print_stress(self, name, stress):
         print("%s Top %s" % name, stress.Top)
         print("%s Bottom %s" % name, stress.Bottom)
         print("%s Intermediate %s" % name, stress.Intermediate)
         print("%s Average %s" % name, stress.Average)
 
-def addLogger(gm:GroundModel, log_file):
+def add_logger(gm:GroundModel, log_file):
         if gm and log_file:
             hdlr = logging.FileHandler(log_file)
             formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')

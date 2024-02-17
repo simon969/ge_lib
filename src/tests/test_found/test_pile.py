@@ -1,15 +1,13 @@
 import os
-import platform
 import json
 import math
 import unittest
-from datetime import datetime
 
 from ge_lib.found.pyGround.GroundModel import GroundModel
 from ge_lib.found.pyGround.GroundStresses import GroundStresses
-from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness
+from ge_lib.found.pyGround.GroundModelSupport import add_stresses_strength_stiffness
 from ge_lib.found.pyPile.PileResistances import PileResistance, PILE_RESISTANCE_INCREMENT_DEFAULT
-from ge_lib.found.pyPile.PileGeoms import CircularPile, GetPileArray
+from ge_lib.found.pyPile.PileGeoms import CircularPile, pile_array
 from ge_lib.found.pyPile.EC7PartialFactors import r4_factors_cfa, add_model_factor, get_factors
 from ge_lib.found.PileProcess import process_request
 
@@ -58,14 +56,21 @@ def _model103():
     return piles
 
 def _model104():
-    from .pile_model104 import request_dict
-    return request_dict
+    with open(os.path.join(data_folder,"pile_model104.json")) as my_file:
+        s = my_file.read()
+    return s
+
+def _model105():
+    with open(os.path.join(data_folder,"pile_model105.json")) as my_file:
+        s = my_file.read()
+    return s
 
 
 _models_dict = {'101':_model101(),
                       '102':_model102(),
                       '103':_model103(),
-                      '104': _model104()
+                      '104': _model104(),
+                      '105': _model105()
                     }
 
 class TestPileMethods(unittest.TestCase):
@@ -122,7 +127,7 @@ class TestPileMethods(unittest.TestCase):
         
         gm.collectStrataSet(['_default'])
         
-        gm_pile = addStressesStrengthStiffness(gm)
+        gm_pile = add_stresses_strength_stiffness(gm)
         gm_pile.GET_ATTR_NOT_FOUND_MSG_ON=False
         cp = CircularPile ( "CFA_450", dia=0.45,alpha= 0.6,ks=0.8,tan_delta=0.67, nq=200)
         pr = PileResistance ("450dia CFA pile with groundmodel sampled from +102m to +42m in -0.5m steps", cp, gm_pile, 102, 42, -0.5)
@@ -156,7 +161,7 @@ class TestPileMethods(unittest.TestCase):
         
         gm.collectStrataSet(['_default'])
         
-        gm21 = addStressesStrengthStiffness(gm)
+        gm21 = add_stresses_strength_stiffness(gm)
         
         gs = GroundStresses ("Groundmodel sampled from +102m to +42m in -0.5m steps", gm21, 102, 80, -0.5)
         json_stress = gs.getStressesJSON ();
@@ -211,3 +216,14 @@ class TestPileMethods(unittest.TestCase):
         json_to_file ( os.path.join(data_folder,'res_sls.json'), res_sls)
         json_to_file ( os.path.join(data_folder,'res_uls_c1.json'), res_uls_c1)
         json_to_file ( os.path.join(data_folder,'res_uls_c2.json'), res_uls_c2)
+    
+    def test_process_request105(self):
+
+        request_dic = _models_dict["105"]
+        json_str = json.dumps(request_dic)
+        ret = process_request (json_str,"json")
+        json_to_file (os.path.join(data_folder, "ret_data_105.json"),ret)
+
+
+if __name__ == '__main__':
+    unittest.main()

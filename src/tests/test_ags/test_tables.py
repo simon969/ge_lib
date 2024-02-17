@@ -40,4 +40,6 @@ class TestAGSTableMethods(unittest.TestCase):
         fnames.append (os.path.join(data_folder,"21-25179_DETS_01122021_V4.AGS"))
 
         resp = get_data (fnames)
-        
+
+if __name__ == '__main__':
+    unittest.main()      

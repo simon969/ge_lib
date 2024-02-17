@@ -1,1 +1,1 @@
-{'error': "'ground_models'", 'status': 400}
+{'error': "string indices must be integers, not 'str'", 'status': 400}

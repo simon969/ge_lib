@@ -1,6 +1,4 @@
-import json
-
-request_dict = {
+{
     
     "ground_model": {
         "description": "",
@@ -250,10 +248,10 @@ request_dict = {
                         "state":"uls_c1"   
                         }],
             "options":{"conc_density":25.0,
-                        "methods:": ['DrainedBearing_BS8004',
-                                        'UndrainedBearing_BS8004',
-                                        'DrainedBearing_EC7',
-                                        'UndrainedBearing_EC7']
+                        "methods:": ["DrainedBearing_BS8004",
+                                        "UndrainedBearing_BS8004",
+                                        "DrainedBearing_EC7",
+                                        "UndrainedBearing_EC7"]
                         }
         }]
     }

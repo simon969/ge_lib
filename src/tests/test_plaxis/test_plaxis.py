@@ -43,4 +43,6 @@ class TestPlaxis2dConnectV22Methods(unittest.TestCase):
 
         except Exception as e:
             print (str(e))
-        
+            
+if __name__ == '__main__':
+    unittest.main()        

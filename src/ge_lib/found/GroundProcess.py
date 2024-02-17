@@ -3,7 +3,7 @@ import json
 from .pyGround.GroundModel import GroundModel
 from .pyGround.GroundStresses import GroundStresses
 from .pyGround.GroundStiffnesses import GroundStiffness
-from .pyGround.GroundModelSupport import addStressesStrengthStiffness, INCREMENT_DEFAULT
+from .pyGround.GroundModelSupport import add_stresses_strength_stiffness, INCREMENT_DEFAULT
 
 
 
@@ -35,7 +35,7 @@ def process_request(data, format_return) :
         
     if gm is not None:
         gm.collectStrataSet(['_default'])
-        gm_pile = addStressesStrengthStiffness(gm)
+        gm_pile = add_stresses_strength_stiffness(gm)
         min_level = gm_pile.minLevelBaseStrataSet()
         max_level = gm_pile.maxLevelTopStrataSet()
         gm_increment = gm_pile.__dict__.get("increment",INCREMENT_DEFAULT)

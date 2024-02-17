@@ -3,7 +3,7 @@ import json
 from .pyGround.GroundModel import GroundModel, ground_model_array
 from .pyGround.GroundStresses import GroundStresses
 from .pyGround.GroundStiffnesses import GroundStiffness
-from .pyGround.GroundModelSupport import addStressesStrengthStiffness
+from .pyGround.GroundModelSupport import add_stresses_strength_stiffness
 from .pyFooting.FootingGeoms import footing_array, INCREMENT_DEFAULT, default_options
 from .pyFooting.EC7PartialFactors import m1_factors, m2_factors, states
 from .pyFooting.FootingCalcs import effective_footings, footing_resistance
@@ -46,13 +46,13 @@ def process_request(data, format_return) :
         gm_dic = gm.to_dict()
 
         gm.collectStrataSet(['uls_c1']) 
-        gm_m1 = addStressesStrengthStiffness(gm)
+        gm_m1 = add_stresses_strength_stiffness(gm)
         res_uls_c1 = []
         res_sls = []
 
         gm.collectStrataSet(['uls_c2'])
        
-        gm_m2 = addStressesStrengthStiffness(gm)
+        gm_m2 = add_stresses_strength_stiffness(gm)
         res_uls_c2 = []
  
         if footings is not None:

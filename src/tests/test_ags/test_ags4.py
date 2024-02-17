@@ -22,4 +22,5 @@ class TestAGS4Methods(unittest.TestCase):
         ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
         xlsx_file_bytes  = export_xlsx(ags_file)
 
-    
+if __name__ == '__main__':
+    unittest.main()    

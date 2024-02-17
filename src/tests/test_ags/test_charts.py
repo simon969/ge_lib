@@ -42,3 +42,6 @@ class TestAGSChartsMethods(unittest.TestCase):
         df = get_data(fnames)
         if df:
             charts = get_data_chart (df,tables=None,table='ISPT')
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,12 +1,11 @@
 import os
-import platform
 import json
 import math
 import unittest
 
 from ge_lib.found.pyGround.GroundModel import GroundModel
 from ge_lib.found.pyGround.GroundStresses import GroundStresses
-from ge_lib.found.pyGround.GroundModelSupport import addStressesStrengthStiffness, addEffectiveStress, addEModulus
+from ge_lib.found.pyGround.GroundModelSupport import add_stresses_strength_stiffness
 from ge_lib.found.GroundProcess import process_request
 
 from .test_support import json_to_file, csv_to_file
@@ -92,7 +91,7 @@ class TestGroundMethods(unittest.TestCase):
         
         gm.collectStrataSet(['_default'])
         
-        gm21 = addStressesStrengthStiffness(gm)
+        gm21 = add_stresses_strength_stiffness(gm)
         
         gs = GroundStresses ("Groundmodel sampled from +102m to +42m in -0.5m steps", gm21, 102, 80, -0.5)
         json_stress = gs.getStressesJSON ();
@@ -158,4 +157,7 @@ def getGroundModel(id, format="obj"):
     if format == "dict":
         return gm.to_dict()
     return gm
-    
+
+
+if __name__ == '__main__':
+    unittest.main()    

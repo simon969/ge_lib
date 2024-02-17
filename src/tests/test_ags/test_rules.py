@@ -27,4 +27,7 @@ class TestAGSChartsMethods(unittest.TestCase):
 
         ags_file = os.path.join(data_folder,"D1043-21-23122021.ags")
 
-        qry_collection = rules_check (ags_file, "NEOM")   
+        qry_collection = rules_check (ags_file, "NEOM")  
+
+if __name__ == '__main__':
+    unittest.main()
