@@ -1,6 +1,6 @@
 
 from datetime import timedelta,datetime
-from .AGSQuery import ags_query_collection, ags_query
+from .ags_query import ags_query_collection, ags_query
 from .LOCA import *
 from .PROJ import *
 from .HORN import *

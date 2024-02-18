@@ -1,0 +1,29 @@
+site_name: GE_LIB
+
+
+plugins:
+  - search  
+# - gen-files:
+#      scripts:
+#      - scripts/gen_ref_pages.py
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+
+nav:
+  - Home: 'index.md'
+  - 'User Guide':
+    - 'Using the function library': 'setup.md'
+    - 'Contributing': 'contribute.md'
+  - 'Function Modules':
+    - 'AGS Processing': 'AGS.md'
+    - 'Plaxis Results Extraction': 'plaxis.md'
+    - 'Footing Resistances': 'footing.md'
+    - 'Seismic Motions': 'motions.md'
+    - 'Pile Resistances': 'piles.md'
+  - About:
+    - 'License': 'license.md'
+    - 'Release Notes': 'release-notes.md'
+  

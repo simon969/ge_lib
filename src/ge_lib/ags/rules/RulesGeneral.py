@@ -1,7 +1,7 @@
 
 import pandas as pd
 from datetime import timedelta,datetime
-from .AGSQuery import ags_query_collection, ags_query
+from .ags_query import ags_query_collection, ags_query
 import python_ags4 as AGS4
 
 from .LOCA import *

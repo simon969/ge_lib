@@ -1,4 +1,4 @@
-from .AGSQuery import ags_query
+from .ags_query import ags_query
 
 class PROJ001(ags_query):
     def __init__(self):

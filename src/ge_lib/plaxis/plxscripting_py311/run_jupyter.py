@@ -1,4 +1,4 @@
-"""
+'''
 Purpose: Intended for quickly starting Jupyter notebook
 Usages:
     python run_jupyter.py --appserveraddress=localhost --appserverport=10 --appserverpassword=123
@@ -21,7 +21,7 @@ LICENSOR HEREBY DISCLAIMS ALL SUCH WARRANTIES, INCLUDING WITHOUT
 LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the PPL for specific
 language governing rights and limitations under the PPL.
-"""
+'''
 
 import sys
 import os

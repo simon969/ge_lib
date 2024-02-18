@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import timedelta
-from .AGSQuery import ags_query
+from .ags_query import ags_query
 
 
 class TREG001(ags_query):

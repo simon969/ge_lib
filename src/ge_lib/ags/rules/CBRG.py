@@ -1,8 +1,17 @@
 import pandas as pd
 from datetime import timedelta
-from .AGSQuery import ags_query
+from .ags_query import ags_query
 
-
+class CBRG(ags_query):
+    def __init__(self):
+        super().__init__(id='CBRG001', 
+                         description="Is the CBRG group present and does is contain data",
+                         requirement = "optional",
+                         action = "Check that the CBRG group is present and that it contains data")
+    def run_query(self,  tables, headings):
+        CBRG = self.get_group(tables, "CBRG", True)
+        if (CBRG is not None):
+            self.check_row_count(CBRG,"CBRG","HEADING == 'DATA'",1,10000)
 class CBRG001(ags_query):
     def __init__(self):
         super().__init__(id='CBRG001', 

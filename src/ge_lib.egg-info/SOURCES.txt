@@ -17,7 +17,6 @@ src/ge_lib/ags/AGSProcessing.py
 src/ge_lib/ags/AGSRules.py
 src/ge_lib/ags/AGSWorkingGroup.py
 src/ge_lib/ags/__init__.py
-src/ge_lib/ags/rules/AGSQuery.py
 src/ge_lib/ags/rules/CBRG.py
 src/ge_lib/ags/rules/CBRT.py
 src/ge_lib/ags/rules/CDIA.py

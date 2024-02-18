@@ -4,7 +4,7 @@ from .AGSWorkingGroup import ags_to_dataframe
 from .rules.RulesLTC import RulesLTC
 from .rules.RulesNEOM import RulesNEOM 
 from .rules.RulesGeneral import RulesGeneral 
-from .rules.AGSQuery import ags_query_collection
+from .rules.ags_query import ags_query_collection
 
 title = "AECOM Ground Engineering"
 header = "AGS Value Rules"

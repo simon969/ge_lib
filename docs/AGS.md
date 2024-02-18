@@ -1,11 +1,6 @@
-### Installation
+## Welcome to AGS data file Processing
 ================
 
-```bash
-pip install ge_lib
-
-Installation requires Python 3.7 or later.
->>>
 
 ### Code Examples
 
@@ -27,7 +22,7 @@ avsb ;qklkldk qkd
 
 Create single group value tables geology grouped test value tables from AGS files:
 
-.. code-bloc:: python
+``` python
 #read AGS files into panda dataframws using python_AGS4
 tables, headings = AGS4.AGS4_to_dataframe('path/to/file.ags')
 
@@ -36,6 +31,9 @@ result = ge_lib.ags.get_tables(tables, headings, 'output.ags')
 ```
 
 ### Create charts from AGS files
+
+Create charts from tables geology grouped
+
 ``` python
 
 #read AGS files into panda dataframws using python_AGS4

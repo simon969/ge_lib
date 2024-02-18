@@ -1,0 +1,262 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ground_models": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "increment": {
+              "type": ["number","null"]
+            },
+            "set_names": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "strata": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "sets": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "cohesion": {
+                              "type": ["number","null"]
+                            },
+                            "cu_grad": {
+                              "type": ["number","null"]
+                            },
+                            "cu_top": {
+                              "type": ["number","null"]
+                            },
+                            "density_dry": {
+                              "type": ["number","null"]
+                            },
+                            "density_sat": {
+                              "type": ["number","null"]
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "level_base": {
+                              "type":  ["number","null"]
+                            },
+                            "level_top": {
+                              "type":  ["number","null"]
+                            },
+                            "phi_deg": {
+                              "type":  ["number","null"]
+                            },
+                            "set_name": {
+                              "type": ["string","null"]
+                            },
+                            "thickness": {
+                              "type":  ["number","null"]
+                            },
+                            "water_density": {
+                              "type":  ["number","null"]
+                            },
+                            "water_level": {
+                              "type":  ["number","null"]
+                            },
+                            "water_state": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "cohesion",
+                            "cu_grad",
+                            "cu_top",
+                            "density_dry",
+                            "density_sat",
+                            "description",
+                            "level_base",
+                            "level_top",
+                            "phi_deg",
+                            "set_name",
+                            "thickness",
+                            "water_density",
+                            "water_level",
+                            "water_state"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "sets"
+                  ]
+                }
+				]
+			},	
+            "surcharge": {
+              "type": ["number","null"]
+            },
+            "water_density": {
+              "type": ["number","null"]
+            }
+          },
+          "required": [
+            "description",
+            "increment",
+            "set_names",
+            "strata",
+            "strata_set",
+            "surcharge",
+            "water_density"
+          ]
+        }
+      ]
+    },
+    "footings": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "geoms": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "length": {
+                      "type": "number"
+                    },
+                    "breadth": {
+                      "type": "number"
+                    },
+                    "depth": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "description",
+                    "id",
+                    "length",
+                    "breadth",
+                    "depth"
+                  ]
+                }
+				]
+            },
+            "loadings": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "fx": {
+                      "type": "integer"
+                    },
+                    "fy": {
+                      "type": "integer"
+                    },
+                    "fz": {
+                      "type": "integer"
+                    },
+                    "mx": {
+                      "type": "integer"
+                    },
+                    "my": {
+                      "type": "integer"
+                    },
+                    "mz": {
+                      "type": "integer"
+                    },
+                    "state": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "description",
+                    "id",
+                    "fx",
+                    "fy",
+                    "fz",
+                    "mx",
+                    "my",
+                    "mz",
+                    "state"
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "type": "object",
+              "properties": {
+                "conc_density": {
+                  "type": "integer"
+                },
+                "methods": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "conc_density",
+                "methods"
+              ]
+            }
+          },
+          "required": [
+            "description",
+            "id",
+            "geoms",
+            "loadings",
+            "options"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "ground_models",
+    "footings"
+  ]
+}
