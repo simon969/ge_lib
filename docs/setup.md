@@ -6,15 +6,6 @@ To use the ground engineering python function library in your applications or to
 
 Got to https://python.org and download the python version you need. The current ge_lib requires Python 3.7 or later.
 
-**Install Git**
-
-Git is a repository that provides collaborative working environment with full version control
-```bash
-WINDOWS:  https://git-scm.com/download/win
-
-LINUX:  $ sudo apt-get install git
-```
-
 **Install Visual Code**
 
 Go to https://code.visualstudio.com/download to download Microsoft visual code
@@ -56,5 +47,21 @@ Please report any unusual behaviour or suspect results particularly give details
 It is only with this constant vigilance that we reduce and minimise error for all users. 
 To contributing to the function library you'll need the development (dev) branch
 
-The development (dev) branch is for downloading (pull requests). Amendments and additions are then submitted (merge requests).
+**Install Git**
+
+Git is a repository that provides collaborative working environment with full version control
+```bash
+WINDOWS:  https://git-scm.com/download/win
+
+LINUX:  $ sudo apt-get install git
+```
+
+**Download the library**
+
+The development (develop) branch is for downloading and working on. Amendments and additions are then submitted (merge requests).
 Periodically the development branch is merged back into the main branch as the next new version
+
+Clone the development branch
+```bash
+git clone --branch develop https://github.com/simon969/ge_lib.git
+```
