@@ -78,8 +78,8 @@ def get_ec7_pile_factors(pile):
             if (hasattr(pile,'code_factors')):
                 factors = get_factors(pile.code_factors) 
             else: 
-                if (hasattr(pile,'pile_type')):
-                    s = "r4_factors_{0}".format(pile.pile_type)
+                if (hasattr(pile,'type')):
+                    s = "r4_factors_{0}".format(pile.type)
                 if (hasattr(pile,'sls_check')):
                     if (str2bool(pile.sls_check)):
                         s += "_withSLScheck" 

@@ -26,7 +26,7 @@ LINUX: $ source .venv/bin/activate
 
 **Installing and using the ge_lib code library**
 
-Using the function library in your projects you'll need the main (default) branch, this is installed directly from github using
+Using the function library in your projects you'll need the main (default) branch, this is installed directly from github (need git) using
 
 ```bash
 pip install git+https://github.com/simon969/ge_lib.git 

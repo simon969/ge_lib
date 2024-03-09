@@ -17,13 +17,18 @@ class StandardCalcs(calc_collection):
         # self.append_calc(Ng_Chen())
         # self.append_calc(Nc_Prandtl())
 
-def min_width(pile):
+def min_width(pile, not_found=None):
         dia = pile.__dict__.get("diameter", None)
         breadth = pile.__dict__.get("breadth", None)
+        base = pile.__dict__.get("base", None)
         if dia is not None:
              return dia
         if breadth is not None:
              return breadth
+        if base is not None:
+             equiv_dia = math.pow(base * 4 / math.pi,0.5)
+             return equiv_dia
+        return not_found
 
 class SPTFactor (calc):
     def __init__(self):

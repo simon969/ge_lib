@@ -105,7 +105,7 @@ class PileSettlement:
     self.levels = list_attrib(pile_resistance,'level')
     self.qus = list_attrib(pile_resistance,'qus_comp')
     self.qub = list_attrib(pile_resistance,'qub')
-    self.disp_geotech = min_width(pile) * np.array(steps)
+    self.disp_geotech = min_width(pile, 0) * np.array(steps)
   
   def getSettlementProfiles(self):
     

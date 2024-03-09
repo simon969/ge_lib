@@ -3,8 +3,8 @@ import json
 import datetime
 import unittest
 
-from ge_lib.found.pyGround.GroundModel import GroundModel
-from ge_lib.found.pyFooting.FootingGeoms import footing_array, Footing
+from ge_lib.found.ground.GroundModel import GroundModel
+from ge_lib.found.footing.FootingGeoms import footing_array, Footing
 from ge_lib.found.FootingProcess import process_request
 from .test_ground import getGroundModel
 from .test_support import json_to_file, list_to_json, str_to_file
@@ -325,7 +325,7 @@ class TestFoootingMethods(unittest.TestCase):
 
         ret = process_request (json_str,"json")
 
-        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),ret)
+        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),str(ret))
 
     def test_process_request02(self):
         """
@@ -397,7 +397,7 @@ class TestFoootingMethods(unittest.TestCase):
 
         ret = process_request (json_str,"json")
 
-        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),ret)   
+        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),str(ret))   
     
     def test_process_request03 (self):
         """
@@ -462,7 +462,7 @@ class TestFoootingMethods(unittest.TestCase):
 
         ret = process_request (json_str,"json")
 
-        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),ret)
+        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),str(ret))
     def test_footing_from_file(self):
         """
         test description:

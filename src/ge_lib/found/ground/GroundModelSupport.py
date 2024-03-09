@@ -10,13 +10,13 @@ def add_stresses_strength_stiffness(gm:GroundModel, log_file=None):
     """
     Takes a groundmodel (gm) and returns a copy with TotalStress, PWP, EffectiveStress and Cu profiles added to the gm.strata_set array
 
-    Parameters
+    parameters
     ----------
     gm : Groundmodel
         Initialised ground model with stata_set populated, additional TotalStress, PWP, EffectiveStress and Cu profiles added
     log_file :  Logger file attached to the Groundmodel class to allow logging of errors and progress
     
-    Returns 
+    returns 
     ----------
     GroundModel gm
         returns a deepcopy of the original GroundModel with the following added to the gm.strata_set array profiles

@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ground_models": {
+      "type": "array",
+      "items": 
+        {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "increment": {
+              "type": ["number","null"]
+            },
+            "set_names": {
+              "type": "array",
+              "items": 
+                {
+                  "type": "string"
+                }
+            },
+            "strata": {
+              "type": "array",
+              "items": {"#ref":"urn:strata_props"}
+                  
+			      },	
+            "surcharge": {
+              "type": ["number","null"]
+            },
+            "water_density": {
+              "type": ["number","null"]
+            }
+          },
+          "required": [
+            "description",
+            "increment",
+            "set_names",
+            "strata",
+            "strata_set",
+            "surcharge",
+            "water_density"
+          ]
+        }
+    },
+    "pile_sets": {
+      "type": "array",
+      "items": 
+        {
+          "type": "object",
+          "properties": {
+          "description": {
+            "type": "string"
+            },
+          "piles": {
+            "type": "array",
+            "items": {"#ref":"urn:pile_props"}
+          },
+          "loadings": {
+            "type": "array",
+            "items": {"#ref":"urn:loading_props"}
+          },
+          "options": {
+            "type": "object",
+            "properties": {
+              "conc_density": {
+                "type": "number"
+              },
+              "methods": {
+                "type": "array",
+                "items": 
+                  {
+                    "type": "string"
+                  }
+              }
+            },
+            "required": [
+              "conc_density",
+              "methods"
+            ]
+          }
+        }
+      },
+      "required": [
+        "description",
+        "piles",
+        "loadings",
+        "options"
+      ]
+    }
+  },
+  "required": [
+    "ground_models",
+    "pile_sets"
+  ]
+}
