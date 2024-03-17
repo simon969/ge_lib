@@ -10,6 +10,13 @@ allowed_calc_methods = standard_calcs.to_id_list()
 
 default_options = {"conc_density":25.0
                   }
+default_pileset_properties = {
+                            "id":"001",
+                            "description":"default pileset",
+                            "piles":[],
+                            "loadings":[],
+                            "options":[]
+                            }
 
 default_pile_properties = {
                             "description":"default pile",
@@ -154,11 +161,11 @@ def pileset_array (data:list, is_checked=False):
         returns list of python PileSet objects
     """
     pilesets = []
-    for ps in data:
+    for idx, ps in enumerate(data):
         if is_checked:
             checked_data = ps
         else:
-            checked_data = check_pileset(ps)
+            checked_data = check_pileset(ps, idx)
         pileset = PileSet (data=checked_data, is_checked=True)
         pilesets.append(pileset)
     return pilesets
@@ -171,23 +178,21 @@ def pile_array (data:list, is_checked=False):
         returns list of python Pile objects
     """
     piles = []
-    for p in data:
+    for idx, p in enumerate(data):
         if is_checked:
             checked_data = p
         else:
-            checked_data = check_pile(p, idx=None)
+            checked_data = check_pile(p, idx=idx)
         pile = Pile (data=checked_data, is_checked=True)
         piles.append(pile)
     return piles
 
-def check_pileset(data:dict):
+def check_pileset(data:dict, idx):
     try:   
-        piles = data.get("piles",[])
-        chk_piles = []
-        for idx, pile in enumerate(piles):
-            chk_pile = check_pile(pile, idx)
-            chk_piles.append(chk_pile)
-        data['piles'] = chk_piles
+        if idx:
+            default_pileset_properties["id"] = "{:03d}".format(idx)
+        check_default_keys(data, default_pileset_properties)
+        data['piles'] = pile_array (data["piles"],False)
     except Exception as e:
                 message = {"error":e,
                         "status": 404}

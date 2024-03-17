@@ -273,7 +273,7 @@ class TestPileMethods(unittest.TestCase):
         csv_to_file (os.path.join(data_folder, 'res_stress.csv'), rows_stress)   
 
     def test_process_request(self):
-        request_dic = {"groundmodel":{
+        request_dic = {"ground_model":{
                     "description":"Ground Model from dict object",
                     "strata": [
                     {"set_name": "_default",  "description":"Made Ground", "level_top":100, "level_base":98, "density_dry":18, "density_sat":16, "water_level":101, "ko":0.5, "poisson_ratio":0.3, "cu_top":40, "cu_grad":0, "phi_deg":20, "cohesion":0},

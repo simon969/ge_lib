@@ -46,57 +46,6 @@ class PileResistance:
         self.qs = self.get_qs(self.levels, self.undrained_qs,self.drained_qs)
         self.qb = self.get_qb(self.levels, self.undrained_qb,self.drained_qb)
     
-
-        # if 'qs_cu_alpha' in pile.calc_methods:
-        #     res = {"method":'qs_cu_alpha',
-        #            "results": self.get_undrained_qs_cu_alpha(pile, gm, self.levels)}
-        #     self.undrained_qs.append(res)
-
-        # if 'qb_cu_nc' in self.pile.calc_methods:
-        #     res = {"method":'qb_cu_nc',
-        #            "results":self.get_undrained_qb_cu_nc(pile, gm, self.levels)}
-        #     self.undrained_qb.append(res)
-
-        # if 'qs_ks_tandelta_po' in pile.calc_methods:
-        #     res = {"method":'qs_ks_tandelta_po',
-        #            "results": self.get_drained_qs_ks_tandelta_po(pile, gm, self.levels)}
-        #     self.drained_qs.append (res) 
-        
-        # if 'qb_reissner_po' in pile.calc_methods:
-        #     res = {"method":'qb_reissner_po',
-        #            "results":self.get_drained_qb_reissner(pile, gm, self.levels)}
-        #     self.drained_qb.append (res)
-        
-        # if 'qb_nq_po' in pile.calc_methods:
-        #     res = {"method":'qb_nq_po',
-        #            "results":self.get_drained_qb_nq(pile, gm, self.levels)}
-        #     self.drained_qb.append (res) 
-        
-        # if 'qb_sptn' in pile.calc_methods:
-        #     res = {"method":'qb_sptn',
-        #            "results":self.get_drained_qb_sptn(pile, gm, self.levels)}
-        #     self.drained_qb.append (res) 
-                       
-       
-    # def get_undrained_qs_cu_alpha(self, pile:Pile, gm:GroundModel, levels:float):
-    #     res = [0.00] * levels.size
-    #     alpha = pile.alpha
-    #     for x in range(levels.size):
-    #         res[x] = gm.get_attr_value(levels[x],"Cu",0.0) * alpha 
-    #     return res
-    # def get_undrained_qb_cu_nc(self, pile:Pile, gm:GroundModel, levels:float):
-    #     res = [0.00] * levels.size
-    #     nc = pile.nc
-    #     for x in range(levels.size):
-    #         res[x] = gm.get_attr_value(levels[x],"Cu",0)  * nc
-    #     return res    
-    # def get_drained_qs_ks_tandelta_po(self, pile:Pile, gm:GroundModel, levels:float):
-    #     res = [0.00] * levels.size
-    #     ks = pile.ks
-    #     tan_delta =pile.tan_delta
-    #     for x in range(levels.size):
-    #         res[x] = gm.get_attr_value(levels[x],"EffectiveStress",0)  * ks * tan_delta 
-    #     return res    
     def get_drained_qb_sptn_factor(self, pile:Pile, gm, levels:float):
         res = [0.00] * levels.size
         spt_factor = pile.spt_factor
