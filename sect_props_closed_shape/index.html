@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Section Properties of Closed Shape - GE_LIB</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">GE_LIB</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Guide <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../setup/" class="dropdown-item">Using the function library</a>
+</li>
+                                    
+<li>
+    <a href="../contribute/" class="dropdown-item">Contributing</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Function Modules <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../AGS/" class="dropdown-item">AGS Processing</a>
+</li>
+                                    
+<li>
+    <a href="../plaxis/" class="dropdown-item">Plaxis Results Extraction</a>
+</li>
+                                    
+<li>
+    <a href="../footing/" class="dropdown-item">Footing Resistances</a>
+</li>
+                                    
+<li>
+    <a href="../motions/" class="dropdown-item">Seismic Motions</a>
+</li>
+                                    
+<li>
+    <a href="../piles/" class="dropdown-item">Pile Resistances</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../license/" class="dropdown-item">License</a>
+</li>
+                                    
+<li>
+    <a href="../release-notes/" class="dropdown-item">Release Notes</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#section-properties-of-closed-shape" class="nav-link">Section Properties of Closed Shape</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#example-rectangular-section" class="nav-link">Example Rectangular Section</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#comparison-with-section-properties-calculated-from-formulae-for-rectangular-section" class="nav-link">Comparison with section properties calculated from formulae for rectangular section</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#example-uc-section" class="nav-link">Example UC Section</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#comparison-with-published-section-properties" class="nav-link">Comparison with published section properties</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="section-properties-of-closed-shape">Section Properties of Closed Shape</h1>
+<p>Determine the section properties of closed shapes</p>
+<p>Supply coordinate pairs of a planar closed polygon and the section properties are calculated</p>
+<h2 id="example-rectangular-section">Example Rectangular Section</h2>
+<p>We provide the coordinates of a 1.2m deep by 0.6m wide rectangular section and use closed form solutions to compare the results</p>
+<pre><code class="language-python">from ge_lib.general.section_props.SectionProperties import SectionProperties 
+
+    data = {&quot;coords&quot;:[
+                [0,0],
+                [0,1.2],
+                [0.6,1.2],
+                [0.6,0],
+                [0,0]
+                ],
+                &quot;units&quot;:&quot;m&quot;
+                }
+    sp =  SectionProperties()
+    values, symbols, description, units = sp.calc_props(data)
+    result = { &quot;symbols&quot;:symbols,
+               &quot;description&quot;:description,
+               &quot;units&quot;: units,
+               &quot;values&quot;:values} 
+    print (result)
+</code></pre>
+<p>result:</p>
+<pre><code class="language-json">{
+    &quot;symbols&quot;: [
+        &quot;Area&quot;,
+        &quot;AX&quot;,
+        &quot;AY&quot;,
+        &quot;IX&quot;,
+        &quot;IY&quot;,
+        &quot;IXY&quot;,
+        &quot;Xc&quot;,
+        &quot;Yc&quot;,
+        &quot;IXC&quot;,
+        &quot;IYC&quot;,
+        &quot;IXYC&quot;,
+        &quot;IU&quot;,
+        &quot;IV&quot;,
+        &quot;Theta&quot;
+    ],
+    &quot;description&quot;: [
+        &quot;Section area&quot;,
+        &quot;First moment of area about the X axis&quot;,
+        &quot;First moment of area about the Y axis&quot;,
+        &quot;Second Moment of Area about the X axis&quot;,
+        &quot;Second Moment of Area about the Y axis&quot;,
+        &quot;Product of Inertia about origin&quot;,
+        &quot;Centroid X coordinate&quot;,
+        &quot;Centroid Y coordinate&quot;,
+        &quot;2nd Moment of Area about axis through the centroid parallel to X&quot;,
+        &quot;2nd Moment of Area about axis through the centroid parallel to Y&quot;,
+        &quot;Product of Inertia about centroid&quot;,
+        &quot;2nd moment of area about principal axis 1 through centroid&quot;,
+        &quot;2nd moment of area about principal axis 2 through centroid&quot;,
+        &quot;Angle of principal axes to X,Y axes&quot;
+    ],
+    &quot;units&quot;: [
+        &quot;m2&quot;,
+        &quot;m3&quot;,
+        &quot;m3&quot;,
+        &quot;m4&quot;,
+        &quot;m4&quot;,
+        &quot;m4&quot;,
+        &quot;m&quot;,
+        &quot;m&quot;,
+        &quot;m4&quot;,
+        &quot;m4&quot;,
+        &quot;m4&quot;,
+        &quot;m4&quot;,
+        &quot;m4&quot;,
+        &quot;degrees&quot;
+    ],
+    &quot;values&quot;: [
+        0.72,
+        0.432,
+        0.216,
+        0.34559999999999996,
+        0.08639999999999999,
+        0.12960000000000002,
+        0.3,
+        0.6,
+        0.08639999999999998,
+        0.021599999999999994,
+        2.7755575615628914e-17,
+        0.08639999999999998,
+        0.021599999999999994,
+        0
+    ]
+}
+</code></pre>
+<h2 id="comparison-with-section-properties-calculated-from-formulae-for-rectangular-section">Comparison with section properties calculated from formulae for rectangular section</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Units</th>
+<th>From formulae</th>
+<th>From function</th>
+<th>Error (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Area (AX)</td>
+<td>bd</td>
+<td>1.2*0.6 = 0.72</td>
+<td>0.72</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Second Moment of Area (IX)</td>
+<td>bd<sup>3</sup>/12</td>
+<td>0.6*1.2^3/12 = 0.864</td>
+<td>0.8639999</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Second Moment of Area (IY)</td>
+<td>db<sup>3</sup>/12</td>
+<td>1.2*0.6^3/12 = 0.0216</td>
+<td>0.2159999</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-uc-section">Example UC Section</h2>
+<p>We provide the coordinates of a structural a structural steel section in mm (356 x 406 x 634 x 633.9kg/m UC) and use the published geometry of to compare the results</p>
+<pre><code class="language-python">from ge_lib.general.section_props.SectionProperties import SectionProperties 
+
+ # 356 x 406 x 634 x 633.9kg/m UC
+    data = {&quot;name&quot;:&quot;356x406x634x633.9kg/m&quot;,
+            &quot;coords&quot;:[
+                        [0,0],
+                        [0,77],
+                        [188.2,77],
+                        [188.2,397.6],
+                        [0,397.6],
+                        [0,474.6],
+                        [424,474.6],
+                        [424,397.6],
+                        [235.8,397.6],
+                        [235.8,77],
+                        [424,77],
+                        [424,0],
+                        [0,0]],
+            &quot;units&quot;:&quot;mm&quot;}
+
+
+    sp =  SectionProperties()
+
+    values, symbols, description, units = sp.calc_props(data)
+    result = {&quot;symbols&quot;:symbols,
+                &quot;description&quot;:description,
+                &quot;units&quot;: units,
+                &quot;values&quot;:values} 
+    print (result)
+</code></pre>
+<p>result:</p>
+<pre><code class="language-json">{
+ &quot;symbols&quot;: [
+        &quot;Area&quot;,
+        &quot;AX&quot;,
+        &quot;AY&quot;,
+        &quot;IX&quot;,
+        &quot;IY&quot;,
+        &quot;IXY&quot;,
+        &quot;Xc&quot;,
+        &quot;Yc&quot;,
+        &quot;IXC&quot;,
+        &quot;IYC&quot;,
+        &quot;IXYC&quot;,
+        &quot;IU&quot;,
+        &quot;IV&quot;,
+        &quot;Theta&quot;
+    ],
+    &quot;description&quot;: [
+        &quot;Section area&quot;,
+        &quot;First moment of area about the X axis&quot;,
+        &quot;First moment of area about the Y axis&quot;,
+        &quot;Second Moment of Area about the X axis&quot;,
+        &quot;Second Moment of Area about the Y axis&quot;,
+        &quot;Product of Inertia about origin&quot;,
+        &quot;Centroid X coordinate&quot;,
+        &quot;Centroid Y coordinate&quot;,
+        &quot;2nd Moment of Area about axis through the centroid parallel to X&quot;,
+        &quot;2nd Moment of Area about axis through the centroid parallel to Y&quot;,
+        &quot;Product of Inertia about centroid&quot;,
+        &quot;2nd moment of area about principal axis 1 through centroid&quot;,
+        &quot;2nd moment of area about principal axis 2 through centroid&quot;,
+        &quot;Angle of principal axes to X,Y axes&quot;
+    ],
+    &quot;units&quot;: [
+        &quot;mm2&quot;,
+        &quot;mm3&quot;,
+        &quot;mm3&quot;,
+        &quot;mm4&quot;,
+        &quot;mm4&quot;,
+        &quot;mm4&quot;,
+        &quot;mm&quot;,
+        &quot;mm&quot;,
+        &quot;mm4&quot;,
+        &quot;mm4&quot;,
+        &quot;mm4&quot;,
+        &quot;mm4&quot;,
+        &quot;mm4&quot;,
+        &quot;degrees&quot;
+    ],
+    &quot;values&quot;: [
+        80556.56,
+        19116071.688000005,
+        17077990.720000003,
+        7279809664.205869,
+        4601636571.1754675,
+        4052607197.8560004,
+        212.00000000000003,
+        237.30000000000007,
+        2743565852.643466,
+        981102538.5354662,
+        -0.000001430511474609375,
+        2743565852.643466,
+        981102538.5354662,
+        -4.6504383599970096e-14
+    ]
+}
+
+</code></pre>
+<h2 id="comparison-with-published-section-properties">Comparison with published section properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Units</th>
+<th>Published</th>
+<th>Calculated</th>
+<th>Error (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Area (AX)</td>
+<td>mm2</td>
+<td>80800</td>
+<td>80557</td>
+<td>-0.301</td>
+</tr>
+<tr>
+<td>Second Moment of Area (IX)</td>
+<td>mm4</td>
+<td>2748000000</td>
+<td>2743565853</td>
+<td>-0.161</td>
+</tr>
+<tr>
+<td>Second Moment of Area (IY)</td>
+<td>mm4</td>
+<td>981300000</td>
+<td>981102539</td>
+<td>-0.020</td>
+</tr>
+</tbody>
+</table></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -359,58 +359,7 @@
 <span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PileResistance</span><span class="p">:</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PileResistance</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="p">,</span> <span class="n">pile</span><span class="p">:</span><span class="n">Pile</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">level_top</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">level_base</span><span class="p">:</span><span class="nb">float</span> <span class="p">,</span> <span class="n">increment</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
@@ -444,57 +393,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_qs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">undrained_qs</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">drained_qs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_qb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">undrained_qb</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">drained_qb</span><span class="p">)</span>
 
-
-        <span class="c1"># if &#39;qs_cu_alpha&#39; in pile.calc_methods:</span>
-        <span class="c1">#     res = {&quot;method&quot;:&#39;qs_cu_alpha&#39;,</span>
-        <span class="c1">#            &quot;results&quot;: self.get_undrained_qs_cu_alpha(pile, gm, self.levels)}</span>
-        <span class="c1">#     self.undrained_qs.append(res)</span>
-
-        <span class="c1"># if &#39;qb_cu_nc&#39; in self.pile.calc_methods:</span>
-        <span class="c1">#     res = {&quot;method&quot;:&#39;qb_cu_nc&#39;,</span>
-        <span class="c1">#            &quot;results&quot;:self.get_undrained_qb_cu_nc(pile, gm, self.levels)}</span>
-        <span class="c1">#     self.undrained_qb.append(res)</span>
-
-        <span class="c1"># if &#39;qs_ks_tandelta_po&#39; in pile.calc_methods:</span>
-        <span class="c1">#     res = {&quot;method&quot;:&#39;qs_ks_tandelta_po&#39;,</span>
-        <span class="c1">#            &quot;results&quot;: self.get_drained_qs_ks_tandelta_po(pile, gm, self.levels)}</span>
-        <span class="c1">#     self.drained_qs.append (res) </span>
-
-        <span class="c1"># if &#39;qb_reissner_po&#39; in pile.calc_methods:</span>
-        <span class="c1">#     res = {&quot;method&quot;:&#39;qb_reissner_po&#39;,</span>
-        <span class="c1">#            &quot;results&quot;:self.get_drained_qb_reissner(pile, gm, self.levels)}</span>
-        <span class="c1">#     self.drained_qb.append (res)</span>
-
-        <span class="c1"># if &#39;qb_nq_po&#39; in pile.calc_methods:</span>
-        <span class="c1">#     res = {&quot;method&quot;:&#39;qb_nq_po&#39;,</span>
-        <span class="c1">#            &quot;results&quot;:self.get_drained_qb_nq(pile, gm, self.levels)}</span>
-        <span class="c1">#     self.drained_qb.append (res) </span>
-
-        <span class="c1"># if &#39;qb_sptn&#39; in pile.calc_methods:</span>
-        <span class="c1">#     res = {&quot;method&quot;:&#39;qb_sptn&#39;,</span>
-        <span class="c1">#            &quot;results&quot;:self.get_drained_qb_sptn(pile, gm, self.levels)}</span>
-        <span class="c1">#     self.drained_qb.append (res) </span>
-
-
-    <span class="c1"># def get_undrained_qs_cu_alpha(self, pile:Pile, gm:GroundModel, levels:float):</span>
-    <span class="c1">#     res = [0.00] * levels.size</span>
-    <span class="c1">#     alpha = pile.alpha</span>
-    <span class="c1">#     for x in range(levels.size):</span>
-    <span class="c1">#         res[x] = gm.get_attr_value(levels[x],&quot;Cu&quot;,0.0) * alpha </span>
-    <span class="c1">#     return res</span>
-    <span class="c1"># def get_undrained_qb_cu_nc(self, pile:Pile, gm:GroundModel, levels:float):</span>
-    <span class="c1">#     res = [0.00] * levels.size</span>
-    <span class="c1">#     nc = pile.nc</span>
-    <span class="c1">#     for x in range(levels.size):</span>
-    <span class="c1">#         res[x] = gm.get_attr_value(levels[x],&quot;Cu&quot;,0)  * nc</span>
-    <span class="c1">#     return res    </span>
-    <span class="c1"># def get_drained_qs_ks_tandelta_po(self, pile:Pile, gm:GroundModel, levels:float):</span>
-    <span class="c1">#     res = [0.00] * levels.size</span>
-    <span class="c1">#     ks = pile.ks</span>
-    <span class="c1">#     tan_delta =pile.tan_delta</span>
-    <span class="c1">#     for x in range(levels.size):</span>
-    <span class="c1">#         res[x] = gm.get_attr_value(levels[x],&quot;EffectiveStress&quot;,0)  * ks * tan_delta </span>
-    <span class="c1">#     return res    </span>
     <span class="k">def</span> <span class="nf">get_drained_qb_sptn_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pile</span><span class="p">:</span><span class="n">Pile</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">levels</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.00</span><span class="p">]</span> <span class="o">*</span> <span class="n">levels</span><span class="o">.</span><span class="n">size</span>
         <span class="n">spt_factor</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">spt_factor</span>
