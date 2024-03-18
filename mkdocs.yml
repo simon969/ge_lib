@@ -18,11 +18,14 @@ nav:
     - 'Using the function library': 'setup.md'
     - 'Contributing': 'contribute.md'
   - 'Function Modules':
-    - 'AGS Processing': 'AGS.md'
-    - 'Plaxis Results Extraction': 'plaxis.md'
+    - 'AGS Processing': 'AGS.md' 
     - 'Footing Resistances': 'footing.md'
-    - 'Seismic Motions': 'motions.md'
+    - 'Groundwater': 'groundwater.md'
     - 'Pile Resistances': 'piles.md'
+    - 'Plaxis Results Extraction': 'plaxis.md'
+    - 'Seismic Motions': 'motions.md'
+    - 'Section Properties': 'sect_props_closed_shape.md'
+
   - About:
     - 'License': 'license.md'
     - 'Release Notes': 'release-notes.md'
