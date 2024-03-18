@@ -1,2 +1,0 @@
-class genericobject:
-    pass
