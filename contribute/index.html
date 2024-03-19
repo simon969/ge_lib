@@ -56,11 +56,19 @@
 </li>
                                     
 <li>
-    <a href="../plaxis/" class="dropdown-item">Plaxis Results Extraction</a>
+    <a href="../footing/" class="dropdown-item">Footing Resistances</a>
 </li>
                                     
 <li>
-    <a href="../footing/" class="dropdown-item">Footing Resistances</a>
+    <a href="../groundwater/" class="dropdown-item">Groundwater</a>
+</li>
+                                    
+<li>
+    <a href="../piles/" class="dropdown-item">Pile Resistances</a>
+</li>
+                                    
+<li>
+    <a href="../plaxis/" class="dropdown-item">Plaxis Results Extraction</a>
 </li>
                                     
 <li>
@@ -68,7 +76,7 @@
 </li>
                                     
 <li>
-    <a href="../piles/" class="dropdown-item">Pile Resistances</a>
+    <a href="../sect_props_closed_shape/" class="dropdown-item">Section Properties</a>
 </li>
                                 </ul>
                             </li>
@@ -139,6 +147,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#re-build-and-push-back-to-repository-branch" class="nav-link">Re-build and push back to repository branch</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -200,7 +212,24 @@ The comments in your code will automatically generate markup files, see <a href=
 </ul>
 <h2 id="create-unit_tests">Create unit_tests</h2>
 <p>Create unit tests in a new folder in <code>src\tests</code> that confirm that your functions are producing the correct results. Test input data and output results for your module should be saved in <code>src\tests\[my_module]\data</code> folder</p>
-<p>These tests are run across the whole library and a report is produced to confirm that it complies with QA/QC.  </p></div>
+<p>These tests are run across the whole library and a report is produced to confirm that it complies with QA/QC.  </p>
+<h2 id="re-build-and-push-back-to-repository-branch">Re-build and push back to repository branch</h2>
+<p>Step 1 Run tests and check that all are successful</p>
+<p>Step 2 Re-build python library package</p>
+<pre><code class="language-bash">    &gt; python -m build
+</code></pre>
+<p>Step 2 Re-build mkdoc documentation 
+Update documentation and add any new sections to mkdocs.yml</p>
+<pre><code class="language-bash">    &gt; mkdocs build
+</code></pre>
+<p>Step 3 Push updates to develop branch of repository</p>
+<pre><code class="language-bash">    &gt;git add .
+    &gt;git commit -m 'update details'
+    &gt;git push -u origin develop
+</code></pre>
+<p>Step 4 Re-deploy mkdocs</p>
+<pre><code class="language-bash">    &gt;mkdocs gh-deploy -b develop
+</code></pre></div>
             </div>
         </div>
 
