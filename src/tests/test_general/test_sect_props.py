@@ -2,6 +2,7 @@ import os
 import unittest
 import json
 from ge_lib.general.section_props.SectionProperties import SectionProperties 
+from ge_lib.general.SectionPropertiesProcess import process_request
 
 data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),"data","section_properties")
 
@@ -137,6 +138,48 @@ class TestSectionPropMethods(unittest.TestCase):
         fout = os.path.join(data_folder,"isection.json")
         json_to_file(fout, result)
         print (result)
+    def test_process_request(self):
+        # 356 x 406 x 634 x 633.9kg/m UC
+        isection = {"name":"356x406x634x633.9kg/m",
+                    "coords":[
+                            [0,0],
+                            [0,77],
+                            [188.2,77],
+                            [188.2,397.6],
+                            [0,397.6],
+                            [0,474.6],
+                            [424,474.6],
+                            [424,397.6],
+                            [235.8,397.6],
+                            [235.8,77],
+                            [424,77],
+                            [424,0],
+                            [0,0]],
+                "units":"mm"}
+        rectangular = {"name":"Rectangular Section 1.2m x 0.6m",
+                "coords":[
+                [0,0],
+                [0,1.2],
+                [0.6,1.2],
+                [0.6,0],
+                [0,0]
+                ],
+                "units":"m"
+                }
+        # test single cross-section dict object
+        resp_single = process_request (isection,"json")
+
+        # test an array of cross-sections dict objects
+        data_arr = []
+        data_arr.append (isection)
+        data_arr.append (rectangular)
+        resp_array = process_request (data_arr,"json")
+
+        # test json array string
+        s1 = json.dumps(data_arr)
+        resp_array2 = process_request (s1,"json")
+        
+        self.assertEqual(resp_array, resp_array2)
 
 def json_to_file(fname, data):
     

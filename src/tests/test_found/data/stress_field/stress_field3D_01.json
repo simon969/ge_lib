@@ -1,0 +1,65 @@
+{
+    "loadings3D": [{
+                    "points":[{
+                            "x":20.0,
+                            "y":20.0,
+                            "z":1,
+                            "p":100
+                            },{
+                            "x":4.0,
+                            "y":4.0,
+                            "z":1,
+                            "p":200
+                            }],
+                    "rectangles":[{
+                            "x":50,
+                            "y":50,
+                            "z":1,
+                            "x_width":10,
+                            "y_width":10,
+                            "q":25
+                            },{
+                            "x":50,
+                            "y":50,
+                            "z":1,
+                            "x_width":10,
+                            "y_width":10,
+                            "q":25
+                             }],
+                    "circles":[{
+                            "x":75,
+                            "y":50,
+                            "z":1,
+                            "radius": 2,
+                            "q":50
+                            },{
+                            "x":50,
+                            "y":75,
+                            "z":1,
+                            "radius": 2,
+                            "q":100 
+                            }]
+                    }],
+     "stressfields3D": [{ 
+                        "x_start":0.0,
+                        "x_stop":100.0,
+                        "x_step":10.0,
+                        "y_start":0.0,
+                        "y_stop":100,
+                        "y_step":10.0,
+                        "z_start":0,
+                        "z_stop":-100.0,
+                        "z_step":-10.0
+                        },{ 
+                        "x_start":25.0,
+                        "x_stop":75.0,
+                        "x_step":5.0,
+                        "y_start":25.0,
+                        "y_stop":75.0,
+                        "y_step":5.0,
+                        "z_start":0,
+                        "z_stop":-50.0,
+                        "z_step":-5.0
+                        }]
+
+}

@@ -76,6 +76,7 @@ src/ge_lib/found/FootingProcess.py
 src/ge_lib/found/GroundProcess.py
 src/ge_lib/found/Module1.py
 src/ge_lib/found/PileProcess.py
+src/ge_lib/found/StressFieldProcess.py
 src/ge_lib/found/__init__.py
 src/ge_lib/found/consolidation/__init__.py
 src/ge_lib/found/footing/EC7PartialFactors.py
@@ -104,6 +105,11 @@ src/ge_lib/found/pile/Support.py
 src/ge_lib/found/pile/__init__.py
 src/ge_lib/found/schemas/Schemas.py
 src/ge_lib/found/schemas/__init__.py
+src/ge_lib/found/stress_field/Boussinesq.py
+src/ge_lib/found/stress_field/HalfSpace2D.py
+src/ge_lib/found/stress_field/HalfSpace3D.py
+src/ge_lib/found/stress_field/Westergaard.py
+src/ge_lib/found/stress_field/__init__.py
 src/ge_lib/general/__init__.py
 src/ge_lib/general/functions.py
 src/ge_lib/general/section_props/SectionProperties.py
