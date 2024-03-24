@@ -13,3 +13,4 @@ chardet
 matplotlib
 urllib3
 requests
+jsonschema

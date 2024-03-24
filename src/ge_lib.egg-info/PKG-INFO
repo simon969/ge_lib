@@ -27,6 +27,7 @@ Requires-Dist: chardet
 Requires-Dist: matplotlib
 Requires-Dist: urllib3
 Requires-Dist: requests
+Requires-Dist: jsonschema
 
 # ge_lib
 Ground Engineering common function library
