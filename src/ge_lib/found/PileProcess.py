@@ -37,11 +37,14 @@ def process_request(data, format_return) :
         
         validator = jsonschema.Draft7Validator(pile_schema, registry = registry)
         errors = validator.iter_errors(dic)  # get all validation errors
+        error_msgs = []
         
         for error in errors:
-            print (error)
-            print('------')
+            error_msgs.append(error.message)
 
+        if len(error_msgs) > 0:
+            raise ValueError (",".join(error_msgs)) 
+        
         # ensure gm_data is an array with ids
         gm_data = []
         if 'ground_models' in dic.keys():
