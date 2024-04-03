@@ -16,7 +16,8 @@ from .test_support import json_to_file, csv_to_file
 
 
 data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),"data","pile")
-    
+
+
 
 def _model101():
     '''
@@ -388,6 +389,13 @@ class TestPileMethods(unittest.TestCase):
         ret = process_request (json_str,"json")
         json_to_file (os.path.join(data_folder, "ret_data_106.json"),ret)
     
+    def test_process_request203(self):
+        json_data = "pile_model203.json"
 
+        with open(os.path.join(data_folder, json_data)) as json_file:
+            json_str =  json_file.read()
+            ret = process_request (json_str,"json")
+            json_to_file (os.path.join(data_folder, "ret_data_203.json"),ret)
+    
 if __name__ == '__main__':
     unittest.main()
