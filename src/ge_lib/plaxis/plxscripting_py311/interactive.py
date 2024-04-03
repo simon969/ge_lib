@@ -1,4 +1,4 @@
-"""
+'''
 Purpose: Intended for quickly starting an interactive Python session
     with import of the scripting wrapper. Usage:
 
@@ -23,7 +23,8 @@ LICENSOR HEREBY DISCLAIMS ALL SUCH WARRANTIES, INCLUDING WITHOUT
 LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the PPL for specific
 language governing rights and limitations under the PPL.
-"""
+'''
+
 
 
 import os.path

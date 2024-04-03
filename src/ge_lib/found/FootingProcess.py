@@ -1,12 +1,18 @@
 import json
+import os
+import jsonschema
 
-from .pyGround.GroundModel import GroundModel, ground_model_array
-from .pyGround.GroundStresses import GroundStresses
-from .pyGround.GroundStiffnesses import GroundStiffness
-from .pyGround.GroundModelSupport import add_stresses_strength_stiffness
-from .pyFooting.FootingGeoms import footing_array, INCREMENT_DEFAULT, default_options
-from .pyFooting.EC7PartialFactors import m1_factors, m2_factors, states
-from .pyFooting.FootingCalcs import effective_footings, footing_resistance
+from .ground.GroundModel import GroundModel, ground_model_array
+from .ground.GroundStresses import GroundStresses
+from .ground.GroundStiffnesses import GroundStiffness
+from .ground.GroundModelSupport import add_stresses_strength_stiffness
+from .footing.FootingGeoms import footing_array, INCREMENT_DEFAULT, default_options
+from .footing.EC7PartialFactors import m1_factors, m2_factors, states
+from .footing.FootingCalcs import effective_footings, footing_resistance
+from .schemas.Schemas import get_schema, registry
+
+footing_schema = get_schema('footings_v4.json')
+
 
 def process_request(data, format_return) :
     """
@@ -23,12 +29,31 @@ def process_request(data, format_return) :
             dic = data
         else :
             dic = json.loads(data)
-
-        gm_data = dic["ground_models"]
-        footing_data = dic["footings"]
-    
+         
+        validator = jsonschema.Draft7Validator(footing_schema, registry = registry)
+        errors = validator.iter_errors(dic)  # get all validation errors
+        for error in errors:
+            print (error)
+            print('------')
+        
+        # ensure gm_data is an array 
+        gm_data = []
+        if 'ground_models' in dic.keys():
+            gm_data = dic["ground_models"]
+        if 'ground_model' in dic.keys():
+            gm_data = [dic["ground_model"]]
+        
+        # ensure footing_data is an array
+        footing_data = []
+        if 'footings' in dic.keys():    
+            footing_data = dic["footings"]
+        if 'footing' in dic.keys():
+            footing_data = [dic["footing"]]
+        
     except Exception as e:
-        msg  = {"error": str(e),
+        msg  = {"data": data,
+                "results":{},
+                "errors": str(e),
                 "status" : 400}
         return msg
     

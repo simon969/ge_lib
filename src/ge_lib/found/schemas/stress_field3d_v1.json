@@ -1,0 +1,160 @@
+{
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Generated schema for Root",
+        "type": "object",
+        "properties": {
+          "loadings3D": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "points": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      },
+                      "p": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z",
+                      "p"
+                    ]
+                  }
+                },
+                "rectangles": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      },
+                      "x_width": {
+                        "type": "number"
+                      },
+                      "y_width": {
+                        "type": "number"
+                      },
+                      "q": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z",
+                      "x_width",
+                      "y_width",
+                      "q"
+                    ]
+                  }
+                },
+                "circles": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      },
+                      "radius": {
+                        "type": "number"
+                      },
+                      "q": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "z",
+                      "radius",
+                      "q"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "points",
+                "rectangles",
+                "circles"
+              ]
+            }
+          },
+          "stressfields3D": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x_start": {
+                  "type": "number"
+                },
+                "x_stop": {
+                  "type": "number"
+                },
+                "x_step": {
+                  "type": "number"
+                },
+                "y_start": {
+                  "type": "number"
+                },
+                "y_stop": {
+                  "type": "number"
+                },
+                "y_step": {
+                  "type": "number"
+                },
+                "z_start": {
+                  "type": "number"
+                },
+                "z_stop": {
+                  "type": "number"
+                },
+                "z_step": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x_start",
+                "x_stop",
+                "x_step",
+                "y_start",
+                "y_stop",
+                "y_step",
+                "z_start",
+                "z_stop",
+                "z_step"
+              ]
+            }
+          }
+        },
+        "required": [
+          "loadings3D",
+          "stressfields3D"
+        ]
+      }

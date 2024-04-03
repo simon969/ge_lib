@@ -3,9 +3,9 @@ import json
 import math
 import unittest
 
-from ge_lib.found.pyGround.GroundModel import GroundModel
-from ge_lib.found.pyGround.GroundStresses import GroundStresses
-from ge_lib.found.pyGround.GroundModelSupport import add_stresses_strength_stiffness
+from ge_lib.found.ground.GroundModel import GroundModel
+from ge_lib.found.ground.GroundStresses import GroundStresses
+from ge_lib.found.ground.GroundModelSupport import add_stresses_strength_stiffness
 from ge_lib.found.GroundProcess import process_request
 
 from .test_support import json_to_file, csv_to_file

@@ -61,3 +61,35 @@ Run the  MkDocs server to view your documentation files along with all others
 Create unit tests in a new folder in `src\tests` that confirm that your functions are producing the correct results. Test input data and output results for your module should be saved in `src\tests\[my_module]\data` folder
 
 These tests are run across the whole library and a report is produced to confirm that it complies with QA/QC.  
+
+
+## Re-build and push back to repository branch
+Step 1 Run tests and check that all are successful
+
+
+Step 2 Re-build python library package
+
+```bash
+    > python -m build
+```
+
+Step 2 Re-build mkdoc documentation 
+Update documentation and add any new sections to mkdocs.yml
+
+```bash
+    > mkdocs build
+```
+
+Step 3 Push updates to develop branch of repository
+
+```bash
+    >git add .
+    >git commit -m 'update details'
+    >git push -u origin develop
+```
+
+Step 4 Re-deploy mkdocs
+
+```bash
+    >mkdocs gh-deploy -b develop
+```
