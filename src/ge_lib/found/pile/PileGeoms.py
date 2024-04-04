@@ -15,7 +15,7 @@ default_pileset_properties = {
                             "description":"default pileset",
                             "piles":[],
                             "loadings":[],
-                            "options":[]
+                            "options":{}
                             }
 
 default_pile_properties = {

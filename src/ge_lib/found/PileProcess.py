@@ -71,8 +71,8 @@ def process_request(data, format_return) :
     ground_results = []
     ground_stress = []
     ground_stiffness = []
-    pile_resist = []
-    pile_settle = []
+    ground_pile_resist = []
+    ground_pile_settle = []
 
     for gm in ground_models:
 
@@ -85,19 +85,20 @@ def process_request(data, format_return) :
         
         gstress = GroundStresses (description, gm_pile, max_level, min_level, gm_increment)
         gstress_res = gstress.getStressesJSON()
-        # gstress_json = "{{\"description\":\"{0}\",\"results\":[{1}]}}".format(gm.description, ",".join(gs_res)) 
         gstress_json = "{{\"ground_model\":\"{0}\",\"results\":[{1}]}}".format(gm.description + "("+ gm.id + ")", ",".join(gstress_res)) 
         ground_stress.append (gstress_json)
         
         gstiff = GroundStiffness (description, gm_pile, max_level, min_level, gm_increment)
         gstiff_res = gstiff.getStiffnessJSON()
-        # gstiff_json = "{{\"description\":\"{0}\",\"results\":[{1}]}}".format(gm.description, ",".join(gstiff_res))
         gstiff_json = "{{\"ground_model\":\"{0}\",\"results\":[{1}]}}".format(gm.description + "("+ gm.id + ")", ",".join(gstiff_res)) 
         ground_stiffness.append(gstiff_json)
 
         ground_json = "{{\"ground_model\":\"{0}\",\"ground_stiffness\":[{1}],\"ground_stiffness\":[{2}]}}".format(gm.description + "("+ gm.id + ")",",".join(gstress_res),",".join(gstiff_res))
         ground_results.append(ground_json)
-
+        
+        pile_resist = []
+        pile_settle = []
+        
         for pile_set in pile_sets:
            
             for pile in pile_set.piles: 
@@ -110,40 +111,31 @@ def process_request(data, format_return) :
                 if pile_factors is None:
                     pile_factors = unity_factors
                 res = pr.getResistancesJSON(pile_factors)
-                # result = "{{\"description\":\"{0}\",\"results\":[{1}]}}".format(pile.description, ",".join(res))
-                result = "{{\"ground_model\":\"{0}\",\"pile_set\":\"{1}\",\"pile\":\"{2}\",\"results\":[{3}]}}".format(gm.description + "(" + gm.id +")", pile_set.description + "(" + pile_set.id + ")", pile.description + "(" + pile.id + ")", ",".join(res))
+                pf_json = json.dumps(pile_factors)
+                result = "{{\"ground_model\":\"{0}\",\"pile_set\":\"{1}\",\"pile\":\"{2}\",\"factors\":{3},\"results\":[{4}]}}".format(gm.description + "(" + gm.id +")", pile_set.description + "(" + pile_set.id + ")", pile.description + "(" + pile.id + ")", pf_json, ",".join(res))
                 pile_resist.append (result)
 
                 res_sls = pr.getResistances(unity_factors)
 
                 ps = PileSettlement(description, pile, gm_pile, res_sls, steps=STANDARD_STEPS)
-                set = ps.getSettlementProfilesJSON()
-                # result = "{{\"description\":\"{0}\",\"results\":[{1}]}}".format(pile.description, ",".join(set))
+                res = ps.getSettlementProfilesJSON()
                 result = "{{\"ground_model\":\"{0}\",\"pile_set\":\"{1}\",\"pile\":\"{2}\",\"results\":[{3}]}}".format(gm.description + "(" + gm.id +")", pile_set.description + "(" + pile_set.id + ")", pile.description + "(" + pile.id + ")", ",".join(res))
                 pile_settle.append(result)
-                
-                # pile_resist_json = "{{[{0}]}}".format(",".join(pile_resist))
-                # pile_settle_json = "{{[{0}]}}".format(",".join(pile_settle))
-                # data_ret = {
-                #             "pile_resistance": pile_resist_json,
-                #             "pile_settlements": pile_settle_json,
-                #             }
-        # if format_return == "json":
-        #     data_json = json.dumps(data_ret)
-        #     # all_json =  data_json[0:-1] + ",\"ground_stresses\":{0},\"ground_stiffness\":{1},\"pile_resistances\":{2},\"pile_settlements\":{3}}}".format(gs_json, gstiff_json, pile_resist_json, pile_settle_json)
-        #     pile_results.append(data_json)
-        # else: 
-        #     data_ret["pile_resistances"] = json.loads(pile_resist_json)
-        #     data_ret["pile_settlements"] = json.loads(pile_settle_json)
-        #     pile_results.append(data_ret)
-   
-   
-    results = { 
-                "ground_stress": ground_stress,
-                "ground_stiffness": ground_stiffness,                   
-                "pile_settle": pile_settle,
-                "pile_resist": pile_resist
-            }
+        
+        pile_resist_json = "[{0}]".format(",".join(pile_resist))
+        pile_settle_json = "[{0}]".format(",".join(pile_settle))
+    
+        ground_pile_resist.append(pile_resist_json)      
+        ground_pile_settle.append(pile_settle_json)
 
-    return results
+    
+    ground_stress_json = "[{0}]".format(",".join(ground_stress))
+    ground_stiffness_json = "[{0}]".format(",".join(ground_stiffness))
+    ground_pile_resist_json = "[{0}]".format(",".join(ground_pile_resist))
+    ground_pile_settle_json = "[{0}]".format(",".join(ground_pile_settle))
+
+    all_json =  "{{\"ground_stresses\":{0},\"ground_stiffness\":{1},\"pile_resistances\":{2},\"pile_settlements\":{3}}}".format(ground_stress_json, ground_stiffness_json,ground_pile_resist_json, ground_pile_settle_json)
+    
+    return all_json
+
 

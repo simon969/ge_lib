@@ -36,9 +36,7 @@
           "required": [
             "description",
             "increment",
-            "set_names",
             "strata",
-            "strata_set",
             "surcharge",
             "water_density"
           ]
