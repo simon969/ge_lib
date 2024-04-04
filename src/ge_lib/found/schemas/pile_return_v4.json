@@ -1,0 +1,278 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "return json structure for pile request",
+  "type": "object",
+  "properties": {
+    "ground_stresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ground_model": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "level": {
+                  "type": "number"
+                },
+                "strata": {
+                  "type": "string"
+                },
+                "total": {
+                  "type": "number"
+                },
+                "pwp": {
+                  "type": "number"
+                },
+                "effective": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "level",
+                "strata",
+                "total",
+                "pwp",
+                "effective"
+              ]
+            }
+          }
+        },
+        "required": [
+          "ground_model",
+          "results"
+        ]
+      }
+    },
+    "ground_stiffness": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ground_model": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "level": {
+                  "type": "number"
+                },
+                "strata": {
+                  "type": "string"
+                },
+                "eu_modulus": {
+                  "type": "number"
+                },
+                "ed_modulus": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "level",
+                "strata",
+                "eu_modulus",
+                "ed_modulus"
+              ]
+            }
+          }
+        },
+        "required": [
+          "ground_model",
+          "results"
+        ]
+      }
+    },
+    "pile_resistances": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ground_model": {
+              "type": "string"
+            },
+            "pile_set": {
+              "type": "string"
+            },
+            "pile": {
+              "type": "string"
+            },
+            "factors": {
+              "type": "object",
+              "properties": {
+                "shaft_comp": {
+                  "type": "number"
+                },
+                "base": {
+                  "type": "number"
+                },
+                "total": {
+                  "type": "number"
+                },
+                "shaft_tens": {
+                  "type": "number"
+                },
+                "model": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "shaft_comp",
+                "base",
+                "total",
+                "shaft_tens",
+                "model"
+              ]
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "type": "number"
+                  },
+                  "qs": {
+                    "type": "number"
+                  },
+                  "qb": {
+                    "type": "number"
+                  },
+                  "qus_comp": {
+                    "type": "number"
+                  },
+                  "qub": {
+                    "type": "number"
+                  },
+                  "qus_tens": {
+                    "type": "number"
+                  },
+                  "qutot": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "level",
+                  "qs",
+                  "qb",
+                  "qus_comp",
+                  "qub",
+                  "qus_tens",
+                  "qutot"
+                ]
+              }
+            }
+          },
+          "required": [
+            "ground_model",
+            "pile_set",
+            "pile",
+            "factors",
+            "results"
+          ]
+        }
+      }
+    },
+    "pile_settlements": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ground_model": {
+              "type": "string"
+            },
+            "pile_set": {
+              "type": "string"
+            },
+            "pile": {
+              "type": "string"
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "string"
+                  },
+                  "results": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "disp_geo": {
+                          "type": "number"
+                        },
+                        "load_shaft_mob": {
+                          "type": "number"
+                        },
+                        "load_base_mob": {
+                          "type": "number"
+                        },
+                        "load_total_mob": {
+                          "type": "number"
+                        },
+                        "disp_elastic_no_slip": {
+                          "type": "number"
+                        },
+                        "disp_elastic_full_slip": {
+                          "type": "number"
+                        },
+                        "disp_elastic": {
+                          "type": "number"
+                        },
+                        "disp_total": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "disp_geo",
+                        "load_shaft_mob",
+                        "load_base_mob",
+                        "load_total_mob",
+                        "disp_elastic_no_slip",
+                        "disp_elastic_full_slip",
+                        "disp_elastic",
+                        "disp_total"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "data",
+                  "results"
+                ]
+              }
+            }
+          },
+          "required": [
+            "ground_model",
+            "pile_set",
+            "pile",
+            "results"
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "ground_stresses",
+    "ground_stiffness",
+    "pile_resistances",
+    "pile_settlements"
+  ]
+}
