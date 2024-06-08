@@ -267,7 +267,7 @@ class TestPileMethods(unittest.TestCase):
         gm21 = add_stresses_strength_stiffness(gm)
         
         gs = GroundStresses ("Groundmodel sampled from +102m to +42m in -0.5m steps", gm21, 102, 80, -0.5)
-        json_stress = gs.getStressesJSON ();
+        json_stress = gs.getStresses ();
         json_to_file (os.path.join(data_folder,'res_stress.json'), json_stress)    
     
         header_stress, rows_stress = gs.getStressesCSV(include_header_in_rows=True);
@@ -295,8 +295,7 @@ class TestPileMethods(unittest.TestCase):
         json_to_file (os.path.join(data_folder, "ret_data.json"),ret)
 
     def test_process_request104(self):
-        request_dic = _models_dict["104"]
-        json_str = json.dumps(request_dic)
+        json_str = _models_dict["104"]
         ret = process_request (json_str,"json")
         json_to_file (os.path.join(data_folder, "ret_data_104.json"),ret)
     

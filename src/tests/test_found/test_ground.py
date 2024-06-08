@@ -94,7 +94,7 @@ class TestGroundMethods(unittest.TestCase):
         gm21 = add_stresses_strength_stiffness(gm)
         
         gs = GroundStresses ("Groundmodel sampled from +102m to +42m in -0.5m steps", gm21, 102, 80, -0.5)
-        json_stress = gs.getStressesJSON ();
+        json_stress = gs.getStresses();
         json_to_file (os.path.join(data_folder,'res_stress.json'), json_stress)    
     
         header_stress, rows_stress = gs.getStressesCSV(include_header_in_rows=True);

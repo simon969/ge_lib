@@ -7,7 +7,7 @@ class Plaxis3dResults2023 (Plaxis3dResultsConnect):
     def __init__(self,
                 server=None, host=None, port=None, password=None
                  ):
-        super(Plaxis3dResultsConnect, self).__init__(server, host, port, password)
+        super(Plaxis3dResults2023, self).__init__(server, host, port, password)
     def version (self):
         return "Plaxis3d2023"
     def getEmbeddedBeamResults(self,

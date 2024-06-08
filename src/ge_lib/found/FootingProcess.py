@@ -32,10 +32,14 @@ def process_request(data, format_return) :
          
         validator = jsonschema.Draft7Validator(footing_schema, registry = registry)
         errors = validator.iter_errors(dic)  # get all validation errors
-        for error in errors:
-            print (error)
-            print('------')
+        error_msgs = []
         
+        for error in errors:
+            error_msgs.append(error.message)
+
+        if len(error_msgs) > 0:
+            raise ValueError (",".join(error_msgs)) 
+                
         # ensure gm_data is an array 
         gm_data = []
         if 'ground_models' in dic.keys():
@@ -54,7 +58,7 @@ def process_request(data, format_return) :
         msg  = {"data": data,
                 "results":{},
                 "errors": str(e),
-                "status" : 400}
+                "status" : 422}
         return msg
     
     
@@ -72,15 +76,15 @@ def process_request(data, format_return) :
 
         gm.collectStrataSet(['uls_c1']) 
         gm_m1 = add_stresses_strength_stiffness(gm)
-        res_uls_c1 = []
-        res_sls = []
 
         gm.collectStrataSet(['uls_c2'])
-       
         gm_m2 = add_stresses_strength_stiffness(gm)
-        res_uls_c2 = []
  
+        
         if footings is not None:
+            
+            footing_res = []
+
             for footing in footings: 
                 geoms = footing.geoms
                 loadcases = footing.loadings
@@ -93,23 +97,19 @@ def process_request(data, format_return) :
                 
                 for ef in eff_footings:
                     if (ef['state'] in states["set_b"]):
-                        res = footing_resistance (ef, gm_m1, methods)
-                        res_uls_c1.append(res)
+                        foot_res = footing_resistance (ef, gm_m1, methods)
                     if (ef['state']  in states["set_c"]):
                         res = footing_resistance(ef, gm_m2, methods)
-                        res_uls_c2.append(res)
                     if (ef['state']  in states["sls"]):
                         res = footing_resistance(ef, gm_m1, methods)
-                        res_sls.append(res)
+                    if not res is None:
+                        res_obj = {"state":ef['state'],
+                                   "results": res}
+                        footing_res.append(res_obj)
+            ground_res = {"ground_model": gm.description,
+                          "results": footing_res}
         
-        gm_ret = {
-                    "ground_model": gm_dic,
-                    "uls_c1": res_uls_c1,
-                    "uls_c2": res_uls_c2,
-                    "sls": res_sls
-                    }
-        
-        data_ret.append(gm_ret)
+        data_ret.append(ground_res)
 
     if format_return == "json":
         data_json = json.dumps(data_ret)
