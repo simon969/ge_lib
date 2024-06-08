@@ -159,12 +159,14 @@ src/ge_lib/plaxis/Plaxis2dResults.py
 src/ge_lib/plaxis/Plaxis2dResults2016.py
 src/ge_lib/plaxis/Plaxis2dResults2019.py
 src/ge_lib/plaxis/Plaxis2dResults2023.py
+src/ge_lib/plaxis/Plaxis2dResults2024.py
 src/ge_lib/plaxis/Plaxis2dResultsConnectV2.py
 src/ge_lib/plaxis/Plaxis2dResultsConnectV22.py
 src/ge_lib/plaxis/Plaxis3dInput.py
 src/ge_lib/plaxis/Plaxis3dResults.py
 src/ge_lib/plaxis/Plaxis3dResults2018.py
 src/ge_lib/plaxis/Plaxis3dResults2023.py
+src/ge_lib/plaxis/Plaxis3dResults2024.py
 src/ge_lib/plaxis/Plaxis3dResultsConnect.py
 src/ge_lib/plaxis/PlaxisRequests.py
 src/ge_lib/plaxis/PlaxisResults.py

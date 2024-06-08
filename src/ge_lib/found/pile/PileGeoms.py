@@ -215,6 +215,7 @@ def check_pileset(data:dict, idx):
     options =  data.get("options",default_options)
     chk_options = check_default_keys(options,default_options)
     data['options'] = chk_options
+    
     return data
 
 

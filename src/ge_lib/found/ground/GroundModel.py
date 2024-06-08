@@ -16,7 +16,8 @@ default_material_factor_map = {
 default_ground_model = {
     "surcharge": 0.0,
     "water_density":10.0,
-    "increment":-0.5
+    "increment":-0.5,
+    "id":'001'
 }
 
 default_strata = {
@@ -183,7 +184,7 @@ def ground_model_array(data, is_checked=False):
         if is_checked:
             checked_data = gm_data
         else:
-            checked_data = check_ground_model(gm_data,"{:03d}".format(idx))
+            checked_data = check_ground_model(gm_data,idx)
         gm = GroundModel (data=checked_data, is_checked=True)
         if gm:
             ground_models.append(gm)
@@ -191,11 +192,12 @@ def ground_model_array(data, is_checked=False):
     return ground_models
 
 
-def check_ground_model(data:dict, id = ""):
-
-    checked = check_default_keys (data, default_ground_model)
-
+def check_ground_model(data:dict, idx):
+    if idx:
+        default_ground_model["id"] = "{:03d}".format(idx)
+    checked = check_default_keys(data, default_ground_model)
     return checked
+
 class Strata:
     def __init__(self, 
                  data, check_data=False

@@ -152,7 +152,7 @@ def _model104():
 _models_dict = {'101':_model101(),
                       '102':_model102(),
                       '103':_model103(),
-                      '104': _model104()
+                      '104':_model104()
                     }
 
 
@@ -256,7 +256,7 @@ class TestFoootingMethods(unittest.TestCase):
             print ("unable to initialise footing array", message)
 
 
-    def test_process_request01(self):
+    def test_process_request101(self):
         """
         test description:
         1) Create a footing request string with no "sets" ground models and no set name, so the strata array has only one set of strata properties 
@@ -327,7 +327,7 @@ class TestFoootingMethods(unittest.TestCase):
 
         str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),str(ret))
 
-    def test_process_request02(self):
+    def test_process_request102(self):
         """
         test description:
         1) Create a footing request string with no "sets" ground models, so the strata array has only one set of strata properties 
@@ -397,9 +397,9 @@ class TestFoootingMethods(unittest.TestCase):
 
         ret = process_request (json_str,"json")
 
-        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),str(ret))   
+        str_to_file (os.path.join(data_folder, "ex102_ret_data.json"),str(ret))   
     
-    def test_process_request03 (self):
+    def test_process_request103 (self):
         """
         test description:
         1) Create request string with no ids keys in the ground_models, footings, geoms or loads arrays 
@@ -462,7 +462,8 @@ class TestFoootingMethods(unittest.TestCase):
 
         ret = process_request (json_str,"json")
 
-        str_to_file (os.path.join(data_folder, "ex101_ret_data.json"),str(ret))
+        str_to_file (os.path.join(data_folder, "ex103_ret_data.json"),str(ret))
+    
     def test_footing_from_file(self):
         """
         test description:
@@ -477,7 +478,7 @@ class TestFoootingMethods(unittest.TestCase):
             uls_c2 = d["uls_c2"]
             sls = d["sls"]
 
-    def test_process_request04(self):
+    def test_process_request104(self):
         """
         test description:
         None
@@ -489,7 +490,7 @@ class TestFoootingMethods(unittest.TestCase):
 
         ret = process_request (json_str,"json")
 
-        str_to_file (os.path.join(data_folder, "ex1042_ret_data.json"),str(ret))
+        str_to_file (os.path.join(data_folder, "ex104_ret_data.json"),str(ret))
 
 if __name__ == '__main__':
     unittest.main()

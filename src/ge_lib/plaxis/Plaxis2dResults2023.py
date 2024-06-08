@@ -7,7 +7,7 @@ class Plaxis2dResults2023(Plaxis2dResults2019):
     def __init__(self,
                 server=None, host=None, port=None, password=None
                  ):
-        super(Plaxis2dResults2019, self).__init__(server, host, port, password)
+        super(Plaxis2dResults2023, self).__init__(server, host, port, password)
     def version (self):
         return "Plaxis2d2023"
     
