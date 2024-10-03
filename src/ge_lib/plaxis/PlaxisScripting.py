@@ -14,7 +14,30 @@ from .plxscripting_py311.error_mode import ErrorMode
 # Plaxis Server connection parameters
 REQUEST_TIMEOUT = 3600 
 TIMEOUT = 10.0
+RESULT_SMOOTHING = False
 
+class CustomLoggingFormatter(logging.Formatter):
+
+    grey = "\x1b[38;20m"
+    yellow = "\x1b[33;20m"
+    red = "\x1b[31;20m"
+    bold_red = "\x1b[31;1m"
+    reset = "\x1b[0m"
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
+
+    FORMATS = {
+        logging.DEBUG: grey + format + reset,
+        logging.INFO: grey + format + reset,
+        logging.WARNING: yellow + format + reset,
+        logging.ERROR: red + format + reset,
+        logging.CRITICAL: bold_red + format + reset
+    }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
+    
 class Status:
         CONNECTION_LOST = -2
         FAIL = -1
@@ -48,6 +71,8 @@ class PlaxisScripting (object):
     def __init__(self, ps = None, host=None, port=None, password=None, task_log = None, plx_log = None):
         print ('getting Connected...')      
         
+        self.result_smoothing = RESULT_SMOOTHING
+
         if ps is None:
             if password is None:
                 password = ''
@@ -61,8 +86,8 @@ class PlaxisScripting (object):
             else:
                 hdlr = logging.StreamHandler ()
             
-            formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-            hdlr.setFormatter(formatter)
+            # formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+            hdlr.setFormatter(CustomLoggingFormatter())
             self.logger = logging.getLogger(host + '_PlaxisResults')
             self.logger.addHandler(hdlr)
             self.logger.setLevel(logging.INFO)
@@ -85,8 +110,9 @@ class PlaxisScripting (object):
             self.s_o = ps.s_o
             self.g_o = ps.g_o
             self.logger = ps.logger
-            self.NodeList = ps.NodeList       
-       
+            self.NodeList = ps.NodeList
+            self.result_smoothing = ps.result_smoothing
+
     def match(self, **kwargs):
         return all(getattr(self, key) == val for (key, val) in kwargs.items())     
     def connect (self, host, port, password):
@@ -104,7 +130,22 @@ class PlaxisScripting (object):
             print (formats.format(point.name, point.x, point.y, point.z))
             
            # print(point.name, point.x, point.y, point.z)
-        
+    def add_points_list(self, csv_lst:list[str]):
+        count = 0
+        if csv_lst is None:
+            return count
+        for line in csv_lst:
+            items = line.split(',')
+            if (len(items) == 4):
+                self.addXYZNode (items[0],items[1],items[2],items[3])
+                count += 1
+            else:
+                if (len(items) == 3):
+                    self.addXYNode (items[0],items[1],items[2])
+                    count += 1
+                else:
+                    return count   
+    
     class PointXY(object):
         def __init__(self, name, x, y):
                 self.name = name
@@ -140,46 +181,69 @@ class PlaxisScripting (object):
         except ValueError:
             return value_false
     def getPhaseList(self):
-        # return [ph for ph in self.gi.phases
-        phases = []
-        for phase in self.g_o.Phases:
-            phases.append(phase.Name.value)
-        return phases
+        return list(map(lambda x: x.Name.value, self.g_o.Phases))
+    def getStepList(self):
+        return list(map(lambda x: x.Name.value, self.Steps))
     
-    def getPhaseInt(self, 
-                    phaseName):
+    def getStepId (self, steps, stepName):
         count = 0
-        print('looking for phase:' + phaseName)
-        for phase in self.g_o.Phases:
-            if phase.Name.value == phaseName:
+        print('looking for step:' + stepName)
+        for step in steps:
+            if step.Name.value == stepName:
                 print('found...', count)
                 return count
             count += 1
         return -1
-    def setSteps2(self, 
-                 phase):
-        
-        self.Steps = []
-        steps = phase[:]
-        accessed_mapping = map(steps.__getitem__, self.StepList)
-        self.Steps = list(accessed_mapping)
-         
+    
+    def getPhaseInt(self, 
+                    phaseName):
+        phases = self.getPhaseList()
+        return phases.index(phaseName)
+    
+        # count = 0
+        # print('looking for phase:' + phaseName)
+        # for phase in self.g_o.Phases:
+        #     if phase.Name.value == phaseName:
+        #         print('found...', count)
+        #         return count
+        #     count += 1
+        # return -1
     def setSteps(self, 
-                 phase):
+                 phase,  
+                 sstepOrder:list=None, 
+                 offsets:list=None):
         
-        self.Steps = []
-        
-        print("{0} finding selected steps {1}".format(phase.Name.value,self.g_o.count(phase.Steps)))
-        
+        self.Steps = [] 
         steps = phase[:]
+               
+        if sstepOrder: 
+            sstep_all =list(map(lambda x: x.Name.value, steps))
+            offsets = [sstep_all.index(i) for i in sstepOrder]
         
-        print ("{}".format(len(steps)))
+        if not offsets:
+            offsets = list (range (1,  len (steps), 1))
+        
+        accessed_mapping = map(steps.__getitem__, offsets)
+        self.Steps = list(accessed_mapping)
  
-        for step in steps:
-            print ("{}".format(step))
-            if not self.StepList or step in self.StepList:
-                self.Steps.append(step)
-                print("Added {0} {1}".format(step.Name, step))
+            
+         
+    # def setSteps(self, 
+    #              phase):
+        
+    #     self.Steps = []
+        
+    #     print("{0} finding selected steps {1}".format(phase.Name.value,self.g_o.count(phase.Steps)))
+        
+    #     steps = phase[:]
+        
+    #     print ("{}".format(len(steps)))
+ 
+    #     for step in steps:
+    #         print ("{}".format(step))
+    #         if not self.StepList or step in self.StepList:
+    #             self.Steps.append(step)
+    #             print("Added {0} {1}".format(step.Name, step))
     def setOutput (self, fileOut, tableOut, columns, formats):
         
         self.fileOut = fileOut
@@ -773,23 +837,7 @@ class PlaxisScripting (object):
                         print ('Node Added {},{:3f},{:3f}'.format(name, float(nx), float(ny)))
 
         fpoint.close()
-    def loadStepList(self,
-                  fileIn,
-                  append = False):
-        fpoint = open(fileIn, "r")
-        
-        if (append==False):
-             self.StepList = []
-            
-        while True:
-            in_line = fpoint.readline()
-            in_line = in_line.replace ('\n','')
-            if in_line == "":
-                break
-            self.StepList.append(int(in_line))    
-        
-        fpoint.close()        
-                
+    
     def IsDbFile (self, db_file=None):   
         retvar = False
         

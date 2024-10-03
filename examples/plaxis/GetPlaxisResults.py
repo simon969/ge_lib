@@ -1,6 +1,9 @@
+
 def main():
 
-    test_getSoilResults()
+    test_getSoilResultsSteps()
+
+
 
 def test_getAllStructuralResults():
     from ge_lib.plaxis.PlaxisResults import GetPlaxisResults
@@ -48,6 +51,24 @@ def test_getSoilResults():
     
     except Exception as e:
         print (str(e))
+def test_getSoilResultsSteps():
 
+    from ge_lib.plaxis.PlaxisResults import GetPlaxisResults
+        
+    lst_pnts = ['P01,-0.5,9.95','P02,-1.0,9.95','P03,-2.0,9.95','P04,-4.0,9.95','P05,-8.0,9.95']
+    
+    file_out =  r'C:\Users\thomsonsj\OneDrive - AECOM\Documents\soil_results.csv'
+    
+    try:
+        plx = GetPlaxisResults(host="ukcrdw1rc04g2",
+                        port=10000,
+                        password='39XW$k32f~h%PTD')
+        if plx:
+            plx.add_points_list (lst_pnts)
+            plx.getSoilResultsByPointsSteps(fileOut=file_out,
+                                    sphaseOrder='Phase_3,Phase_4')
+    
+    except Exception as e:
+        print (str(e))
 if __name__ == "__main__":
     main()

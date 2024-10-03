@@ -162,7 +162,8 @@ class Plaxis2dResults2023(Plaxis2dResults2019):
                     phaseIdent.append(phase.Identification.value)
 
                 w.rowsOut = [formats.format(pname, pident, x, y, mat, el, ux_max, ux_min, uy_max, uy_min, ut_max, pux_max, pux_min, puy_max, puy_min, put_max, nx2d_max, nx2d_min, nz2d_max, nz2d_min, q2d_max, q2d_min, m2d_max, m2d_min)
-                                 for pname, pident, x, y, mat, el, ux_max, ux_min, uy_max, uy_min, ut_max, pux_max, pux_min, puy_max, puy_min, put_max, nx2d_max, nx2d_min, nz2d_max, nz2d_min, q2d_max, q2d_min, m2d_max, m2d_min in zip(phaseName, phaseIdent, X, Y, Material, Element, Ux_max, Ux_min, Uy_max, Uy_min, Ut_max, PUx_max, PUx_min, PUy_max, PUy_min, PUt_max, Nx2D_max, Nx2D_min, Nz2D_max, Nz2D_min, Q2D_max, Q2D_min, M2D_max, M2D_min)]                    
+                                 for pname, pident, x, y, mat, el, ux_max, ux_min, uy_max, uy_min, ut_max, pux_max, pux_min, puy_max, puy_min, put_max, nx2d_max, nx2d_min, nz2d_max, nz2d_min, q2d_max, q2d_min, m2d_max, m2d_min 
+                                 in zip(phaseName, phaseIdent, X, Y, Material, Element, Ux_max, Ux_min, Uy_max, Uy_min, Ut_max, PUx_max, PUx_min, PUy_max, PUy_min, PUt_max, Nx2D_max, Nx2D_min, Nz2D_max, Nz2D_min, Q2D_max, Q2D_min, M2D_max, M2D_min)]                    
                 w.writeOutput()
 
                     
