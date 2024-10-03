@@ -700,3 +700,175 @@ class Plaxis2dResults2019 (Plaxis2dResults):
                 self.insertValues(row)
                 
         print('getSoilResultsByPoint Done')
+
+    def getSoilResultsByPointsBySteps(self,
+                               filePoints=None,
+                               fileOut=None,
+                               tableOut=None,
+                               sphaseOrder=None,
+                               sphaseStart=None,
+                               sphaseEnd=None,   
+                               stepList=None,
+                               mode = 'new'
+                               ):
+
+        self.setPhaseOrder(sphaseOrder,
+                           sphaseStart,
+                           sphaseEnd)
+        
+        if self.phaseOrder is None:
+            print('No phases found for results')
+            return -1
+
+        print('FileOut=', fileOut)
+        
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getSoilResultsByPoints'
+        
+        if not filePoints is None:
+            self.loadXYNodeList(filePoints)
+
+        columns = 'Phase,PhaseIdent,Step,locName,locX(m),locY(m),MaterialID,ElementID,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),SigxxEff(kPa),SigyyEff(kPa),SigzzEff(kPa),SigP1Eff(kPa),SigyP2Eff(kPa),SigP3Eff(kPa),PExcess(kPa),PActive(kPa),PSteady(kPa),Pwater(kPa),Suct(kPa)'  
+        formats = '{},{},{},{},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+       
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+               
+        print('FileOut=', w.fileOut)
+
+        for phase in self.phaseOrder:
+
+            print('Getting soil results ' + phase.Identification.value)
+            
+            for step in phase:
+            
+                if stepList is None or step.Name.value in stepList:
+            
+                    print("Getting Soil results for Step:{}".format(step.Name.value))
+                       
+                    locName = []
+                    locY = []
+                    locX = []
+                    
+                    MaterialID = []
+                    ElementID =[]
+                    
+                    Uyy = []
+                    Uxx = []
+                    Utot = []
+                        
+                    PUyy = []
+                    PUxx = []
+                    PUtot = []
+                    
+                    EffSxx = []
+                    EffSyy = []
+                    EffSzz = []
+                    
+                    EffP1 = []
+                    EffP2 = []
+                    EffP3 = []        
+                    
+                    PExcess = []
+                    PActive = []
+                    PSteady = []
+                    PWater = []
+                    
+                    Suct = []
+                    
+                    PhaseName = []
+                    PhaseIdent = []    
+                    StepName = []
+
+                    for pt in self.NodeList:
+                        
+                        print("Getting Soil results for Point:{}".format(pt.name))
+                        
+                        try:
+                            mat = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.MaterialID, (pt.x, pt.y))
+                            el = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.ElementID, (pt.x, pt.y))
+                            ux = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Ux, (pt.x, pt.y))
+                            uy = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Uy, (pt.x, pt.y))
+                            ut = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Utot, (pt.x, pt.y))
+                            pux = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.PUx, (pt.x, pt.y))
+                            puy = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.PUy, (pt.x, pt.y))
+                            put = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.PUtot, (pt.x, pt.y))
+                            esx = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.SigxxE, (pt.x, pt.y))
+                            esy = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.SigyyE, (pt.x, pt.y))
+                            esz = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.SigzzE, (pt.x, pt.y))
+                            ep1 = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.SigmaEffective1, (pt.x, pt.y))
+                            ep2 = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.SigmaEffective2, (pt.x, pt.y))
+                            ep3 = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.SigmaEffective3, (pt.x, pt.y))  
+                            pe = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.PExcess, (pt.x, pt.y))
+                            pa = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.PActive, (pt.x, pt.y))
+                            ps = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.PSteady, (pt.x, pt.y))
+                            pw = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.PWater, (pt.x, pt.y))
+                            su = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Suction, (pt.x, pt.y))
+                            
+                            # print (pt.name, pt.x, pt.y, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su) 
+                            
+                            if ux != 'not found':
+                            
+                                PhaseName.append(phase.Name.value)
+                                PhaseIdent.append(phase.Identification.value)
+                                StepName.append (step.Name.value)
+                                locName.append(pt.name)
+                                locY.append(pt.y)
+                                locX.append(pt.x)
+                                
+                                MaterialID.append(int(float(mat) + .1))
+                                ElementID.append(int(float(el) + .1))
+                                
+                                Uxx.append(ux)
+                                Uyy.append(uy)
+                                Utot.append(ut)
+                                
+                                PUxx.append(pux)
+                                PUyy.append(puy)
+                                PUtot.append(put)
+                                
+                                EffSxx.append (esx)
+                                EffSyy.append (esy)
+                                EffSzz.append (esz)
+                                
+                                EffP1.append (ep1)
+                                EffP2.append (ep2)
+                                EffP3.append (ep3)
+                                    
+                                PExcess.append (pe)
+                                PActive.append (pa)
+                                PSteady.append (ps)
+                                PWater.append (pw)
+                                Suct.append (su)
+                            
+                        except:
+                            print ('...exception soil results ' + phase.Identification.value , pt.x, pt.y)
+                            print (pt.name, pt.x, pt.y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su)
+                
+                    w.rowsOut = [formats.format(pname, pident, sname, 
+                                                lname, x, y, 
+                                                mat, el, 
+                                                ux, uy, ut, 
+                                                pux, puy, put, 
+                                                esx, esy, esz, 
+                                                ep1, ep2, ep3, 
+                                                pe, pa, ps, pw, su)
+                                            for pname, pident, sname, 
+                                                lname, x, y, 
+                                                mat, el, 
+                                                ux, uy, ut, 
+                                                pux, puy, put, 
+                                                esx, esy, esz, 
+                                                ep1, ep2, ep3, 
+                                                pe, pa, ps, pw, su
+                                            in zip(PhaseName, PhaseIdent, StepName, 
+                                                   locName, locX, locY, 
+                                                   MaterialID, ElementID, 
+                                                   Uxx, Uyy, Utot, 
+                                                   PUxx, PUyy, PUtot, 
+                                                   EffSxx, EffSyy, EffSzz, 
+                                                   EffP1, EffP2, EffP3, 
+                                                   PExcess, PActive, PSteady, PWater, Suct)]                    
+                    w.writeOutput()
+                
+        print('getSoilResultsByPoint Done')
+        return Status.ELEMENT_PROCESSED

@@ -271,7 +271,89 @@ class Plaxis3dResults2023 (Plaxis3dResultsConnect):
 
         print('Exiting getBeamResults()')  
         return Status.ELEMENT_PROCESSED
-      
+    
+    def getSoilResultsByPoints(self,
+                               filePoints=None,
+                               fileOut=None,
+                               tableOut=None,
+                               sphaseOrder=None,
+                               sphaseStart=None,
+                               sphaseEnd=None,  
+                               mode = 'new'
+                               ):
+
+        self.setPhaseOrder(sphaseOrder,
+                           sphaseStart,
+                           sphaseEnd)
+        
+        if not filePoints is None:
+            self.loadXYZNodeList(filePoints)
+        
+        if self.phaseOrder is None:
+            print('No phases found for results')
+            return -1
+        
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getSoilResultsByPoints_Displacements'  
+        
+        columns='Phase,PhaseIdent,locName,locX(m),locY(m),locZ(m),Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUtot(m),Epsxx,Epsyy,Epszz,SxxT,SyyT,SzzT,Sxy,Syz,Szx'
+        formats='{},{},{},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f}'                    
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+        
+        print('FileOut=', w.fileOut)
+                
+        for phase in self.phaseOrder:
+            phaseName = phase.Name.value
+            phaseIdent = phase.Identification.value
+            for pt in self.NodeList:
+                try:
+                    ux = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Ux, (pt.x, pt.y, pt.z))
+                    uy = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Uy, (pt.x, pt.y, pt.z))
+                    uz = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Uz, (pt.x, pt.y, pt.z))
+                    utot = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Utot, (pt.x, pt.y, pt.z))
+                    
+                    pux = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.PUx, (pt.x, pt.y, pt.z))
+                    puy = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.PUy, (pt.x, pt.y, pt.z))
+                    puz = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.PUz, (pt.x, pt.y, pt.z))
+                    putot = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.PUtot, (pt.x, pt.y, pt.z)) 
+                    
+                    ex = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Epsxx, (pt.x, pt.y, pt.z))
+                    ey = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Epsyy, (pt.x, pt.y, pt.z))
+                    ez = self.g_o.getsingleresult(phase, self.g_o.ResultTypes.Soil.Epszz, (pt.x, pt.y, pt.z))
+                    
+                    sig_xxt = self.g_o.getsingleresult(phase, self.g_o.Soil.SigxxT, (pt.x, pt.y, pt.z))
+                    sig_yyt = self.g_o.getsingleresult(phase, self.g_o.Soil.SigyyT, (pt.x, pt.y, pt.z))
+                    sig_zzt = self.g_o.getsingleresult(phase, self.g_o.Soil.SigzzT, (pt.x, pt.y, pt.z))
+                            
+                    sig_xy = self.g_o.getsingleresult(phase, self.g_o.Soil.Sigxy, (pt.x, pt.y, pt.z))
+                    sig_yz = self.g_o.getsingleresult(phase, self.g_o.Soil.Sigyz, (pt.x, pt.y, pt.z))
+                    sig_zx = self.g_o.getsingleresult(phase, self.g_o.Soil.Sigzx, (pt.x, pt.y, pt.z))
+                    
+                    w.rowsOut = [formats.format(phaseName, phaseIdent,pt.locname, 
+                                                float(pt.x), float(pt.y), float(pt.z), 
+                                                float(ux), float(uy), float(uz), float(utot), 
+                                                float(pux), float(puy), float(puz), float(putot), 
+                                                float(ex), float(ey), float(ez), 
+                                                float(sig_xxt), float(sig_yyt), float(sig_zzt), 
+                                                float(sig_xy), float(sig_yz), float(sig_zx),
+                                                )]
+                    w.writeOutput()
+                
+                except Exception as e:
+                    msg = '...exception reading SoilResultsByPoints ' + phase.Identification.value
+                    print (msg)
+                    self.logger.error(msg + str(e))
+        
+        if not self.is_connected():
+                print ('Connection lost ')
+                self.logger.error('Connection lost ')
+                return Status.CONNECTION_LOST
+
+        print('Exiting SoilResultsByPoints()')  
+        return Status.ELEMENT_PROCESSED     
+    
+    
     def getSoilResultsByPoints_Displacements(self,
                                filePoints=None,
                                fileOut=None,
@@ -719,4 +801,258 @@ class Plaxis3dResults2023 (Plaxis3dResultsConnect):
                 return Status.CONNECTION_LOST
         
         print('Exiting getPlateEnvelopeResults()')
+        return Status.ELEMENT_PROCESSED
+    
+
+    
+    def getInterfaceDynamicResultsByNodesBySteps(self,
+                    fileOut=None,
+                    filePoints=None,
+                    tableOut=None,
+                    sphaseOrder=None,
+                    sphaseStart=None,
+                    sphaseEnd=None,
+                    stepList=None,
+                    fileSteps=None,
+                    mode = 'new'
+                    ):
+        
+        self.s_o.allow_caching = False
+        
+        self.s_o.enable_logging()
+        
+        self.setPhaseOrder(sphaseOrder,
+           sphaseStart,
+           sphaseEnd)
+           
+        if self.phaseOrder is None:
+            print('No phases found for results')
+            return -1
+        
+        if not filePoints is None:
+            self.loadXYNodeList(filePoints)
+        
+        if not stepList is None:
+            step_list = stepList.split(",")
+        
+        if not fileSteps is None:
+            self.loadStepList(fileSteps)
+            
+        if stepList is None and fileSteps is None:
+            step_list = []
+        
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getInterfaceDynamicResults'
+
+        print('FileOut=', fileOut)
+        
+        columns ='PhaseName,StepName,StepTime,LocName,MaterialId,X(m),Y(m),Z(m),Ax(m/s2),Ay(m/s2),Az(m/s2),Eff NormalStress (kPa), ShearStress (kPa)'
+        formats = '{},{},{},{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+               
+        print('FileOut=', w.fileOut)
+              
+        for phase in self.phaseOrder:
+                       
+            self.setSteps (phase)
+            
+            for step in self.Steps:
+                # print("        Interface results for {}".format(step.Name.value))
+                print("Request Interface results for {}".format(step.Name.value))
+                self.logger.info("Request Interface results for {}".format(step.Name.value))
+                # initialize data for lists
+                iPhaseName = []
+                iStepName = []
+                iStepTime = []
+                iLocName = []
+                iMaterial = []
+                iY = []
+                iX = []
+                iZ = []
+                iAx = []
+                iAy = []
+                iAz = []
+                iEffNormalStress = []
+                iShearStress = []             
+                
+                try:
+                    interX = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.X, 'node')
+                    interY = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Y, 'node')
+                    interZ = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Y, 'node')
+                    interEffNormalStress = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.InterfaceEffectiveNormalStress, 'node')
+                    interMaterialId = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.MaterialID, 'node')
+                    interShearStress = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.InterfaceShearStress, 'node')
+                    interAx = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Ax, 'node')
+                    interAy = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Ay, 'node')
+                    interAz = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Az, 'node')
+                    reached = step.Reached
+                    counter = 0
+                   
+                    for x, y, z, mat, ens, ss, ax, ay, az in zip(
+                            interX, 
+                            interY, 
+                            interZ,
+                            interMaterialId,
+                            interEffNormalStress, 
+                            interShearStress,
+                            interAx, 
+                            interAy,
+                            interAz): 
+                        add_node = True
+                        loc_name='none'
+                        if self.NodeList:
+                            add_node = False
+                            p = self.getXYZNodeListItem(x, y, z) 
+                            if (p != None):
+                                loc_name = p.name
+                                add_node = True
+                        if add_node:
+                            iPhaseName.append(phase.Name.value)
+                            iStepName.append(step.Name.value)
+                            iStepTime.append(reached.Time.value)
+                            iLocName.append(loc_name)
+                            iMaterial.append (mat)
+                            iX.append(x)
+                            iY.append(y)
+                            iZ.append(z),
+                            iEffNormalStress.append(ens)
+                            iShearStress.append(ss)
+                            iAx.append (ax)
+                            iAy.append (ay)
+                            iAz.append (az)
+                            counter += 1
+                    
+                    print("Received Interface results for {} {} rows added".format(step.Name.value, counter))
+                    self.logger.info("Received Interface results for {} {} rows added".format(step.Name.value, counter))
+                    
+                    w.rowsOut = [formats.format(pname, sname, stime, lname, mat, x, y, z, ax, ay, az, ens, ss)
+                                            for pname, sname, stime, lname, mat, x, y, z, ax, ay, az, ens, ss 
+                                            in zip(iPhaseName, iStepName, iStepTime, iLocName, iMaterial, iX, iY, iAx, iAy, iAz, iEffNormalStress, iShearStress)]                    
+                    w.writeOutput()
+                except Exception as e:
+                    self.logger.error('...exception reading Interface results  '+ str(e))
+                    continue
+        
+        print('getInterfaceDynamicResultsByNodesBySteps Done') 
+        return Status.ELEMENT_PROCESSED
+
+    def getSoilDynamicResultsByNodesBySteps(self,
+                    fileOut=None,
+                    filePoints=None,
+                    tableOut=None,
+                    sphaseOrder=None,
+                    sphaseStart=None,
+                    sphaseEnd=None,
+                    stepList=None,
+                    fileSteps=None,
+                    mode = 'new'
+                    ):
+        
+        self.s_o.allow_caching = False
+        
+        self.s_o.enable_logging()
+        
+        self.setPhaseOrder(sphaseOrder,
+           sphaseStart,
+           sphaseEnd)
+           
+        if self.phaseOrder is None:
+            print('No phases found for results')
+            return -1
+        
+        if not filePoints is None:
+            self.loadXYNodeList(filePoints)
+        
+        if not stepList is None:
+            self.StepList = stepList.split(",")
+        
+        if not fileSteps is None:
+            self.loadStepList(fileSteps)
+            
+        if stepList is None and fileSteps is None:
+            self.StepList = []
+        
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getSoilDynamicResults'
+
+        print('FileOut=', fileOut)
+        
+        columns ='PhaseName,StepName,StepTime,LocName,X(m),Y(m),Z(m),Ax(m/s2),Ay(m/s2),Az(m/s2)'
+        formats = '{},{},{:2f},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+               
+        print('FileOut=', w.fileOut)
+              
+        for phase in self.phaseOrder:
+                       
+            self.setSteps (phase)
+            
+            for step in self.Steps:
+                # print("        Interface results for {}".format(step.Name.value))
+                print("Request Soil dynamic results for {}".format(step.Name.value))
+                self.logger.info("Request Soil dynamic results for {}".format(step.Name.value))
+                # initialize data for lists
+                sPhaseName = []
+                sStepName = []
+                sStepTime = []
+                sLocName = []
+                sX = []
+                sY = []
+                sZ = []
+                sAx = []
+                sAy = []
+                sAz = []
+                              
+                try:
+                    soilX = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.X, 'node')
+                    soilY = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Y, 'node')
+                    soilZ = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Z, 'node')
+                    soilAx = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Ax, 'node')
+                    soilAy = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Ay, 'node')
+                    soilAz = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Az, 'node')
+                    reached = step.Reached
+                    counter = 0
+                   
+                    for x, y, z, mat, ax, ay, az in zip(
+                            soilX, 
+                            soilY, 
+                            soilZ,
+                            soilAx, 
+                            soilAy,
+                            soilAz): 
+                        add_node = True
+                        loc_name='none'
+                        if self.NodeList:
+                            add_node = False
+                            p = self.getXYZNodeListItem(x, y, z) 
+                            if (p != None):
+                                loc_name = p.name
+                                add_node = True
+                        if add_node:
+                            sPhaseName.append(phase.Name.value)
+                            sStepName.append(step.Name.value)
+                            sStepTime.append(reached.Time.value)
+                            sLocName.append(loc_name)
+                            sX.append(x)
+                            sY.append(y)
+                            sZ.append(z),
+                            sAx.append (ax)
+                            sAy.append (ay)
+                            sAz.append (az)
+                            counter += 1
+                    
+                    print("Received Soil dynamic results for {} {} rows added".format(step.Name.value, counter))
+                    self.logger.info("Received Soil dynamic results for {} {} rows added".format(step.Name.value, counter))
+                    
+                    w.rowsOut = [formats.format(pname, sname, stime, lname, x, y, z, ax, ay, az)
+                                            for pname, sname, stime, lname, x, y, z, ax, ay, az 
+                                            in zip(sPhaseName, sStepName, sStepTime, sLocName, sX, sY, sZ, sAx, sAy, sAz)]                    
+                    w.writeOutput()
+                except Exception as e:
+                    self.logger.error('...exception reading Soil dynamic results  '+ str(e))
+                    continue
+        
+        print('getSoilDynamicResultsByNodesBySteps Done') 
         return Status.ELEMENT_PROCESSED
