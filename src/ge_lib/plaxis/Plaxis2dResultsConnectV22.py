@@ -130,12 +130,11 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                 for pt in self.NodeList:
                     
                     try:
-                        ax =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.Ax, (pt.x, pt.y))
-                        ay =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.Ay, (pt.x, pt.y))
+                        ax =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.Ax, (pt.x, pt.y), self.result_smoothing)
+                        ay =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.Ay, (pt.x, pt.y), self.result_smoothing)
                         ens = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.InterfaceEffectiveNormalStress, (pt.x, pt.y), self.result_smoothing)
                         ss = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.InterfaceShearStress, (pt.x, pt.y), self.result_smoothing)
                         
-                        self.logger.info("Received Interface dynamic results for phase:{} step:{} time:{} location:{} ({},{})".format(PhaseName, step.Name.value, reached.Time, pt.name, pt.x, pt.y))
                         iPhaseName.append(PhaseName)
                         iStepName.append(step.Name.value) 
                         iStepTime.append(reached.Time.value)
@@ -160,7 +159,7 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                                         for pname, sname, stime, lname, x, y, ax, ay, ens, ss 
                                         in zip(iPhaseName, iStepName, iStepTime, iLocName, iX, iY, iAx, iAy, iEffNormalStress, iShearStress)]                    
                     w.writeOutput()
-        print('getInterfaceDynamicSingleResultsByPointsBySteps Done') 
+        print('getInterfaceDynamicSingleResultsByPointsBySteps [{}] Done'.format(",".join([x.Name.value for x in steps]))) 
         return Status.ELEMENT_PROCESSED
     
     def getInterfaceDynamicResultsByPointsBySteps(self,  
@@ -185,7 +184,6 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
         w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
                     
         for step in steps:
-                
                 # initialize data for lists
                 iPhaseName = []
                 iStepName = []
@@ -197,9 +195,8 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                 iAy = []
                 iEffNormalStress = []
                 iShearStress = []
-
                 reached = step.Reached
-               
+                counter = 0
                 self.logger.info("Request Interface dynamic results for phase:{} step:{}".format(PhaseName, step.Name.value))             
                 
                 try:
@@ -209,8 +206,6 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                     interShearStress = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.InterfaceShearStress, 'node', self.result_smoothing)
                     interAx = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Ax, 'node', self.result_smoothing)
                     interAy = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Ay, 'node', self.result_smoothing)
-                   
-                    counter = 0
                    
                     for x, y, ens, ss, ax, ay in zip(
                             interX, 
@@ -243,8 +238,12 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                     self.logger.info("Received Interface dynamic results for {} {} rows added".format(step.Name.value, counter))
                 
                 except Exception as e:
-                    self.logger.error('...exception reading Interface dynamic results  '+ str(e))
-                    continue
+                        msg = str(e)
+                        self.logger.error('...exception reading Interface dynamic results '+ msg)
+                        if 'Invalid step or phase' in msg:                         
+                            break
+                        else:
+                            continue
                                 
                 if len(iPhaseName)>0:
                     w.rowsOut = [formats.format(pname, sname, stime, lname, x, y, ax, ay, ens, ss)
@@ -252,7 +251,7 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                                         in zip(iPhaseName, iStepName, iStepTime, iLocName, iX, iY, iAx, iAy, iEffNormalStress, iShearStress)]                    
                     w.writeOutput()
 
-        print('getInterfaceDynamicResultsByPointsBySteps Done') 
+        print('getInterfaceDynamicResultsByPointsBySteps [{}] Done'.format(",".join([x.Name.value for x in steps]))) 
         return Status.ELEMENT_PROCESSED
 
 
@@ -273,12 +272,10 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
 
         columns ='PhaseName,StepName,StepTime,LocName,X(m),Y(m),Ax(m/s2),Ay(m/s2)'
         formats = '{},{},{},{},{:2f},{:2f},{:2f},{:2f}'
-        
         w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
                
         for step in steps:
-                self.logger.info("Request Soil dynamic results for {}".format(step.Name.value))
-                # initialize data for lists
+                  # initialize data for lists
                 sPhaseName = []
                 sStepName = []
                 sStepTime = []
@@ -287,14 +284,15 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                 sX = []
                 sAx = []
                 sAy = []
-                            
+                reached = step.Reached
+                counter = 0
+                self.logger.info("Request Soil dynamic results for {}".format(step.Name.value))
+                          
                 try:
                     soilX = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.X, 'node')
                     soilY = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Y, 'node')
                     soilAx = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Ax, 'node', self.result_smoothing)
                     soilAy = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Ay, 'node', self.result_smoothing)
-                    reached = step.Reached
-                    counter = 0
                 
                     for x, y, ax, ay in zip(
                             soilX, 
@@ -310,7 +308,7 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                                 loc_name = p.name
                                 add_node = True
                         if add_node:
-                            sPhaseName.append(PhaseName.value)
+                            sPhaseName.append(PhaseName)
                             sStepName.append(step.Name.value)
                             sStepTime.append(reached.Time.value)
                             sLocName.append(loc_name)
@@ -328,9 +326,14 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                                             in zip(sPhaseName, sStepName, sStepTime, sLocName, sX, sY, sAx, sAy)]                    
                         w.writeOutput()
                 except Exception as e:
-                    self.logger.error('...exception reading Soil dynamic results  '+ str(e))
-                    continue
-        print('getSoilDynamicResultsByPointsBySteps Done') 
+                        msg = str(e)
+                        self.logger.error('...exception reading Soil dynamic results '+ msg)
+                        if 'Invalid step or phase' in msg:                         
+                            break
+                        else:
+                            continue
+        step_names = [x.Name.value for x in steps]
+        print('getSoilDynamicResultsByPointsBySteps [{}] Done'.format(",".join([x.Name.value for x in steps])))
         return Status.ELEMENT_PROCESSED
     
     def getSoilDynamicSingleResultsByPointsBySteps (self,
@@ -363,18 +366,16 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                 sAy = []
                              
                 reached = step.Reached
-                print("Getting Soil dynamic single results for Phase:{} Step:{} Time:{}".format(PhaseName, step.Name.value, reached.Time))
-                                    
+                self.logger.info("Request Soil single dynamic results for {}".format(step.Name.value))
                 for pt in self.NodeList:
                     
                     try:
                         
                         ax =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Ax, (pt.x, pt.y), self.result_smoothing)
                         ay =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Ay, (pt.x, pt.y), self.result_smoothing)
-                        
-                        print("results for {} {} ({} {}) retrieved".format(step.Name.value, pt.name, pt.x, pt.y))
+                       
                         # add filters in here if necessary
-                        sPhaseName.append(PhaseName.value)
+                        sPhaseName.append(PhaseName)
                         sStepName.append(step.Name.value) 
                         sStepTime.append(reached.Time.value)
                         sLocName.append(pt.name)
@@ -397,5 +398,5 @@ class Plaxis2dResultsConnectV22(Plaxis2dResultsConnectV2):
                                         in zip(sPhaseName, sStepName, sStepTime, sLocName, sX, sY, sAx, sAy)]                    
                     w.writeOutput()
         
-        print('getSoilDynamicSingleResultsByPointsByStep Done') 
+        print('getSoilDynamicSingleResultsByPointsByStep [{}] Done'.format(",".join([x.Name.value for x in steps])))
         return Status.ELEMENT_PROCESSED

@@ -67,3 +67,33 @@ We have created an example Juypter Notebook which connects to the Plaxis 2D Outp
     options:
       inherited_members: true
       members: true
+
+
+Version Changes
+----------------------
+
+Plaxis3dResults2024
+No change
+
+Plaxis2dResults2024
+No changes required
+
+Plaxis2dResults2023
+MaterialId changed to MaterialIndex  
+
+Plaxis3dResults2023
+MaterialId changed to MaterialIndex  
+
+Plaxis2dResultsConnectV22
+2024/10/06 added 
+    getInterfaceDynamicSingleResultsByPointsByStep(steps,PhaseName,fileOut,tableOut=None,mode),
+    getInterfaceDynamicResultsByPointsByStep(steps,PhaseName,fileOut,tableOut=None,mode)
+    getSoilDynamicSingleResultsByPointsByStep(steps,PhaseName,fileOut,tableOut=None,mode),
+    getSoilDynamicResultsByPointsByStep(steps,PhaseName,fileOut,tableOut=None,mode)
+
+Plaxis3dResultsConnect
+2024/10/06 added 
+    getInterfaceDynamicSingleResultsByPointsByStep (steps,PhaseName,fileOut,tableOut=None,mode)
+    getInterfaceDynamicResultsByPointsByStep (steps,PhaseName,fileOut,tableOut=None,mode)
+    getSoilDynamicSingleResultsByPointsByStep (steps,PhaseName,fileOut,tableOut=None,mode)
+    getSoilDynamicResultsByPointsByStep (steps,PhaseName,fileOut,tableOut=None,mode)

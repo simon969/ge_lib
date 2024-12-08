@@ -162,6 +162,7 @@ src/ge_lib/plaxis/Plaxis2dResults2023.py
 src/ge_lib/plaxis/Plaxis2dResults2024.py
 src/ge_lib/plaxis/Plaxis2dResultsConnectV2.py
 src/ge_lib/plaxis/Plaxis2dResultsConnectV22.py
+src/ge_lib/plaxis/Plaxis2dResultsSSIA.py
 src/ge_lib/plaxis/Plaxis3dInput.py
 src/ge_lib/plaxis/Plaxis3dResults.py
 src/ge_lib/plaxis/Plaxis3dResults2018.py
