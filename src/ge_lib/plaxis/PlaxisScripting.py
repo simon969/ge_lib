@@ -15,6 +15,8 @@ from .plxscripting_py311.error_mode import ErrorMode
 REQUEST_TIMEOUT = 3600 
 TIMEOUT = 10.0
 RESULT_SMOOTHING = False
+XYZ_COORD_FORMAT = "{0:.3f},{1:.3f},{2:.3f}"
+XY_COORD_FORMAT = "{0:.3f},{1:.3f}"
 
 class CustomLoggingFormatter(logging.Formatter):
 
@@ -105,7 +107,7 @@ class PlaxisScripting (object):
             else:
                 print ('Connected:', host, port, self.s_o.name, self.s_o.major_version, self.s_o.minor_version, 'Is2d=', self.s_o.is_2d, 'Is3d=', self.s_o.is_3d)        
             
-            self.NodeList = []
+            self.NodeList = {}
         else:
             self.s_o = ps.s_o
             self.g_o = ps.g_o
@@ -151,14 +153,14 @@ class PlaxisScripting (object):
                 self.name = name
                 self.x = float(x)
                 self.y = float(y)
-                self.coord = '{0:.3f},{1:.3f}'.format(float(x),float(y))
+                self.coord = XY_COORD_FORMAT.format(float(x),float(y))
     class PointXYZ(object):
         def __init__(self, name, x, y, z):
                 self.name = name
                 self.x = float(x)
                 self.y = float(y)
                 self.z = float(z)
-                self.coord = '{0:.3f},{1:.3f},{2:.3f}'.format(float(x),float(y),float(z))
+                self.coord = XYZ_COORD_FORMAT.format(float(x),float(y),float(z))
     
     def is_number(self, s):
         try:
@@ -407,38 +409,13 @@ class PlaxisScripting (object):
         else:
             return False  
             
+  
     def setXYZNodeList (self,
                      xMin=0.0, xMax=0.0,
                      yMin=0.0, yMax=0.0,
                      zMin=0.0, zMax=0.0):
         
         phase = self.phaseOrder[0]
-        count = 0
-        
-        self.setRange(xMin, xMax,
-                      yMin, yMax, 
-                      zMin, zMax)
-        
-        soilX = self.g_o.getresults(phase, self.g_o.ResultTypes.Soil.X, 'node')
-        soilY = self.g_o.getresults(phase, self.g_o.ResultTypes.Soil.Y, 'node')
-        soilZ = self.g_o.getresults(phase, self.g_o.ResultTypes.Soil.Z, 'node')
-        
-        print('Coordinates retrieved for Phase ', phase.Name.value)
-        
-        for x, y, z in zip(soilX, soilY, soilZ):
-            if self.inRange (x_val = x, y_val = y, z_val = z) == True:
-                count =  count + 1
-                self.NodeList.append(self.PointXYZ(count, x, y, z))
-                print ('Added node at (', x, y, z, ')')
-        print (len(self.NodeList), ' nodes added to NodeList')
-    
-    def setXYZNodeList2 (self,
-                     xMin=0.0, xMax=0.0,
-                     yMin=0.0, yMax=0.0,
-                     zMin=0.0, zMax=0.0):
-        
-        phase = self.phaseOrder[0]
-        count = 0
         
         self.setRange(xMin, xMax,
                       yMin, yMax, 
@@ -452,8 +429,7 @@ class PlaxisScripting (object):
         
         for x, y, z, n in zip(soilX, soilY, soilZ, soilN):
             if self.inRange (x_val = x, y_val = y, z_val = z) == True:
-                count =  count + 1
-                self.NodeList.append(self.PointXYZ(n, x, y, z))
+                self.addXYZNode(n, x, y, z)
                 print ('Added node ',n,' at (', x, y, z, ')')
         print (len(self.NodeList), ' nodes added to NodeList')   
         
@@ -461,29 +437,27 @@ class PlaxisScripting (object):
                      xMin=0.0, xMax=0.0,
                      yMin=0.0, yMax=0.0):
         phase = self.phaseOrder[0]
-        count = 0
-        
+                
         self.setRange(xMin, xMax,
                       yMin, yMax, 
                       zMin = None, zMax = None)
-        
+        soilN = self.g_o.getresults(phase, self.g_o.ResultTypes.Soil.NodeID, 'node')
         soilX = self.g_o.getresults(phase, self.g_o.ResultTypes.Soil.X, 'node')
         soilY = self.g_o.getresults(phase, self.g_o.ResultTypes.Soil.Y, 'node')
                
         print('Coordinates retrieved for Phase ', phase.Name.value)
         
-        for x, y in zip(soilX, soilY):
+        for n, x, y in zip(soilN, soilX, soilY):
             if self.inRange (x_val = x, y_val = y, z_val = None) == True:
-                count =  count + 1
-                self.NodeList.append(self.PointXY(count, x, y))
+                self.addXYNode(n, x, y)
                 print ('Added node at (', x, y, ')')
         print (len(self.NodeList), ' nodes added to NodeList')          
     def addXYNode(self, 
                     name,
                     x = 0.0, 
                     y = 0.0):
-             
-        self.NodeList.append(self.PointXY(name, x, y))
+        pnt = self.PointXY(name, x, y)
+        self.NodeList[pnt.coord] = pnt
         print ('Added node at (',name, x, y, ')')
     
     def addXYZNode(self,
@@ -492,10 +466,9 @@ class PlaxisScripting (object):
                     y=0.0,
                     z=0.0):
                 
-       
-        self.NodeList.append(self.PointXYZ(name, x, y))
+        pnt = self.PointXYZ(name, x, y, z)
+        self.NodeList[pnt.coord] = pnt
         print ('Added node at (',name, x, y, z, ')')
-    
     def createXYArc(self,
                       name= None,
                       xCen= 0.00,
@@ -506,7 +479,7 @@ class PlaxisScripting (object):
                       degStep = 0.00
                       ):
         ref = name
-        count = 0
+        counter = 0
         arc_array = []
         
         x = 0.0
@@ -520,9 +493,12 @@ class PlaxisScripting (object):
                                       degStep)
         
         for coord in arc_array:
+            counter += 1
+            if name is None:
+                ref = counter 
             x, y = coord
-            self.NodeList.append(self.PointXY(name, x, y))
-        print ('Added node at (',name, x, y, ')')    
+            self.addXYNode(ref, x, y)
+        print ('Added node at (',ref, x, y, ')')    
     
     def createXYZArc_XYPlane(self,
                       name= None,
@@ -535,7 +511,7 @@ class PlaxisScripting (object):
                       degStep = 0.00
                       ):
         ref = name
-        count = 0
+        counter = 0
         arc_array = []
         
         x = 0.0
@@ -549,9 +525,12 @@ class PlaxisScripting (object):
                                       degStep)
         
         for coord in arc_array:
+            counter += 1 
+            if name is None:
+                ref = counter
             x, y = coord
-            self.NodeList.append(self.PointXYZ(name, x, y, zCen))
-        print ('Added node at (',name, x, y, zCen, ')')
+            self.addXYZNode(ref, x, y, zCen)
+        print ('Added node at (',ref, x, y, zCen, ')')
     
     def createXYZArc_XZPlane(self,
                       name= None,
@@ -564,7 +543,7 @@ class PlaxisScripting (object):
                       degStep = 0.00
                       ):
         ref = name
-        count = 0
+        counter = 0
         arc_array = []
         
         x = 0.0
@@ -577,10 +556,13 @@ class PlaxisScripting (object):
                                       degEnd,
                                       degStep)
         
-        for coord in arc_array:
+        for coord in arc_array: 
+            counter += 1
             x, z = coord
-            self.NodeList.append(self.PointXYZ(name, x, yCen, z))
-        print ('Added node at (',name, x, yCen, z, ')')
+            if name is None:
+                ref = counter 
+            self.addXYZNode(ref, x, yCen, z)
+        print ('Added node at (',ref, x, yCen, z, ')')
     
     def createXYZArc_YZPlane(self,
                       name= None,
@@ -593,7 +575,7 @@ class PlaxisScripting (object):
                       degStep = 0.00
                       ):
         ref = name
-        count = 0
+        counter = 0
         arc_array = []
         
         y = 0.0
@@ -607,8 +589,11 @@ class PlaxisScripting (object):
                                       degStep)
         
         for coord in arc_array:
+            counter += 1
             y, z = coord
-            self.NodeList.append(self.PointXYZ(name, xCen, y, z))
+            if name is None:
+                ref = counter 
+            self.addXYZNode (ref, xCen, y, z)
         print ('Added node at (',name, xCen, y, z, ')')    
     
     def getArcCoordsArray(self,
@@ -647,7 +632,6 @@ class PlaxisScripting (object):
                      zMin= 0.0, zMax= 0.0, zStep= 0.0,
                      ):
        
-        count = 0
         arc_coords = [] 
         x = 0.0
         y = 0.0
@@ -690,28 +674,30 @@ class PlaxisScripting (object):
                         # cyclinder direction in x axis, arc in zy plane
                         for coord in arc_coords:
                             y_arc, z_arc = coord
-                            self.NodeList.append(self.PointXYZ(name, x, y_arc, z_arc))   
+                            self.addXYZNode (name, x, y_arc, z_arc) 
                     
                     if (xcount == 1 and zcount == 1):
                         # cyclinder direction in y axis, arc in zx plane
                         for coord in arc_coords:
                             x_arc, z_arc = coord
-                            self.NodeList.append(self.PointXYZ(name, x_arc, y, z_arc))    
+                            self.addXYZNode (name, x_arc, y, z_arc)    
                     
                     if (xcount == 1 and ycount == 1):
                         # cyclinder direction in z axis, arc in xy plane
                         for coord in arc_coords:
                             x_arc, y_arc = coord
-                            self.NodeList.append(self.PointXYZ(name, x_arc, y_arc, z)) 
+                            self.addXYZNode (name, x_arc, y_arc, z)
                     
-    def getXYNodeListItem (self, x, y ):
-        find_coord = "{0:.3f},{1:.3f}".format(float(x),float(y))
-        for p in self.NodeList:
-            # print (p.coord, find_coord)
-            if (p.coord==find_coord):
-                return p
+    def getXYNodeListItem (self, x, y):
+        find_coord = XY_COORD_FORMAT.format(float(x),float(y))
+        if find_coord in self.NodeList:
+            return self.NodeList[find_coord]
         return None
-        
+    def getXYZNodeListItem (self, x, y, z):
+        find_coord = XYZ_COORD_FORMAT.format(float(x),float(y),float(z))
+        if find_coord in self.NodeList:
+            return self.NodeList[find_coord]
+        return None
     def createXYZGrid(self,
                       name=None,
                       xMin= 0.0, xMax= 0.0, xStep= 0.0,
@@ -720,7 +706,7 @@ class PlaxisScripting (object):
                       ):
         
         ref = name
-        count = 0
+        counter = 0
         
         x = 0.0
         y = 0.0
@@ -753,11 +739,11 @@ class PlaxisScripting (object):
                 y = yMin + yStep * iy
                 for iz in range (0, zcount, 1):
                     z = zMin + zStep * iz
-                    count = count + 1
+                    counter += 1
                     if name is None:
-                        ref = count
-                    self.NodeList.append(self.PointXYZ(ref, x, y, z))
-        #            print ('Added node at (', x, y, z, ')')            
+                        ref = counter
+                    self.addXYZNode(ref, x, y, z)
+                    print ('Added node at (', x, y, z, ')')            
                     
     def createXYGrid(self,
                       name=None,
@@ -791,7 +777,7 @@ class PlaxisScripting (object):
                 count = count + 1
                 if name is None:
                         ref = count
-                self.NodeList.append(self.PointXY(ref, x, y))
+                self.addXYZNode(ref, x, y)
                 print ('Added node at (', x, y, ')') 
                 
     def loadXYZNodeList (self, 
@@ -812,7 +798,7 @@ class PlaxisScripting (object):
                 if self.is_number(nx):
                     if self.is_number(ny):
                         if self.is_number(nz):
-                            self.NodeList.append(self.PointXYZ(name, nx, ny, nz))
+                            self.addXYZNode(name, nx, ny, nz)
                             print ('Node Added {},{:3f},{:3f},{:3f}'.format(name, float(nx), float(ny), float(nz)))
 
         fpoint.close()
@@ -833,7 +819,7 @@ class PlaxisScripting (object):
                 [name, nx, ny] = in_line.split(',')
                 if self.is_number(nx):
                     if self.is_number(ny):
-                        self.NodeList.append(self.PointXY(name, nx, ny))
+                        self.addXYNode(name, nx, ny)
                         print ('Node Added {},{:3f},{:3f}'.format(name, float(nx), float(ny)))
 
         fpoint.close()

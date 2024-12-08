@@ -248,7 +248,7 @@ class Plaxis3dResultsConnect (Plaxis3dResults2018):
                 phaseName = []
                 phaseIdent = []
 
-                for x in range(len(X)): 
+                for x in range(len(beamX)): 
                     phaseName.append(phase.Name.value)
                     phaseIdent.append(phase.Identification.value)
                     
@@ -632,7 +632,7 @@ class Plaxis3dResultsConnect (Plaxis3dResults2018):
                 Y = self.g_o.getresults(phase, self.g_o.ResultTypes.Plate.Y, 'node')
                 Z = self.g_o.getresults(phase, self.g_o.ResultTypes.Plate.Z, 'node')
                 
-                Materal = self.g_o.getresults(phase, self.g_o.ResultTypes.Plate.MaterialID, 'node')
+                Material = self.g_o.getresults(phase, self.g_o.ResultTypes.Plate.MaterialID, 'node')
                 Element = self.g_o.getresults(phase, self.g_o.ResultTypes.Plate.ElementID, 'node')
                                 
                 Ux_min = self.g_o.getresults(phase, self.g_o.ResultTypes.Plate.UxMin, 'node')  
@@ -691,7 +691,7 @@ class Plaxis3dResultsConnect (Plaxis3dResults2018):
 
                 w.rowsOut = [formats.format(pname, pident, x, y, z, material, element, ux_max, ux_min, uy_max, uy_min, uz_max, uz_min, ut_max, pux_max, pux_min, puy_max, puy_min, puz_max, puz_min, put_max, n11_max, n11_min, n22_max, n22_min, q12_max, q12_min, q23_max, q23_min, q13_max, q13_min, m11_max, m11_min, m12_max, m12_min, m22_max, m22_min)
                                         for pname, pident, x, y, z, material, element, ux_max, ux_min, uy_max, uy_min, uz_max, uz_min, ut_max, pux_max, pux_min, puy_max, puy_min, puz_max, puz_min, put_max, n11_max, n11_min, n22_max, n22_min, q12_max, q12_min, q23_max, q23_min, q13_max, q13_min, m11_max, m11_min, m12_max, m12_min, m22_max, m22_min in 
-                                zip(phaseName, phaseIdent, X, Y, Z, Material, Element, Ux_max, Ux_min, Uy_max, Uy_min, Uz_max, Uz_min, Ut_max, PUx_max, PUx_min, PUy_max, PUy_min, PUz_max, PUz_min, PUt_max, N11_max, N11_min, N22_max, N22_min, Q12_max, Q12_min, Q23_min, Q23_min, Q13_max, Q13_min, M11_max, M11_min, M12_max, M12_min, M22_max, M22_min)]                    
+                                zip(phaseName, phaseIdent, X, Y, Z, Material, Element, Ux_max, Ux_min, Uy_max, Uy_min, Uz_max, Uz_min, Ut_max, PUx_max, PUx_min, PUy_max, PUy_min, PUz_max, PUz_min, PUt_max, N11_max, N11_min, N22_max, N22_min, Q12_max, Q12_min, Q23_max, Q23_min, Q13_max, Q13_min, M11_max, M11_min, M12_max, M12_min, M22_max, M22_min)]                    
                 w.writeOutput()
 
             except Exception as e:
@@ -704,4 +704,380 @@ class Plaxis3dResultsConnect (Plaxis3dResults2018):
                 return Status.CONNECTION_LOST
         
         print('Exiting getPlateEnvelopeResults()')
+        return Status.ELEMENT_PROCESSED
+    
+    def getInterfaceDynamicSingleResultsByPointsBySteps (self,  
+                                                  steps,
+                                                  PhaseName,
+                                                  fileOut,
+                                                  tableOut=None,
+                                                  mode = 'new'
+                        ):
+        
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getInterfaceDynamicResults'  
+
+        columns ='PhaseName,StepName,StepTime,LocName,X(m),Y(m),Z(m),Ax(m/s2),Ay(m/s2),Az(m/s2),Eff NormalStress (kPa), ShearStress (kPa)'
+        formats = '{},{},{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+        
+        for step in steps:
+                # initialize data for lists
+                iPhaseName = []
+                iStepName = []
+                iStepTime = []
+                iLocName = []
+                iX = []
+                iY = []
+                iZ = []
+                iAx = []
+                iAy = []
+                iAz = []
+                iEffNormalStress = []
+                iShearStress = []
+                reached = step.Reached
+                self.logger.info("Request Interface dynamic single results for phase:{} step:{} time:{}".format(PhaseName, step.Name.value, reached.Time))                    
+                
+                for pt in self.NodeList:
+                    
+                    try:
+                        ax =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.Ax, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        ay =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.Ay, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        az =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.Az, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        ens = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.InterfaceEffectiveNormalStress, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        ss = self.g_o.getsingleresult(step, self.g_o.ResultTypes.Interface.InterfaceShearStress, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        
+                        iPhaseName.append(PhaseName)
+                        iStepName.append(step.Name.value) 
+                        iStepTime.append(reached.Time.value)
+                        iLocName.append(pt.name)
+                        iX.append(pt.x)
+                        iY.append(pt.y)
+                        iZ.append(pt.z)
+                        iAx.append(ax)
+                        iAy.append(ay)
+                        iAz.append(az)
+                        iEffNormalStress.append(ens)
+                        iShearStress.append(ss)
+                            
+                    except Exception as e:
+                        msg = str(e)
+                        self.logger.error('...exception reading Interface dynamic single results '+ msg)
+                        if 'Invalid step or phase' in msg:                         
+                            break
+                        else:
+                            continue
+                
+                if len(iPhaseName)>0:
+                    w.rowsOut = [formats.format(pname, sname, stime, lname, x, y, z, ax, ay, az, ens, ss)
+                                        for pname, sname, stime, lname, x, y, z, ax, ay, az, ens, ss 
+                                        in zip(iPhaseName, iStepName, iStepTime, iLocName, iX, iY, iZ, iAx, iAy, iAz, iEffNormalStress, iShearStress)]                    
+                    w.writeOutput()
+        print('getInterfaceDynamicSingleResultsByPointsBySteps [{}] Done'.format(",".join([x.Name.value for x in steps]))) 
+        return Status.ELEMENT_PROCESSED
+    
+    def getInterfaceDynamicResultsByPointsBySteps(self,  
+                                                  steps,
+                                                  PhaseName,
+                                                  fileOut,
+                                                  tableOut=None,
+                                                  mode = 'new'
+                                                
+                                                ):
+        
+        self.s_o.allow_caching = False
+        
+        self.s_o.enable_logging()
+            
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getInterfaceDynamicResults'
+     
+        columns ='PhaseName,StepName,StepTime,LocName,X(m),Y(m),Z(m),Ax(m/s2),Ay(m/s2),Az(m/s2),Eff NormalStress (kPa), ShearStress (kPa)'
+        formats = '{},{},{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+        
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+                    
+        for step in steps:
+                
+                # initialize data for lists
+                iPhaseName = []
+                iStepName = []
+                iStepTime = []
+                iLocName = []
+                iX = []
+                iY = []
+                iZ = []
+                iAx = []
+                iAy = []
+                iAz = []
+                iEffNormalStress = []
+                iShearStress = []
+                reached = step.Reached
+                counter = 0
+                self.logger.info("Request Interface dynamic results for phase:{} step:{}".format(PhaseName, step.Name.value))             
+                
+                try:
+                    interX = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.X, 'node')
+                    interY = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Y, 'node')
+                    interZ = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Z, 'node')
+                    interEffNormalStress = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.InterfaceEffectiveNormalStress, 'node', self.result_smoothing)
+                    interShearStress = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.InterfaceShearStress, 'node', self.result_smoothing)
+                    interAx = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Ax, 'node', self.result_smoothing)
+                    interAy = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Ay, 'node', self.result_smoothing)
+                    interAz = self.g_o.getresults(step, self.g_o.ResultTypes.Interface.Az, 'node', self.result_smoothing)
+  
+                    for x, y, z, ens, ss, ax, ay, az in zip(
+                            interX, 
+                            interY, 
+                            interZ,
+                            interEffNormalStress, 
+                            interShearStress,
+                            interAx, 
+                            interAy,
+                            interAz): 
+                        add_node = True
+                        loc_name='none'
+                        if self.NodeList:
+                            add_node = False
+                            p = self.getXYZNodeListItem(x, y, z) 
+                            if (p != None):
+                                loc_name = p.name
+                                add_node = True
+                        if add_node:
+                            iPhaseName.append(PhaseName)
+                            iStepName.append(step.Name.value)
+                            iStepTime.append(reached.Time.value)
+                            iLocName.append(loc_name)
+                            iX.append(x)
+                            iY.append(y)
+                            iZ.append(x)
+                            iEffNormalStress.append(ens)
+                            iShearStress.append(ss)
+                            iAx.append (ax)
+                            iAy.append (ay)
+                            iAz.append (az)
+                            counter += 1
+                    
+                    self.logger.info("Received Interface dynamic results for {} {} rows added".format(step.Name.value, counter))
+                
+                except Exception as e:
+                        msg = str(e)
+                        self.logger.error('...exception reading Interface dynamic results '+ msg)
+                        if 'Invalid step or phase' in msg:                         
+                            break
+                        else:
+                            continue
+                                
+                if len(iPhaseName)>0:
+                    w.rowsOut = [formats.format(pname, sname, stime, lname, x, y, z, ax, ay, az, ens, ss)
+                                        for pname, sname, stime, lname, x, y, z, ax, ay, az, ens, ss 
+                                        in zip(iPhaseName, iStepName, iStepTime, iLocName, iX, iY, iZ, iAx, iAy, iAz, iEffNormalStress, iShearStress)]                    
+                    w.writeOutput()
+
+        print('getInterfaceDynamicResultsByPointsBySteps [{}] Done'.format(",".join([x.Name.value for x in steps]))) 
+        return Status.ELEMENT_PROCESSED
+
+    def getXYZNodeOffsets (self, step):
+        from .PlaxisScripting import XYZ_COORD_FORMAT
+        coords = []
+        offsets = []
+        try:
+            soilX = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.X, 'node')
+            soilY = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Y, 'node')
+            soilZ = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Z, 'node')
+            if self.NodeList:
+                for x, y, z in zip(
+                        soilX, 
+                        soilY,
+                        soilZ, 
+                        ):  
+                    coords.append (XYZ_COORD_FORMAT.format(x,y,z))
+                for nd in self.NodeList:
+                    try:
+                        offset = coords.index(nd.coord)
+                        offsets.append (offset)
+                    except:
+                        continue
+            else:
+                offsets = list (range (1,  len (soilX), 1))
+            return offsets   
+        except:
+            return None
+
+    def getSoilDynamicResultsByPointsBySteps(self,
+                    steps,
+                    PhaseName,
+                    fileOut=None,
+                    tableOut=None,
+                    mode = 'new'
+                    ):
+        
+        from .PlaxisScripting import XYZ_COORD_FORMAT
+
+        self.s_o.allow_caching = False
+        
+        self.s_o.enable_logging()
+        
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getSoilDynamicResults'
+
+        columns ='PhaseName,StepName,StepTime,LocName,X(m),Y(m),Z(m),Ax(m/s2),Ay(m/s2),Az(m/s2)'
+        formats = '{},{},{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+               
+        for step in steps:
+                self.logger.info("Request Soil dynamic results for {}".format(step.Name.value))
+                # initialize data for lists
+                sPhaseName = []
+                sStepName = []
+                sStepTime = []
+                sLocName = []
+                sY = []
+                sX = []
+                sZ = []
+                sAx = []
+                sAy = []
+                sAz = []
+                coords = []
+                reached = step.Reached
+                counter = 0            
+                
+                try:
+                    soilX = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.X, 'node')
+                    soilY = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Y, 'node')
+                    soilZ = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Z, 'node')
+                    soilAx = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Ax, 'node', self.result_smoothing)
+                    soilAy = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Ay, 'node', self.result_smoothing)
+                    soilAz = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.Az, 'node', self.result_smoothing)
+                    if self.NodeList:
+                        for x, y, z in zip(
+                                soilX, 
+                                soilY,
+                                soilZ, 
+                               ):  
+                            coords.append (XYZ_COORD_FORMAT.format(x,y,z))
+                            
+                        for nd in self.NodeList.values:
+                                try:
+                                    offset = coords.index(nd.coord)
+                                    sPhaseName.append(PhaseName)
+                                    sStepName.append(step.Name.value)
+                                    sStepTime.append(reached.Time.value)
+                                    sLocName.append(nd.name)
+                                    sX.append(soilX[offset])
+                                    sY.append(soilY[offset])
+                                    sZ.append(soilZ[offset])
+                                    sAx.append (soilAx[offset])
+                                    sAy.append (soilAy[offset])
+                                    sAz.append (soilAz[offset])
+                                    counter += 1
+                                except:
+                                    continue
+                    else:
+                        soilNode = self.g_o.getresults(step, self.g_o.ResultTypes.Soil.NodeID, 'node')
+                        for id, x, y, z, ax, ay, az in zip( 
+                                soilNode,
+                                soilX, 
+                                soilY,
+                                soilZ, 
+                                soilAx, 
+                                soilAy,
+                                soilAz): 
+                                sPhaseName.append(PhaseName)
+                                sStepName.append(step.Name.value)
+                                sStepTime.append(reached.Time.value)
+                                sLocName.append(id)
+                                sX.append(x)
+                                sY.append(y)
+                                sZ.append(z)
+                                sAx.append (ax)
+                                sAy.append (ay)
+                                sAz.append (az)
+                                counter += 1               
+                    
+                    self.logger.info("Received Soil dynamic results for {} {} rows added".format(step.Name.value, counter))
+                    
+                    if len (sPhaseName) > 0: 
+                        w.rowsOut = [formats.format(pname, sname, stime, lname, x, y, z, ax, ay, az)
+                                            for pname, sname, stime, lname, x, y, z, ax, ay, az 
+                                            in zip(sPhaseName, sStepName, sStepTime, sLocName, sX, sY, sZ, sAx, sAy, sAz)]                    
+                        w.writeOutput()
+                except Exception as e:
+                        msg = str(e)
+                        self.logger.error('...exception reading Interface dynamic results '+ msg)
+                        if 'Invalid step or phase' in msg:                         
+                            break
+                        else:
+                            continue
+        print('getSoilDynamicResultsByPointsBySteps [{}] Done'.format(",".join([x.Name.value for x in steps]))) 
+        return Status.ELEMENT_PROCESSED
+    
+    def getSoilDynamicSingleResultsByPointsBySteps (self,
+                        steps,
+                        PhaseName,
+                        fileOut=None,
+                        tableOut=None,
+                        mode='new'
+                        ):
+        
+        
+        
+        if (self.IsDbFile(fileOut) and not tableOut):
+            tableOut = 'getSoilDynamicResults'  
+
+        columns ='PhaseName,StepName,StepTime,LocName,X(m),Y(m),Z(m),Ax(m/s2),Ay(m/s2),Az(m/s2)'
+        formats = '{},{},{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
+        
+        w = GetWriter (fileOut, tableOut, columns, formats, self.logger, mode)
+        
+        for step in steps:
+                # initialize data for lists
+                sPhaseName = []
+                sStepName = []
+                sStepTime = []
+                sLocName = []
+                sX = []
+                sY = []
+                sZ = []
+                sAx = []
+                sAy = []
+                sAz = []      
+                reached = step.Reached
+                self.logger.info("Request Soil dynamic results for {}".format(step.Name.value))
+                                    
+                for pt in self.NodeList:
+                    
+                    try:
+                        ax =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Ax, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        ay =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Ay, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        az =  self.g_o.getsingleresult(step, self.g_o.ResultTypes.Soil.Az, (pt.x, pt.y, pt.z), self.result_smoothing)
+                        
+                        sPhaseName.append(PhaseName)
+                        sStepName.append(step.Name.value) 
+                        sStepTime.append(reached.Time.value)
+                        sLocName.append(pt.name)
+                        sX.append(pt.x)
+                        sY.append(pt.y)
+                        sZ.append(pt.z)
+                        sAx.append(ax)
+                        sAy.append(ay)
+                        sAz.append(az)   
+                    except Exception as e:
+                        msg = str(e)
+                        self.logger.error('...exception reading Soil dynamic single results  '+ msg)
+                        if 'Invalid step or phase' in msg:                         
+                            break
+                        else:
+                            continue
+            
+                if len(sPhaseName)>0:            
+                    w.rowsOut = [formats.format(pname, sname, stime, lname, x, y, z, ax, ay, az)
+                                        for pname, sname, stime, lname, x, y, z, ax, ay, az
+                                        in zip(sPhaseName, sStepName, sStepTime, sLocName, sX, sY, sZ, sAx, sAy, sAz)]                    
+                    w.writeOutput()
+        
+        print('getSoilDynamicSingleResultsByPointsByStep [{}] Done'.format(",".join([x.Name.value for x in steps]))) 
         return Status.ELEMENT_PROCESSED
