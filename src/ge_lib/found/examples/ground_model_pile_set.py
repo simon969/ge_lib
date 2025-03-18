@@ -1,5 +1,5 @@
-{
-    "ground_models": [
+ground_model_pile_set = {
+    "ground_model": 
         {
         "description": "",
         "increment": -0.5,
@@ -10,9 +10,9 @@
             {
                 "sets": [
                     {
-                        "cohesion": null,
-                        "cu_grad": null,
-                        "cu_top": null,
+                        "cohesion": None,
+                        "cu_grad": None,
+                        "cu_top": None,
                         "density_dry": 18,
                         "density_sat": 20,
                         "description": "Made Ground (dry)",
@@ -30,9 +30,9 @@
             {
                 "sets": [
                     {
-                        "cohesion": null,
-                        "cu_grad": null,
-                        "cu_top": null,
+                        "cohesion": None,
+                        "cu_grad": None,
+                        "cu_top": None,
                         "density_dry": 18,
                         "density_sat": 20,
                         "description": "Made Ground (sat)",
@@ -50,8 +50,8 @@
             {
                 "sets": [
                     {
-                        "cohesion": null,
-                        "cu_grad": null,
+                        "cohesion": None,
+                        "cu_grad": None,
                         "cu_top": 40,
                         "density_dry": 19,
                         "density_sat": 20,
@@ -70,9 +70,9 @@
             {
                 "sets": [
                     {
-                        "cohesion": null,
-                        "cu_grad": null,
-                        "cu_top": null,
+                        "cohesion": None,
+                        "cu_grad": None,
+                        "cu_top": None,
                         "density_dry": 18,
                         "density_sat": 20,
                         "description": "River Terrace Deposist",
@@ -110,9 +110,9 @@
         ],
         "strata_set": [
             {
-                "cohesion": null,
-                "cu_grad": null,
-                "cu_top": null,
+                "cohesion": None,
+                "cu_grad": None,
+                "cu_top": None,
                 "density_dry": 18,
                 "density_sat": 20,
                 "description": "Made Ground (dry)",
@@ -126,9 +126,9 @@
                 "water_state": "dry"
             },
             {
-                "cohesion": null,
-                "cu_grad": null,
-                "cu_top": null,
+                "cohesion": None,
+                "cu_grad": None,
+                "cu_top": None,
                 "density_dry": 18,
                 "density_sat": 20,
                 "description": "Made Ground (sat)",
@@ -142,8 +142,8 @@
                 "water_state": "unconfined"
             },
             {
-                "cohesion": null,
-                "cu_grad": null,
+                "cohesion": None,
+                "cu_grad": None,
                 "cu_top": 40,
                 "density_dry": 19,
                 "density_sat": 20,
@@ -158,9 +158,9 @@
                 "water_state": "unconfined"
             },
             {
-                "cohesion": null,
-                "cu_grad": null,
-                "cu_top": null,
+                "cohesion": None,
+                "cu_grad": None,
+                "cu_top": None,
                 "density_dry": 18,
                 "density_sat": 20,
                 "description": "River Terrace Deposist",
@@ -192,9 +192,8 @@
         ],
         "surcharge": 0,
         "water_density": 10
-        }
-    ],
-    "pile_sets": [
+        },
+    "pile_set": 
         {
         "description": "",
         "piles": [
@@ -202,14 +201,14 @@
                 "description": "450",
                 "shape": "circular",
                 "diameter": 0.45,
-                "length": null,
-                "breadth": null,
+                "length": None,
+                "breadth": None,
                 "alpha": 0.6,
                 "ks": 1,
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -220,14 +219,14 @@
                 "description": "600",
                 "shape": "circular",
                 "diameter": 0.6,
-                "length": null,
-                "breadth": null,
+                "length": None,
+                "breadth": None,
                 "alpha": 0.6,
                 "ks": 1,
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -238,14 +237,14 @@
                 "description": "750",
                 "shape": "circular",
                 "diameter": 0.75,
-                "length": null,
-                "breadth": null,
+                "length": None,
+                "breadth": None,
                 "alpha": 0.6,
                 "ks": 1,
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -256,14 +255,14 @@
                 "description": "900",
                 "shape": "circular",
                 "diameter": 0.9,
-                "length": null,
-                "breadth": null,
+                "length": None,
+                "breadth": None,
                 "alpha": 0.6,
                 "ks": 1,
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -274,14 +273,14 @@
                 "description": "1050",
                 "shape": "circular",
                 "diameter": 1.05,
-                "length": null,
-                "breadth": null,
+                "length": None,
+                "breadth": None,
                 "alpha": 0.6,
                 "ks": 1,
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -292,14 +291,14 @@
                 "description": "1200",
                 "shape": "circular",
                 "diameter": 1.2,
-                "length": null,
-                "breadth": null,
+                "length": None,
+                "breadth": None,
                 "alpha": 0.6,
                 "ks": 1,
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -309,7 +308,7 @@
             {
                 "description": "1000x750",
                 "shape": "rectangular",
-                "diameter": null,
+                "diameter": None,
                 "length": 1,
                 "breadth": 0.75,
                 "alpha": 0.6,
@@ -317,7 +316,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -359,5 +358,5 @@
             ]
         }
         }
-    ]
+ 
     }

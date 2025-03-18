@@ -80,6 +80,12 @@ src/ge_lib/found/StressField2dProcess.py
 src/ge_lib/found/StressField3dProcess.py
 src/ge_lib/found/__init__.py
 src/ge_lib/found/consolidation/__init__.py
+src/ge_lib/found/examples/Examples.py
+src/ge_lib/found/examples/__init__.py
+src/ge_lib/found/examples/ground_model_footing.py
+src/ge_lib/found/examples/ground_model_pile_set.py
+src/ge_lib/found/examples/ground_model_stiffness_pile_set.py
+src/ge_lib/found/examples/ground_models_pile_sets.py
 src/ge_lib/found/footing/EC7PartialFactors.py
 src/ge_lib/found/footing/FootingCalcs.py
 src/ge_lib/found/footing/FootingGeoms.py
@@ -191,6 +197,8 @@ src/ge_lib/plaxis/plxscripting_py311/plxproxyfactory.py
 src/ge_lib/plaxis/plxscripting_py311/run_jupyter.py
 src/ge_lib/plaxis/plxscripting_py311/selection.py
 src/ge_lib/plaxis/plxscripting_py311/server.py
+src/ge_lib/shared/__init__.py
+src/ge_lib/shared/shared.py
 src/ge_lib/tunnel/__init__.py
 src/tests/__init__.py
 src/tests/test_ags/__init__.py

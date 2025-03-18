@@ -97,7 +97,8 @@ class calc:
         self.version =  version
     def calc(self, pile, gm, levels):
         pass
-
+    def append(self, c):
+        self.calcs.append(c)
 class calc_collection:
     def __init__(self, id, description, version):
         self.id = id

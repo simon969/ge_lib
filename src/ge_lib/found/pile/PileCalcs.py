@@ -29,6 +29,11 @@ def min_width(pile, not_found=None):
              equiv_dia = math.pow(base * 4 / math.pi,0.5)
              return equiv_dia
         return not_found
+def get_attr_value (obj, name:str, default:float):
+    v = getattr(obj, name, default)
+    if v is None:
+         return default
+    return v
 
 class SPTFactor (calc):
     def __init__(self):
@@ -40,7 +45,7 @@ class SPTFactor (calc):
                          version = "p01.1")
     def calc(self, pile, gm, levels):
         res = [0.00] * levels.size
-        spt_factor = pile.spt_factor
+        spt_factor = get_attr_value(pile, 'spt_factor',0)
         dia =  min_width(pile)
         for x in range(levels.size):
             SPTtoe = gm.get_attr_value(levels[x], "SPT",0) 
@@ -58,8 +63,8 @@ class KsTandDeltaPo (calc):
                          version = 'p01.1')
     def calc(self, pile, gm, levels):
         res = [0.00] * levels.size
-        ks = pile.ks
-        tan_delta =pile.tan_delta
+        ks = get_attr_value(pile, 'ks', 0)
+        tan_delta = getattr(pile, 'tan_delta', 0)
         for x in range(levels.size):
             res[x] = gm.get_attr_value(levels[x],"EffectiveStress",0)  * ks * tan_delta 
         return res
@@ -74,7 +79,7 @@ class NqPo (calc):
                          version = 'p01.1')
     def calc(self, pile, gm, levels):
         res = [0.00] * levels.size
-        nq = pile.nq
+        nq = get_attr_value(pile, 'nq', 0)
         for x in range(levels.size):
             res[x] =  gm.get_attr_value(levels[x],"EffectiveStress",0)  * nq
         return res 
@@ -89,7 +94,7 @@ class AlphaCu (calc):
                          version='p01.1')
     def calc(self, pile, gm, levels):
         res = [0.00] * levels.size
-        alpha = pile.alpha
+        alpha = get_attr_value(pile, 'alpha', 0)
         for x in range(levels.size):
             res[x] = gm.get_attr_value(levels[x],"Cu",0.0) * alpha 
         return res
@@ -103,7 +108,7 @@ class NcCu (calc):
                          version='p01.1')
     def calc(self, pile, gm, levels):
         res = [0.00] * levels.size
-        nc = pile.nc
+        nc = get_attr_value(pile, 'nc', 0)
         for x in range(levels.size):
             res[x] = gm.get_attr_value(levels[x],"Cu",0)  * nc
         return res 
@@ -163,7 +168,6 @@ class Ng_Vesic (calc):
         res = [0.00] * levels.size
         for x in range(levels.size):
             phi_deg = gm.get_attr_value(levels[x],"phi_deg",0)
-
             ng = calc_Ng_Vesic(math.radians(phi_deg))
             res[x] =  gm.get_attr_value(levels[x],"EffectiveStress",0)  * ng
         return res

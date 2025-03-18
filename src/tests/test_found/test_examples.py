@@ -6,7 +6,7 @@ data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),"data","ex
 
 # https://docs.python.org/3/library/unittest.html
 
-class TestStringMethods(unittest.TestCase):
+class TestExampleMethods(unittest.TestCase):
 
     def test_upper(self):
         self.assertEqual('foo'.upper(), 'FOO')
@@ -21,8 +21,12 @@ class TestStringMethods(unittest.TestCase):
         # check that s.split fails when the separator is not a string
         with self.assertRaises(TypeError):
             s.split(2)
+    def test_to_str(self):
+        from ge_lib.found.examples.Examples import FoundExamples
+        templates = FoundExamples()
+        s = templates.to_str('ground_models_pile_sets.json')
+        print (s)
 
-   
 if __name__ == '__main__':
     unittest.main()
    
