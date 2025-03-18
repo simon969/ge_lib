@@ -1,5 +1,5 @@
- {
-    "ground_model": 
+{
+    "ground_models": [
         {
         "description": "",
         "increment": -0.5,
@@ -192,8 +192,9 @@
         ],
         "surcharge": 0,
         "water_density": 10
-        },
-    "pile_set": 
+        }
+    ],
+    "pile_sets": [
         {
         "description": "",
         "piles": [
@@ -208,7 +209,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -226,7 +227,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -244,7 +245,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -262,7 +263,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -280,7 +281,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -298,7 +299,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -316,7 +317,7 @@
                 "tan_delta": 0.67,
                 "nc": 9,
                 "nq": 9.6,
-                "calc_methods": "'qs_cu_alpha','qb_cu_nc','qs_ks_tandelta_po','qb_nq_po'",
+                "calc_methods": "'qs_alpha_cu','qb_nc_cu','qs_ks_tandelta_po','qb_nq_po'",
                 "pile_type": "cfa",
                 "pile_test": "yes",
                 "sls_check": "yes",
@@ -358,5 +359,5 @@
             ]
         }
         }
- 
+    ]
     }
