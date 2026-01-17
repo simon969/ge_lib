@@ -234,7 +234,15 @@ class HTTPConnection():
                                      headers=JSON_HEADER, timeout=self.request_timeout)
 
         # Some APIs do not set a response object. In that case don't try to decrypt
-        if self._password and response.text != '':
+        # if self._password and response.text != '':
+        #     response = encryption_handler.decrypt(response)
+        
+        # 
+        # Code Change 2022/01/17: S Thomson 
+        # code fails to return response object if invalid password
+        # return response object decrypted only if response okay 
+
+        if self._password and response.text != '' and response.ok:
             response = encryption_handler.decrypt(response)
 
         if self.logger is not None:
