@@ -1,0 +1,55 @@
+{
+  "description": {
+    "type": "string"
+  },
+  "shape": {
+    "type": "string",
+    "enum":["circular","rectancular","ps_rectangular"]
+  },
+  "diameter": {
+    "type": ["number","null"]
+  },
+  "length": {
+    "type": ["number","null"]
+  },
+  "breadth": {
+    "type": ["number","null"]
+  },
+  "alpha": {
+    "type": ["number","null"]
+  },
+  "ks": {
+    "type": ["number","null"]
+  },
+  "tan_delta": {
+    "type": ["number","null"]
+  },
+  "nc": {
+    "type": ["number","null"]
+  },
+  "nq": {
+    "type": ["number","null"]
+  },
+  "calc_methods": {
+    "type": "string"
+  },
+  "type": {
+    "type": "string",
+    "enum": ["cfa", "bored","driven"]
+  },
+  "pile_test": {
+    "type": "string",
+    "enum": [true,false]
+  },
+  "sls_check": {
+    "type": "string",
+    "enum":[true,false]
+
+  },
+  "perimeter": {
+    "type": ["number","null"]
+  },
+  "base": {
+    "type": ["number","null"]
+  }
+}
