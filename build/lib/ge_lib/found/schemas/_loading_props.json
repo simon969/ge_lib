@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+  "description": {
+    "type": "string"
+  },
+  "id": {
+    "type": "string"
+  },
+  "fx": {
+    "type": "integer"
+  },
+  "fy": {
+    "type": "integer"
+  },
+  "fz": {
+    "type": "integer"
+  },
+  "mx": {
+    "type": "integer"
+  },
+  "my": {
+    "type": "integer"
+  },
+  "mz": {
+    "type": "integer"
+  },
+  "state": {
+    "type": "string",
+    "enum":["sls","uls_c1","uls_c2"]
+  },
+  "required": [
+    "description",
+    "id",
+    "fx",
+    "fy",
+    "fz",
+    "mx",
+    "my",
+    "mz",
+    "state"
+  ]
+}
+}
