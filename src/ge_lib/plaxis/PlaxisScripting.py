@@ -125,12 +125,12 @@ class PlaxisScripting (object):
             else:
                 self.s_o.enable_logging(path=plx_log)    
         
-        if (self.s_o.is_2d is False and self.s_o.is_3d is False ):
+        if (self.s_o is None or (self.s_o.is_2d is False and self.s_o.is_3d is False )):
             print ('..no connection')     
             raise ValueError("Not Connected")
         
         else:
-            print ('Connected:', host, port, self.s_o.name, self.s_o.major_version, self.s_o.minor_version, 'Is2d=', self.s_o.is_2d, 'Is3d=', self.s_o.is_3d)        
+            print ('Connected:',self.g_o.GeneralInfo.Filename, self.s_o.name, self.s_o.major_version, self.s_o.minor_version, 'Is2d=', self.s_o.is_2d, 'Is3d=', self.s_o.is_3d)        
         
        
                 
