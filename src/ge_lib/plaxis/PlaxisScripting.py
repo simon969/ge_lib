@@ -88,8 +88,8 @@ class PlaxisScripting (object):
         
         
         if s_o is not None and g_o is not None:
-            self.s_o = ps.s_o
-            self.g_o = ps.g_o
+            self.s_o = s_o
+            self.g_o = g_o
             
         if password is None:
             password = ''
