@@ -107,7 +107,12 @@ class PlaxisScripting (object):
         
         # formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         hdlr.setFormatter(CustomLoggingFormatter())
-        self.logger = logging.getLogger(host + '_PlaxisResults')
+        
+        if host is not None:
+            self.logger = logging.getLogger(host + '_PlaxisResults')
+        else:
+            self.logger = logging.getLogger('PlaxisResults')
+
         self.logger.addHandler(hdlr)
         self.logger.setLevel(logging.INFO)
 
