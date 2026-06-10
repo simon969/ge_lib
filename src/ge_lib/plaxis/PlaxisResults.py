@@ -22,12 +22,15 @@ versions = ['Plaxis2d','Plaxis2d2016','Plaxis2d2019','Plaxis2dConnect','Plaxis2d
 
 
 
-def GetPlaxisResults (host=None, port=None, password=None, version=None, task_log=None, plx_log=None):
+def GetPlaxisResults (s_o = None, g_o = None, 
+                      host = None, port = None, password = None, 
+                      version = None, 
+                      task_log = None, 
+                      plx_log = None):
     
     ps = PlaxisScripting(ps = None, 
-                         host = host, 
-                         port = port, 
-                         password = password, 
+                         s_o = s_o, g_o = g_o,  
+                         host = host, port = port, password = password, 
                          task_log = task_log,
                          plx_log = plx_log)
     
