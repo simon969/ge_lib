@@ -9,7 +9,7 @@ class Plaxis3dResults2025 (Plaxis3dResults2024):
         super(Plaxis3dResults2025, self).__init__(server, host, port, password)
     def version (self):
         return "Plaxis3d2025"
-def getEmbeddedBeamResultsBySteps(self,
+    def getEmbeddedBeamResultsBySteps(self,
                     fileOut=None,
                     filePoints=None,
                     tableOut=None,
@@ -112,8 +112,8 @@ def getEmbeddedBeamResultsBySteps(self,
                     self.logger.info(msg)
                 
                 except Exception as e:
-                    print ('Exception reading Beam results in phase' + phase.Name.value)
-                    self.logger.error('...exception reading Beam results  '+ str(e))
+                    print ('Exception reading EmbeddedBeam results in phase' + phase.Name.value)
+                    self.logger.error('...exception reading EmbeddedBeam results  '+ str(e))
 
                 if not self.is_connected():
                     print ('Connection lost ')
