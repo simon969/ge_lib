@@ -1,0 +1,105 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Generated schema for Root",
+    "type": "object",
+    "properties": {
+      "loadings2D": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "lines": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "q": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "z",
+                  "q"
+                ]
+              }
+            },
+            "strips": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "x_width": {
+                    "type": "number"
+                  },
+                  "q": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "z",
+                  "x_width",
+                  "q"
+                ]
+              }
+            }
+          },
+          "required": [
+            "lines",
+            "strips"
+          ]
+        }
+      },
+      "stressfields2D": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x_start": {
+              "type": "number"
+            },
+            "x_stop": {
+              "type": "number"
+            },
+            "x_step": {
+              "type": "number"
+            },
+            "z_start": {
+              "type": "number"
+            },
+            "z_stop": {
+              "type": "number"
+            },
+            "z_step": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x_start",
+            "x_stop",
+            "x_step",
+            "z_start",
+            "z_stop",
+            "z_step"
+          ]
+        }
+      }
+    },
+    "required": [
+      "loadings2D",
+      "stressfields2D"
+    ]
+  }

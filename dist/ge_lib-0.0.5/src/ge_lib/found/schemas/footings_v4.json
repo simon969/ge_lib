@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ground_models": {
+      "type": "array",
+      "items": 
+        {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "increment": {
+              "type": ["number","null"]
+            },
+            "set_names": {
+              "type": "array",
+              "items": 
+                {
+                  "type": "string"
+                }
+              },
+            "strata": {
+              "type": "array",
+              "items": 
+                {
+                  "type": "object",
+                  "properties": {
+                    "sets": {
+                      "type": "array",
+                      "items": 
+                        {"$ref":"urn:strata_props"}
+                        
+                    }
+                  }
+                }
+				
+			},	
+            "surcharge": {
+              "type": ["number","null"]
+            },
+            "water_density": {
+              "type": ["number","null"]
+            }
+          },
+          "required": [
+            "description",
+            "increment",
+            "set_names",
+            "strata",
+            "strata_set",
+            "surcharge",
+            "water_density"
+          ]
+        }
+    },
+    "footings": {
+      "type": "array",
+      "items":  {
+          "geoms": {
+            "type":"array",
+            "items":{"$ref":"urn:geom_props"}
+          },
+          "loadings": {
+              "type": "array",
+              "items": {"$ref":"urn:loading_props"}
+          },
+          "options": {
+              "type": "object",
+              "properties": {
+                "conc_density": {
+                  "type": "integer"
+                },
+                "methods": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "conc_density",
+                "methods"
+              ]
+            }
+          },
+          "required": [
+            "description",
+            "id",
+            "geoms",
+            "loadings",
+            "options"
+          ]
+        }
+    },
+  "required": [
+    "ground_models",
+    "footings"
+  ]
+}

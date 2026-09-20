@@ -1,0 +1,16 @@
+importlib-metadata
+packaging
+pypyodbc
+pandas
+numpy
+python-AGS4
+tomli
+zipp
+ipykernel
+dict2xml
+pycryptodome
+chardet
+matplotlib
+urllib3
+requests
+jsonschema
