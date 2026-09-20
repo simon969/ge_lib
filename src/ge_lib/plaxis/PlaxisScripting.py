@@ -70,50 +70,72 @@ def _is_file_like(obj):
     return True
 
 class PlaxisScripting (object):
-    def __init__(self, ps = None, host=None, port=None, password=None, task_log = None, plx_log = None):
+    def __init__(self, ps = None, 
+                 s_o = None, g_o = None,  
+                 host=None, port=None, password=None, 
+                 task_log = None, 
+                 plx_log = None):
+        
         print ('getting Connected...')      
         
-        self.result_smoothing = RESULT_SMOOTHING
-
-        if ps is None:
-            if password is None:
-                password = ''
-            self.s_o, self.g_o = new_server(address=host, port=port, timeout=TIMEOUT, request_timeout=REQUEST_TIMEOUT, password=password)
-            
-            if task_log is not None:
-                if _is_file_like(task_log):
-                    hdlr = logging.StreamHandler (task_log)
-                else:
-                    hdlr = logging.FileHandler (task_log)
-            else:
-                hdlr = logging.StreamHandler ()
-            
-            # formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-            hdlr.setFormatter(CustomLoggingFormatter())
-            self.logger = logging.getLogger(host + '_PlaxisResults')
-            self.logger.addHandler(hdlr)
-            self.logger.setLevel(logging.INFO)
-            
-            if plx_log is not None:
-                if _is_file_like(plx_log):
-                    self.s_o.enable_logging(buffer=plx_log)
-                else:
-                    self.s_o.enable_logging(path=plx_log)    
-            
-            if (self.s_o.is_2d is False and self.s_o.is_3d is False ):
-                print ('..no connection')     
-                raise ValueError("Not Connected")
-           
-            else:
-                print ('Connected:', host, port, self.s_o.name, self.s_o.major_version, self.s_o.minor_version, 'Is2d=', self.s_o.is_2d, 'Is3d=', self.s_o.is_3d)        
-            
-            self.NodeList = {}
-        else:
+        if ps is not None:
             self.s_o = ps.s_o
             self.g_o = ps.g_o
             self.logger = ps.logger
             self.NodeList = ps.NodeList
             self.result_smoothing = ps.result_smoothing
+            return
+        
+        
+        if s_o is not None and g_o is not None:
+            self.s_o = s_o
+            self.g_o = g_o
+            
+        if password is None:
+            password = ''
+        
+        if host is not None and port is not None: 
+            self.s_o, self.g_o = new_server(address=host, port=port, timeout=TIMEOUT, request_timeout=REQUEST_TIMEOUT, password=password)
+        
+        if task_log is not None:
+            if _is_file_like(task_log):
+                hdlr = logging.StreamHandler (task_log)
+            else:
+                hdlr = logging.FileHandler (task_log)
+        else:
+            hdlr = logging.StreamHandler ()
+        
+        # formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+        hdlr.setFormatter(CustomLoggingFormatter())
+        
+        if host is not None:
+            self.logger = logging.getLogger(host + '_PlaxisResults')
+        else:
+            self.logger = logging.getLogger('PlaxisResults')
+
+        self.logger.addHandler(hdlr)
+        self.logger.setLevel(logging.INFO)
+
+        self.NodeList = {}
+        self.result_smoothing = RESULT_SMOOTHING
+        
+        if plx_log is not None:
+            if _is_file_like(plx_log):
+                self.s_o.enable_logging(buffer=plx_log)
+            else:
+                self.s_o.enable_logging(path=plx_log)    
+        
+        if (self.s_o is None or (self.s_o.is_2d is False and self.s_o.is_3d is False )):
+            print ('..no connection')     
+            raise ValueError("Not Connected")
+        
+        else:
+            print ('Connected:',self.g_o.GeneralInfo.Filename, self.s_o.name, self.s_o.major_version, self.s_o.minor_version, 'Is2d=', self.s_o.is_2d, 'Is3d=', self.s_o.is_3d)        
+        
+       
+                
+        
+        
 
     def match(self, **kwargs):
         return all(getattr(self, key) == val for (key, val) in kwargs.items())     

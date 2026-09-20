@@ -6,6 +6,7 @@ from .Plaxis3dResultsConnect import Plaxis3dResultsConnect
 from .Plaxis3dResults2018 import Plaxis3dResults2018
 from .Plaxis3dResults2023 import Plaxis3dResults2023
 from .Plaxis3dResults2024 import Plaxis3dResults2024
+from .Plaxis3dResults2025 import Plaxis3dResults2025
 
 ## Plaxis 2d Results
 from .Plaxis2dResults import Plaxis2dResults
@@ -16,18 +17,22 @@ from .Plaxis2dResultsConnectV22 import Plaxis2dResultsConnectV22
 from .Plaxis2dResults2023 import Plaxis2dResults2023
 from .Plaxis2dResults2024 import Plaxis2dResults2024
 
+
 versions = ['Plaxis2d','Plaxis2d2016','Plaxis2d2019','Plaxis2dConnect','Plaxis2dConnectV2','Plaxis2dConnectV20','Plaxis2dConnectV21','Plaxis2dConnectV22','Plaxis2d2023','Plaxis2d2024',
-            'Plaxis3d','Plaxis3d2018','Plaxis3dConnect','Plaxis3d2023','Plaxis3d2024'
+            'Plaxis3d','Plaxis3d2018','Plaxis3dConnect','Plaxis3d2023','Plaxis3d2024','Plaxis3d2025'
             ] 
 
 
 
-def GetPlaxisResults (host=None, port=None, password=None, version=None, task_log=None, plx_log=None):
+def GetPlaxisResults (s_o = None, g_o = None, 
+                      host = None, port = None, password = None, 
+                      version = None, 
+                      task_log = None, 
+                      plx_log = None):
     
     ps = PlaxisScripting(ps = None, 
-                         host = host, 
-                         port = port, 
-                         password = password, 
+                         s_o = s_o, g_o = g_o,  
+                         host = host, port = port, password = password, 
                          task_log = task_log,
                          plx_log = plx_log)
     
@@ -40,6 +45,8 @@ def GetPlaxisResults (host=None, port=None, password=None, version=None, task_lo
     
     if (version==None):
         if (ps.s_o.is_3d):
+            if (ps.s_o.major_version == 2025):
+                return Plaxis3dResults2025(ps)
             if (ps.s_o.major_version == 2024):
                 return Plaxis3dResults2024(ps)
             if (ps.s_o.major_version == 2023):
